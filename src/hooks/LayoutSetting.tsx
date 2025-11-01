@@ -12,7 +12,7 @@ const disablePaths = new Set([
   '/Admin', 
 ]);
 
-export default function LayoutSetting({ children }:any) {
+export default function LayoutSetting({ children }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname();
   
   const Layoutshow = !disablePaths.has(pathname ?? '');

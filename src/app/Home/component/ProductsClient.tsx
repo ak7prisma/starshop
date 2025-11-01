@@ -52,7 +52,7 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
             
             {filteredProducts.length === 0 && (
                 <p className="text-center text-slate-400 mt-10">
-                    Tidak ada produk ditemukan di kategori "{activeCategory}".
+                    Tidak ada produk ditemukan di kategori '{activeCategory}'.
                 </p>
             )}
         </div>

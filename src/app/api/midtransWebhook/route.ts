@@ -23,7 +23,7 @@ export async function POST(req: Request) {
         const body = await req.json();
 
         // 1. Verifikasi Signature Key (Keamanan)
-        // Solusi TypeScript: Menggunakan 'as any' pada 'core'
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any 
         const notification = await (core as any).transaction.notification(body);
         
         const { 

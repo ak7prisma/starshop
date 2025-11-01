@@ -1,4 +1,9 @@
-export default function FormHeader({label1,label2}:any){
+interface FormHeaderProps{
+    label1: string;
+    label2: string;
+}
+
+export default function FormHeader({label1,label2}: Readonly<FormHeaderProps>){
 
     return(
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
