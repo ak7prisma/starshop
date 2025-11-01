@@ -9,6 +9,7 @@ import SubmitLoading from '@/app/components/ui/SubmitLoading';
 import ProductDetailCard from '@/app/components/ui/ProductDetailCard';
 import TopupHeaderForm from '@/app/components/ui/TopupHeaderForm';
 import PaymentModal from '@/app/components/modals/PaymentModal';
+import Image from 'next/image';
 
 export default function TopupClient({product} : Readonly<{product: Product}>) {
 
@@ -126,8 +127,9 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
             // 3. Simpan Token dan Tampilkan Modal
             setSnapToken(result.token); 
             setIsModalOpen(true);
-        } catch(err: any){
-            setError(err.message || 'Terjadi kesalahan saat membuat transaksi.')
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : (typeof error === 'string' ? error : 'Terjadi kesalahan saat membuat transaksi.');
+            setError(message);
             // Jika transaksi gagal sebelum ditampilkan, arahkan ke halaman error/riwayat
             if (newTopupId) {
                 router.push(`/history/${newTopupId}`); 
@@ -160,12 +162,12 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
                         <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
                             <TopupHeaderForm no='2' label='Pilih Nominal Topup'/>
                             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-                               {product.amount.map((amt: any, i: number) => (
+                               {product.amount.map((amt, i: number) => (
                                     <label 
                                         key={`${amt}-${product.price[i]}`} 
                                         className={
                                             `relative p-4 rounded-lg border cursor-pointer transition duration-200 flex flex-col items-center justify-center space-y-2 h-24 
-                                            ${amount === amt ? 'bg-indigo-700 border-indigo-700 text-white shadow-lg shadow-indigo-500/30' : 'bg-[#2D3142] border-[#2D3142] text-gray-300 hover:bg-[#3C4258] hover:border-slate-500/60'}`
+                                            ${amount === Number(amt) ? 'bg-indigo-700 border-indigo-700 text-white shadow-lg shadow-indigo-500/30' : 'bg-[#2D3142] border-[#2D3142] text-gray-300 hover:bg-[#3C4258] hover:border-slate-500/60'}`
                                             }
                                         aria-label={`${amt} dengan harga ${formatRupiah(Number(product.price[i]))}`}>
                                         <input 
@@ -174,8 +176,8 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
                                             id="amount" 
                                             className='hidden'
                                             onChange={() => {
-                                                setAmount(amt);
-                                                setPrice(product.price[i]);
+                                                setAmount(Number(amt));
+                                                setPrice(Number(product.price[i]));
                                             }}/>
                                         <div className="text-center">
                                             <p className="text-lg font-semibold text-white">{amt} {product.itemName}</p>
@@ -222,7 +224,7 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
 
                                                     <div className="flex-shrink-0 w-14 h-14 flex items-center justify-center">
                                                         {logoUrl ? (
-                                                            <img 
+                                                            <Image 
                                                                 src={logoUrl} 
                                                                 alt={logoAlt} 
                                                                 className="object-contain max-h-full w-auto rounded-md"
