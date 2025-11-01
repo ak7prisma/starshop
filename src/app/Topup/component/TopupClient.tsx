@@ -26,9 +26,9 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
 
     const ADMIN_FEE = 3000;
 
-    const totalBayar = price !== null 
-        ? price + ADMIN_FEE 
-        : 0;
+    const totalBayar = price === null 
+        ? 0 
+        : price + ADMIN_FEE;
 
     const handleModalClose = () => {
         setIsModalOpen(false);
