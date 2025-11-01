@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 interface InputParams {
-    label: string;
+    label?: string;
     identity: string;
     placeholder?: string;
     type: string;
@@ -11,9 +11,9 @@ interface InputParams {
     children?: ReactNode;
 }
 
-export default function InputForm({label, identity, type, placeholder, value, onChange, children }: Readonly<InputParams>){
+export default function InputForm({ label, identity, type, placeholder, value, onChange, children }: Readonly<InputParams>){
     
-    const isPassword = type === 'password';
+    const isPassword = identity === 'password';
     const [isVisible, setIsVisible] = useState(false);
     const passwordType = isVisible ? 'text' : 'password';
     const inputType = isPassword ? passwordType : type;

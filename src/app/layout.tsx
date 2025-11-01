@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LayoutSetting from "@/hooks/LayoutSetting";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,6 +24,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const midtransClientKey = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || ''; 
+  const isProduction = process.env.MIDTRANS_IS_PRODUCTION === 'true';
+
+  const midtransScriptUrl = isProduction 
+    ? "https://app.midtrans.com/snap/snap.js"
+    : "https://app.sandbox.midtrans.com/snap/snap.js";
   return (
     <html lang="en" className="overscroll-auto scroll-smooth">
       <body
@@ -30,6 +37,13 @@ export default function RootLayout({
       >
         <LayoutSetting>
         {children}
+        {midtransClientKey && (
+          <Script 
+            src={midtransScriptUrl}
+            data-client-key={midtransClientKey}
+            strategy="beforeInteractive"
+          />
+        )}
         </LayoutSetting>
       </body>
     </html>

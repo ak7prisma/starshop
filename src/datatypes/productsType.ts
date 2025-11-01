@@ -8,4 +8,7 @@ export interface Product {
     category: 'Games' | 'Voucher' | 'E-Money' | 'Lainnya';
     amount: string[];
     price:  number[];
+    sideImgUrl: string;
+    sideImgAlt: string;
+    itemName: string;
 }
