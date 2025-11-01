@@ -1,5 +1,5 @@
 "use client";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/app/lib/supabase";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { TbMenuDeep, TbX } from "react-icons/tb";

@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/app/lib/supabase';
 import FormHeader from '@/app/components/ui/AuthHeader';
 import SubmitLoading from '@/app/components/ui/SubmitLoading';
 import InputForm from '../../components/ui/InputForm';

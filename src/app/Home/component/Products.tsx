@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/app/lib/supabase";
 import ProductClient from "./ProductsClient";
 
 export default async function Products() {

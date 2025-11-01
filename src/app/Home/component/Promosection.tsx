@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/app/lib/supabase";
 import PromoClient from "./PromoClient";
 import { Product } from "@/datatypes/productsType";
 

@@ -1,13 +1,12 @@
 'use client';
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/app/lib/supabase';
 import { useRouter } from 'next/navigation';
 import type { Product } from '@/datatypes/productsType';
 import InputForm from '@/app/components/ui/InputForm';
 import SubmitLoading from '@/app/components/ui/SubmitLoading';
 import ProductDetailCard from '@/app/components/ui/ProductDetailCard';
 import TopupHeaderForm from '@/app/components/ui/TopupHeaderForm';
-import PaymentModal from '@/app/components/modals/PaymentModal';
 
 export default function TopupClient({product} : Readonly<{product: Product}>) {
 
@@ -19,26 +18,6 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
     const [gameId, setGameId] = useState('');
     const [amount, setAmount] = useState<number | null>(null); 
     const [price, setPrice] = useState<number | null>(null);
-
-    const [snapToken, setSnapToken] = useState<string | null>(null); 
-    const [isModalOpen, setIsModalOpen] = useState(false); 
-    const [createdTopupId, setCreatedTopupId] = useState<string | null>(null);
-
-    const ADMIN_FEE = 3000;
-
-    const totalBayar = price === null 
-        ? 0 
-        : price + ADMIN_FEE;
-
-    const handleModalClose = () => {
-        setIsModalOpen(false);
-        setSnapToken(null);
-        if (createdTopupId) {
-            router.push(`/history/${createdTopupId}`); 
-        } else {
-            router.push("/");
-        }
-    }
 
     const formatRupiah = (value: number | null): string => {
         if (value === null) return 'Free';
@@ -63,51 +42,28 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
 
         setLoading(true);
         setError(null);
-        setSnapToken(null);
-
-        let newTopupId: string | null = null; 
 
         try{
-            const { data: insertData, error: insertError } = await supabase.from('Topup').insert({
+            const { data: insertData, error: insertError } = await supabase.from('topup').insert({
                 idProduct: product.idProduct,
                 idGame: gameId,
                 amount: amount,
                 price: price,
                 status: 'Pending',
-                paymentMethod: 'Midtrans Snap',
             }).select('idTopup').single();
 
             if(insertError) throw insertError;
             
-            newTopupId = insertData.idTopup ?? null;
-            setCreatedTopupId(newTopupId);
+            const newTopupId = insertData.idTopup ?? null;
 
-            const response = await fetch('/api/create-transaction', { 
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    idTopup: newTopupId,
-                    amount: price,
-                    adminFee: ADMIN_FEE,
-                    productName: `${amount} ${product.itemName} (${product.nameProduct})`,
-                }),
-            });
-
-            const result = await response.json();
-
-            if(!response.ok || result.error) {
-                await supabase.from('Topup').update({ status: 'Failed' }).eq('idTopup', newTopupId);
-                throw new Error(result.error || 'Gagal membuat transaksi di Payment Gateway.');
-            }
-
-            setSnapToken(result.token); 
-            setIsModalOpen(true);
-        } catch (error: unknown) {
-            const message = error instanceof Error ? error.message : (typeof error === 'string' ? error : 'Terjadi kesalahan saat membuat transaksi.');
-            setError(message);
             if (newTopupId) {
-                router.push(`/history/${newTopupId}`); 
+                router.push(`/history/${newTopupId}`);
+            } else {
+                router.push("/");
             }
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : (typeof error === 'string' ? error : 'Terjadi kesalahan saat membuat topup.');
+            setError(message);
         } finally{
             setLoading(false);
         }
@@ -172,14 +128,10 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
                                     <p className='text-gray-400'>Subtotal</p>
                                     <p className='font-medium'>{formatRupiah(price)}</p>
                                 </div>
-                                <div className='flex justify-between'>
-                                    <p className='text-gray-400'>Biaya Admin</p>
-                                    <p className='font-medium'>{formatRupiah(ADMIN_FEE)}</p>
-                                </div>
                                 <div className='flex justify-between pt-2 border-t border-[#2D3142]'>
                                     <p className='text-lg font-bold'>Total Bayar</p>
                                     <p className='text-lg font-bold text-indigo-400'>
-                                        {formatRupiah(totalBayar)}
+                                        {formatRupiah(price)}
                                     </p>
                                 </div>
                             </div>
@@ -192,19 +144,12 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
                         )}
 
                         <SubmitLoading 
-                            label='Bayar Sekarang' 
+                            label='Submit Topup' 
                             loading={loading}
                             disabled={loading || price === null}/> 
                     </form>
                 </div>
                 
-                <PaymentModal 
-                isOpen={isModalOpen} 
-                onClose={handleModalClose} 
-                snapToken={snapToken}
-                transactionId={createdTopupId || 'N/A'}
-                totalPayment={totalBayar}
-                />
             </div>
         </div>
     );

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/app/lib/supabase';
 import FormHeader from '@/app/components/ui/AuthHeader';
 import FormFooter from '@/app/components/ui/AuthFooter';
 import SubmitLoading from '@/app/components/ui/SubmitLoading';

@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/app/lib/supabase';
 import TopupClient from '../component/TopupClient';
 
 export default async function Topup({ params }: Readonly<{ params: { idTopup: string } }>) {
