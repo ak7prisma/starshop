@@ -1,48 +1,50 @@
-// app/api/create-transaction/route.ts
-
 import { NextResponse } from 'next/server';
 import midtransClient from 'midtrans-client';
+// Asumsi '@/lib/supabase' mengimpor Supabase Client standar
+import { supabase } from '@/lib/supabase'; 
 
-// Pastikan Environment Variables sudah dimuat dengan benar dan periksa keberadaannya
 const SERVER_KEY = process.env.MIDTRANS_SERVER_KEY;
-const CLIENT_KEY = process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY;
+// CLIENT_KEY TIDAK DIGUNAKAN DI SISI SERVER (hanya di browser)
 
-if (!SERVER_KEY || !CLIENT_KEY) {
-    // Penting: Throw Error jika kunci rahasia tidak ditemukan
-    console.error("MIDTRANS_SERVER_KEY or NEXT_PUBLIC_MIDTRANS_CLIENT_KEY is missing!");
-    // Kita akan kembalikan error 500 jika API dipanggil tanpa kunci
-    // Ini lebih baik ditangani di luar POST jika ingin fail-fast
+if (!SERVER_KEY) {
+    // Log error hanya di development, tidak perlu di production
+    console.error("MIDTRANS_SERVER_KEY is missing! Transaction creation will fail.");
 }
 
-// Inisialisasi Midtrans Snap API dengan Server Key rahasia
+// Inisialisasi Midtrans Snap
+// isProduction harus berupa boolean dari environment variable
 const snap = new midtransClient.Snap({
     isProduction: process.env.MIDTRANS_IS_PRODUCTION === 'true',
-    // Gunakan non-null assertion operator (!) setelah kita memastikan keberadaannya.
-    // Ini memberitahu TypeScript bahwa nilai tersebut pasti string non-null.
     serverKey: SERVER_KEY!, 
-    clientKey: CLIENT_KEY!,
+    // clientKey tidak digunakan untuk createTransaction, bisa diisi string kosong
+    clientKey: "", 
 });
 
 export async function POST(req: Request) {
-    // Cek kunci di dalam POST agar bisa merespons error ke client
-    if (!SERVER_KEY || !CLIENT_KEY) {
+    // 1. Cek Kunci Rahasia
+    if (!SERVER_KEY) {
          return NextResponse.json({ 
              error: 'Konfigurasi Payment Gateway bermasalah. Server Key hilang.' 
          }, { status: 500 });
     }
     
     try {
-        // Data yang dikirim dari Client-Side
         const { idTopup, amount, adminFee, productName } = await req.json();
 
-        // **PENTING**: Ambil data user yang login dari Supabase Auth di sini
-        // Misalnya: const { data: { user } } = await supabase.auth.getUser();
+        // 2. Ambil Data User dari Supabase Auth
+        // Catatan: Pastikan client Supabase Anda terkonfigurasi untuk membawa token auth dari cookies.
+        const { data: { user } } = await supabase.auth.getUser();
         
-        // Dummy Data Customer
+        if (!user) {
+             return NextResponse.json({ 
+                 error: 'Pengguna tidak terautentikasi. Silakan login kembali.' 
+             }, { status: 401 });
+        }
+
+        // 3. Persiapkan Detail Customer
         const customer = {
-            name: "StarShop User", 
-            email: "user@starshop.com", 
-            phone: "081234567890", 
+            name: user.user_metadata?.fullName || "StarShop User",
+            email: user.email!, // Email diasumsikan selalu ada jika user terautentikasi
         };
 
         const totalHarga = amount + adminFee;
@@ -51,9 +53,10 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Jumlah pembayaran tidak valid.' }, { status: 400 });
         }
         
-        // Parameter transaksi Midtrans
+        // 4. Parameter Transaksi Midtrans
         const parameter = {
             transaction_details: {
+                // order_id harus unik
                 order_id: idTopup, 
                 gross_amount: totalHarga,
             },
@@ -65,18 +68,22 @@ export async function POST(req: Request) {
                 first_name: customer.name.split(' ')[0] || "User",
                 last_name: customer.name.split(' ').slice(1).join(' ') || "",
                 email: customer.email,
-                phone: customer.phone, 
             },
             credit_card: { secure: true },
-            expiry: { unit: 'days', duration: 1 }, 
+            expiry: { unit: 'days', duration: 1 }, // Masa berlaku transaksi
+            // URL notifikasi wajib di set di parameter, atau di dashboard Midtrans
+            // notification_url: `${process.env.NEXT_PUBLIC_SITE_URL}/api/midtransWebhook`, 
         };
 
+        // 5. Buat Transaksi dan Dapatkan Snap Token
         const transaction = await snap.createTransaction(parameter);
         
+        // 6. Kirim Snap Token kembali ke client
         return NextResponse.json({ token: transaction.token });
     } catch (error) {
         console.error('Error creating Midtrans transaction:', error);
-        // Tangkap error spesifik Midtrans jika memungkinkan
+        
+        // Response error generik untuk klien
         return NextResponse.json({ 
             error: 'Gagal memproses transaksi di Payment Gateway. Cek log server.' 
         }, { status: 500 });

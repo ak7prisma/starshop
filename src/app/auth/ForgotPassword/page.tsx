@@ -48,7 +48,7 @@ export default function ForgotPassword() {
               label='Email Address'
               identity='email'
               type='email'
-              placeholder='**********'
+              placeholder='*youremail@example.com'
               value={email}
               onChange={setEmail}/>
 

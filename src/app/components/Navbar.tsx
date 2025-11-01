@@ -46,7 +46,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed z-10 left-10 right-10 rounded-lg bg-[#243867]/35 text-white px-7 py-3 md:py-5 mt-10">
+    <nav className="fixed z-10 left-10 right-10 rounded-lg bg-[#243867]/35 text-white px-3 py-3 md:py-5 mt-5 md:mt-10">
       <div className="max-w-8xl mx-5 space-x-5 flex items-center justify-between">
 
         <img src="logostarshop.png" alt="logostarshop" className="font-medium text-lg tracking-wide mr-5 w-25"/>

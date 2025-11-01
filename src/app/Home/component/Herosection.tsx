@@ -22,7 +22,7 @@ export default function Herosection() {
     const newsMenu = `h-3 w-3 focus:w-9 focus:bg-indigo-600 duration-300 bg-gray-500 rounded-full`;    
 
     return (
-        <section className="w-full flex justify-center md:pt-40 pb-15 px-4 min-h-screen text-white">
+        <section className="w-full flex justify-center pt-20 md:pt-30 pb-15  min-h-screen text-white">
             
             <div className="max-w-7xl w-full flex flex-col-reverse md:flex-row items-center justify-between">
                 
@@ -67,7 +67,7 @@ export default function Herosection() {
                     <img 
                         src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/wm/2025/10/battlefield-6-cover-artwork-explosion-with-semi-transparent-steam-logo-composite-edit.jpg?w=1200&h=628&fit=crop" 
                         alt="news" 
-                        className="h-40 md:h-100 w-full mb-10 mx-auto bg-indigo-700 bg-fixed rounded-lg shadow-2xl text-white"/>
+                        className="h-55 md:h-100 w-full mb-10 mx-auto bg-indigo-700 bg-fixed rounded-none md:rounded-lg shadow-2xl text-white"/>
 
                     <div className="flex justify-center items-center space-x-3 mb-6">
                         <button className="text-slate-500 hover:text-slate-600 duration-300">
