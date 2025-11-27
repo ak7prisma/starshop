@@ -9,7 +9,7 @@ export default function ProductCard({product} : Readonly<{product: Product}>) {
                 <img
                     alt={product.imgAlt}
                     src={product.imgUrl}
-                    className="aspect-square w-full rounded-lg bg-slate-600 object-cover hover:opacity-80 duration-300 xl:aspect-7/8"/>
+                    className="aspect-square w-full h-full rounded-lg bg-slate-600 object-cover hover:opacity-80 hover:scale-95 duration-300 xl:aspect-7/8"/>
             </Link>
 
             <div className="flex flex-col items-center mt-5">
