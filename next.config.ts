@@ -7,6 +7,19 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true, 
   },
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.supabase.in',
+      },
+    ],
+  },
+
   async rewrites() {
     return [
       {

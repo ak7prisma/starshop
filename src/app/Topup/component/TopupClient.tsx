@@ -1,16 +1,25 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/app/lib/supabase';
-import { useRouter } from 'next/navigation';
 import type { Product } from '@/datatypes/productsType';
 import InputForm from '@/app/components/ui/InputForm';
 import SubmitLoading from '@/app/components/ui/SubmitLoading';
 import ProductDetailCard from '@/app/components/ui/ProductDetailCard';
 import TopupHeaderForm from '@/app/components/ui/TopupHeaderForm';
+import PaymentMethodChoice from '@/app/components/ui/PaymentMethodChoice';
+import PaymentProofUpload from '@/app/components/ui/PaymentProofUpload';
+import CheckoutDetail from '@/app/components/ui/CheckoutDetail';
+import TopupSuccessModal from '@/app/components/modals/TopupSuccessModal';
+
+interface PaymentMethod {
+    idPaymentMethod: number;
+    paymentMethod: string | null;
+    imgUrl: string | null;
+    imgAlt: string | null;
+    adminFee: number | null;
+}
 
 export default function TopupClient({product} : Readonly<{product: Product}>) {
-
-    const router = useRouter();
 
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -18,10 +27,54 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
     const [gameId, setGameId] = useState('');
     const [amount, setAmount] = useState<number | null>(null); 
     const [price, setPrice] = useState<number | null>(null);
+    const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<number | null>(null);
+    const [paymentProof, setPaymentProof] = useState<File | null>(null);
+    const [paymentProofPreview, setPaymentProofPreview] = useState<string | null>(null);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [successTopupId, setSuccessTopupId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const fetchPaymentMethods = async () => {
+            const { data, error } = await supabase
+                .from('PaymentMethodDetail')
+                .select('*')
+                .order('idPaymentMethod');
+
+            if (error) {
+                console.error('Error fetching payment methods:', error);
+            } else {
+                setPaymentMethods(data || []);
+            }
+        };
+
+        fetchPaymentMethods();
+    }, []);
 
     const formatRupiah = (value: number | null): string => {
         if (value === null) return 'Free';
         return value.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            if (!file.type.startsWith('image/')) {
+                setError('File harus berupa gambar');
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                setError('Ukuran file maksimal 5MB');
+                return;
+            }
+            setPaymentProof(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPaymentProofPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+            setError(null);
+        }
     };
 
     let label ="";
@@ -40,29 +93,100 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
             return;
         }
 
+        if (!selectedPaymentMethod) {
+            setError("Mohon pilih metode pembayaran.");
+            return;
+        }
+
+        if (!paymentProof) {
+            setError("Mohon upload bukti pembayaran.");
+            return;
+        }
+
         setLoading(true);
         setError(null);
 
         try{
-            const { data: insertData, error: insertError } = await supabase.from('topup').insert({
-                idProduct: product.idProduct,
-                idGame: gameId,
-                amount: amount,
-                price: price,
-                status: 'Pending',
-            }).select('idTopup').single();
+            const selectedMethod = paymentMethods.find(pm => pm.idPaymentMethod === selectedPaymentMethod);
+            const paymentMethodName = selectedMethod?.paymentMethod || 'Unknown';
 
-            if(insertError) throw insertError;
-            
-            const newTopupId = insertData.idTopup ?? null;
+            let proofUrl: string | null = null;
+            if (paymentProof) {
+                const formData = new FormData();
+                formData.append('file', paymentProof);
 
-            if (newTopupId) {
-                router.push(`/history/${newTopupId}`);
-            } else {
-                router.push("/");
+                const uploadResponse = await fetch('/api/upload-proof', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!uploadResponse.ok) {
+                    let errorMessage = 'Gagal mengupload bukti pembayaran';
+                    try {
+                        const errorData = await uploadResponse.json();
+                        errorMessage = errorData.error || errorData.details || errorMessage;
+                    } catch {
+                        errorMessage = `Upload failed dengan status ${uploadResponse.status}`;
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                const uploadData = await uploadResponse.json();
+                proofUrl = uploadData.url;
+                
+                if (!proofUrl) {
+                    throw new Error('Upload berhasil tapi URL tidak ditemukan');
+                }
             }
+
+            const createTopupResponse = await fetch('/api/create-topup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    idProduct: product.idProduct,
+                    idGame: gameId,
+                    amount: amount,
+                    price: price,
+                    paymentMethod: paymentMethodName,
+                    paymentProofUrl: proofUrl,
+                }),
+            });
+
+            if (!createTopupResponse.ok) {
+                let errorMessage = 'Gagal menyimpan data topup';
+                try {
+                    const errorData = await createTopupResponse.json();
+                    errorMessage = errorData.error || errorData.details || errorMessage;
+                } catch {
+                    errorMessage = `Create failed dengan status ${createTopupResponse.status}`;
+                }
+                throw new Error(errorMessage);
+            }
+
+            const createTopupData = await createTopupResponse.json();
+            const newTopupId = createTopupData.idTopup ?? null;
+
+            setSuccessTopupId(newTopupId);
+            setShowSuccessModal(true);
+            
+            setGameId('');
+            setAmount(null);
+            setPrice(null);
+            setSelectedPaymentMethod(null);
+            setPaymentProof(null);
+            setPaymentProofPreview(null);
         } catch (error: unknown) {
-            const message = error instanceof Error ? error.message : (typeof error === 'string' ? error : 'Terjadi kesalahan saat membuat topup.');
+            console.error('Topup error:', error);
+            let message = 'Terjadi kesalahan saat membuat topup.';
+            
+            if (error instanceof Error) {
+                message = error.message;
+            } else if (typeof error === 'string') {
+                message = error;
+            }
+            
             setError(message);
         } finally{
             setLoading(false);
@@ -122,19 +246,39 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
                         </div>
 
                         <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
-                            <TopupHeaderForm no='3' label='Ringkasan Pembayaran'/>
-                            <div className='space-y-3 text-sm'>
-                                <div className='flex justify-between'>
-                                    <p className='text-gray-400'>Subtotal</p>
-                                    <p className='font-medium'>{formatRupiah(price)}</p>
-                                </div>
-                                <div className='flex justify-between pt-2 border-t border-[#2D3142]'>
-                                    <p className='text-lg font-bold'>Total Bayar</p>
-                                    <p className='text-lg font-bold text-indigo-400'>
-                                        {formatRupiah(price)}
-                                    </p>
-                                </div>
-                            </div>
+                            <TopupHeaderForm no='3' label='Pilih Metode Pembayaran'/>
+                            {paymentMethods.length > 0 ? (
+                                <PaymentMethodChoice
+                                    paymentMethods={paymentMethods}
+                                    selectedPaymentMethod={selectedPaymentMethod}
+                                    onSelect={setSelectedPaymentMethod}
+                                    formatRupiah={formatRupiah}
+                                />
+                            ) : (
+                                <p className="text-gray-400 text-center py-4">Memuat metode pembayaran...</p>
+                            )}
+                        </div>
+
+                        <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
+                            <TopupHeaderForm no='4' label='Upload Bukti Pembayaran'/>
+                            <PaymentProofUpload
+                                paymentProofPreview={paymentProofPreview}
+                                onFileChange={handleFileChange}
+                                onRemove={() => {
+                                    setPaymentProof(null);
+                                    setPaymentProofPreview(null);
+                                }}
+                            />
+                        </div>
+
+                        <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
+                            <TopupHeaderForm no='5' label='Ringkasan Pembayaran'/>
+                            <CheckoutDetail
+                                price={price}
+                                selectedPaymentMethod={selectedPaymentMethod}
+                                paymentMethods={paymentMethods}
+                                formatRupiah={formatRupiah}
+                            />
                         </div>
 
                         {error && (
@@ -146,11 +290,20 @@ export default function TopupClient({product} : Readonly<{product: Product}>) {
                         <SubmitLoading 
                             label='Submit Topup' 
                             loading={loading}
-                            disabled={loading || price === null}/> 
+                            disabled={loading || price === null || !selectedPaymentMethod || !paymentProof}/> 
                     </form>
                 </div>
                 
             </div>
+
+            <TopupSuccessModal
+                isOpen={showSuccessModal}
+                onClose={() => setShowSuccessModal(false)}
+                onTopupAgain={() => {
+                    setShowSuccessModal(false);
+                }}
+                idTopup={successTopupId}
+            />
         </div>
     );
 }
