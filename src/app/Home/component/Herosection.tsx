@@ -62,12 +62,12 @@ export default function Herosection() {
                 </div>
 
                 {/*right-section*/}
-                <div className="flex-1 items-center w-full max-w-lg mt-10 md:mt-0">
+                <div className="flex-1 items-center w-full max-w-lg px-5 mt-5 md:mt-0">
                     
                     <img 
                         src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/wm/2025/10/battlefield-6-cover-artwork-explosion-with-semi-transparent-steam-logo-composite-edit.jpg?w=1200&h=628&fit=crop" 
                         alt="news" 
-                        className="h-55 md:h-100 w-full mb-10 mx-auto bg-indigo-700 bg-fixed rounded-none md:rounded-lg shadow-2xl text-white"/>
+                        className="h-55 md:h-100 w-full mb-10 mx-auto bg-indigo-700 bg-fixed rounded-lg shadow-2xl text-white"/>
 
                     <div className="flex justify-center items-center space-x-3 mb-6">
                         <button className="text-slate-500 hover:text-slate-600 duration-300">

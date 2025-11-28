@@ -2,13 +2,15 @@ import React from 'react';
 import Link from 'next/link';
 import type { Product } from '@/datatypes/productsType'; 
 
+const tempUrl = "https://uteiryrjhxezentpeclo.supabase.co/storage/v1/object/public/productsIcon/";
+
 export default function ProductCard({product} : Readonly<{product: Product}>) {
     return (
         <div className="group flex flex-col items-center">
             <Link href={product.href} className="w-full">
                 <img
                     alt={product.imgAlt}
-                    src={product.imgUrl}
+                    src={`${tempUrl}${product.imgUrl}`}
                     className="aspect-square w-full h-full rounded-lg bg-slate-600 object-cover hover:opacity-80 hover:scale-95 duration-300 xl:aspect-7/8"/>
             </Link>
 

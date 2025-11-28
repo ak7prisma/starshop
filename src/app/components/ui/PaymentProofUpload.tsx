@@ -1,4 +1,5 @@
 'use client';
+import { useState, useCallback } from 'react';
 
 interface PaymentProofUploadProps {
     paymentProofPreview: string | null;
@@ -7,19 +8,61 @@ interface PaymentProofUploadProps {
     inputId?: string;
 }
 
-export default function PaymentProofUpload({ paymentProofPreview, onFileChange,  onRemove, inputId = 'paymentProof' }: Readonly<PaymentProofUploadProps>) {
+export default function PaymentProofUpload({ paymentProofPreview, onFileChange, onRemove, inputId = 'paymentProof' }: Readonly<PaymentProofUploadProps>) {
+    const [dragActive, setDragActive] = useState(false);
+
+    const handleFiles = useCallback((files: FileList | null) => {
+        if (!files || files.length === 0) return;
+
+        const file = files[0];
+        const fileList = {
+            0: file,
+            length: 1,
+            item: (i: number) => (i === 0 ? file : null),
+        } as unknown as FileList;
+
+        // call parent handler with synthetic event-like object
+        onFileChange({ target: { files: fileList } } as unknown as React.ChangeEvent<HTMLInputElement>);
+        setDragActive(false);
+    }, [onFileChange]);
+
+    const onDragEnter = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(true);
+    };
+
+    const onDragOver = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(true);
+    };
+
+    const onDragLeave = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(false);
+    };
+
+    const onDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const dt = e.dataTransfer;
+        handleFiles(dt.files);
+    };
+
     return (
         <div className="mt-4">
-            <label 
+            <label
                 htmlFor={inputId}
-                className="flex flex-col items-center justify-center w-full h-48 border-2 border-[#2D3142] border-dashed rounded-lg cursor-pointer bg-[#2D3142] hover:bg-[#3C4258] hover:border-slate-500/60 transition duration-200">
+                onDragEnter={onDragEnter}
+                onDragOver={onDragOver}
+                onDragLeave={onDragLeave}
+                onDrop={onDrop}
+                className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer transition duration-200 ${dragActive ? 'border-indigo-500 bg-[#263449]' : 'border-[#2D3142] bg-[#2D3142] hover:bg-[#3C4258] hover:border-slate-500/60'}`}>
                 {paymentProofPreview ? (
                     <div className="relative w-full h-full rounded-lg overflow-hidden">
-                        <img
-                            src={paymentProofPreview}
-                            alt="Preview bukti pembayaran"
-                            className="object-contain p-2 w-full h-full"
-                        />
+                        <img src={paymentProofPreview} alt="Preview bukti pembayaran" className="object-contain p-2 w-full h-full" />
                         <button
                             type="button"
                             onClick={onRemove}
@@ -38,13 +81,7 @@ export default function PaymentProofUpload({ paymentProofPreview, onFileChange, 
                         <p className="text-xs text-gray-500">PNG, JPG atau JPEG (MAX. 5MB)</p>
                     </div>
                 )}
-                <input 
-                    id={inputId}
-                    type="file" 
-                    className="hidden" 
-                    accept="image/*"
-                    onChange={onFileChange}
-                />
+                <input id={inputId} type="file" className="hidden" accept="image/*" onChange={(e) => onFileChange(e)} />
             </label>
         </div>
     );

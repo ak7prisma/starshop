@@ -7,7 +7,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#243867]/30 text-gray-300 pt-10">
-      <div className="mx-10 flex flex-col items-center space-y-6">
+      <div className="mx-5 flex flex-col items-center space-y-6">
 
         <div className="flex space-x-6">
           <Link href="https://www.instagram.com/akprisma?igsh=MTJtd2lwaHZoeXFrZA==" className={hoverFooterClass}>
@@ -30,7 +30,7 @@ export default function Footer() {
           <Link href="/About" className={hoverFooterClass}>About</Link>
         </div>
 
-        <div className="text-sm text-slate-400 text-center p-5 border-t-1 border-slate-400 w-full">
+        <div className="text-sm text-slate-400 text-center py-5 border-t-1 border-slate-400 w-full">
           © 2025 Starshop Pemvis Project | ahmadkurniaprisma@gmail.com
         </div>
       </div>
