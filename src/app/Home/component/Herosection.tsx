@@ -11,7 +11,11 @@ const anta = Anta({
     variable: '--font-Anta', 
 });
 
-export default function Herosection() {
+interface HerosectionProps {
+    newsCarouselSlot: React.ReactNode;
+}
+
+export default function Herosection({ newsCarouselSlot }: HerosectionProps) {
     
     const { isOpen, open: openContactModal, close: closeContactModal } = useModal(false); 
 
@@ -19,7 +23,6 @@ export default function Herosection() {
     const bestsellerId = "#promo-section"; 
 
     const hoverButton = `bg-indigo-600 hover:bg-indigo-700 px-10 py-2 rounded-md font-medium transition shadow-lg`;
-    const newsMenu = `h-3 w-3 focus:w-9 focus:bg-indigo-600 duration-300 bg-gray-500 rounded-full`;    
 
     return (
         <section className="w-full flex justify-center pt-20 md:pt-30 pb-15  min-h-screen text-white">
@@ -63,29 +66,7 @@ export default function Herosection() {
 
                 {/*right-section*/}
                 <div className="flex-1 items-center w-full max-w-lg px-5 mt-5 md:mt-0">
-                    
-                    <img 
-                        src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/wm/2025/10/battlefield-6-cover-artwork-explosion-with-semi-transparent-steam-logo-composite-edit.jpg?w=1200&h=628&fit=crop" 
-                        alt="news" 
-                        className="h-55 md:h-100 w-full mb-10 mx-auto bg-indigo-700 bg-fixed rounded-lg shadow-2xl text-white"/>
-
-                    <div className="flex justify-center items-center space-x-3 mb-6">
-                        <button className="text-slate-500 hover:text-slate-600 duration-300">
-                            <RiArrowLeftWideLine size={35} />
-                        </button>
-                        
-                        <div className="flex space-x-2">
-                            <button className={newsMenu}></button>
-                            <button className={newsMenu}></button>
-                            <button className={newsMenu}></button>
-                            <button className={newsMenu}></button>
-                        </div>
-
-                        <button className="text-slate-500 hover:text-slate-600 duration-300">
-                            <RiArrowRightWideLine size={35} />
-                        </button>
-                    </div>
-
+                   {newsCarouselSlot}
                 </div>
 
             </div>

@@ -21,18 +21,11 @@ export default function PaymentProofUpload({ paymentProofPreview, onFileChange, 
             item: (i: number) => (i === 0 ? file : null),
         } as unknown as FileList;
 
-        // call parent handler with synthetic event-like object
         onFileChange({ target: { files: fileList } } as unknown as React.ChangeEvent<HTMLInputElement>);
         setDragActive(false);
     }, [onFileChange]);
 
-    const onDragEnter = (e: React.DragEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setDragActive(true);
-    };
-
-    const onDragOver = (e: React.DragEvent) => {
+   const handleDragActive = (e: React.DragEvent) => {
         e.preventDefault();
         e.stopPropagation();
         setDragActive(true);
@@ -55,8 +48,8 @@ export default function PaymentProofUpload({ paymentProofPreview, onFileChange, 
         <div className="mt-4">
             <label
                 htmlFor={inputId}
-                onDragEnter={onDragEnter}
-                onDragOver={onDragOver}
+                onDragEnter={handleDragActive}
+                onDragOver={handleDragActive} 
                 onDragLeave={onDragLeave}
                 onDrop={onDrop}
                 className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-lg cursor-pointer transition duration-200 ${dragActive ? 'border-indigo-500 bg-[#263449]' : 'border-[#2D3142] bg-[#2D3142] hover:bg-[#3C4258] hover:border-slate-500/60'}`}>
