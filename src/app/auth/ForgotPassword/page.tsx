@@ -39,7 +39,7 @@ export default function ForgotPassword() {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
      
-      <FormHeader label1="Forget Password" label2="Enter your email to reset password."/>
+      <FormHeader label1="Forgot Password" label2="Enter your email to reset password."/>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handlePasswordReset} className="space-y-6">
@@ -48,7 +48,7 @@ export default function ForgotPassword() {
               label='Email Address'
               identity='email'
               type='email'
-              placeholder='*youremail@example.com'
+              placeholder='youremail@example.com'
               value={email}
               onChange={setEmail}/>
 

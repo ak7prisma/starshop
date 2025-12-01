@@ -22,7 +22,7 @@ export default function Herosection({ newsCarouselSlot }: HerosectionProps) {
     const topupId = "#top-up-section"; 
     const bestsellerId = "#promo-section"; 
 
-    const hoverButton = `bg-indigo-600 hover:bg-indigo-700 px-10 py-2 rounded-md font-medium transition shadow-lg`;
+    const hoverButton = `bg-indigo-600 hover:bg-indigo-700 cursor-pointer px-10 py-2 rounded-md font-medium transition shadow-lg`;
 
     return (
         <section className="w-full flex justify-center pt-20 md:pt-30 pb-15  min-h-screen text-white">

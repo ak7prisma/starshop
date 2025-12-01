@@ -30,7 +30,7 @@ export default function Footer() {
           <Link href="/About" className={hoverFooterClass}>About</Link>
         </div>
 
-        <div className="text-sm text-slate-400 text-center py-5 border-t-1 border-slate-400 w-full">
+        <div className="text-sm text-slate-400 text-center py-5 border-t border-slate-400 w-full">
           © 2025 Starshop Pemvis Project | ahmadkurniaprisma@gmail.com
         </div>
       </div>

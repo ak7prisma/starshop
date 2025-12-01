@@ -1,6 +1,7 @@
 "use client";
 import { supabase } from "@/app/lib/supabase";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { TbMenuDeep, TbX } from "react-icons/tb";
 import { useRouter } from 'next/navigation';
@@ -49,7 +50,13 @@ export default function Navbar() {
     <nav className="fixed z-50 left-5 right-5 rounded-lg bg-[#243867]/30 text-white px-3 py-3 md:py-5 mt-5 md:mt-10">
       <div className="max-w-8xl mx-5 space-x-5 flex items-center justify-between">
 
-        <img src="logostarshop.png" alt="logostarshop" className="font-medium text-lg tracking-wide mr-5 w-25"/>
+        <Image 
+          src="/logostarshop.png"
+          alt="logostarshop" 
+          width={100}
+          height={40}
+          className="font-medium tracking-wide mr-5 object-contain"
+        />
         <div className="hidden md:flex space-x-10 items-center text-center">
           <Link 
             href="/Home" 
@@ -89,7 +96,7 @@ export default function Navbar() {
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 rounded-lg hover:bg-[#1e293b]">
+          className="md:hidden p-2 rounded-lg hover:bg-[#1e293b] duration-300">
           {isOpen ? <TbX size={22} /> : <TbMenuDeep size={22} />}
         </button>
       </div>

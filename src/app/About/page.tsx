@@ -1,4 +1,4 @@
-
+import Image from "next/image";
 import { FaInstagram, FaWhatsapp, FaTiktok, FaEnvelope } from "react-icons/fa";
 
 export default function About() {
@@ -14,8 +14,14 @@ export default function About() {
 
                     <div className="grid md:grid-cols-3 gap-6 items-start ">
                         <div className="col-span-1 flex flex-col items-center text-center p-10 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]">
-                            <div className="w-40 h-40 overflow-hidden mb-4">
-                                <img src="favicon.ico" alt="profile" className="w-full h-full object-cover" />
+                            <div className="relative w-40 h-40 overflow-hidden mb-4">
+                               <Image 
+                                    src="/favicon.ico"
+                                    alt="profile" 
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 768px) 100vw, 33vw"
+                                />
                             </div>
 
                             <h2 className="text-xl font-semibold">Starshop</h2>
@@ -73,9 +79,9 @@ export default function About() {
                             <section>
                                 <h3 className="text-lg font-semibold mb-2">Kontak</h3>
                                 <ul className="mt-3 text-slate-300 space-y-1">
-                                    <li>Email: <a className="text-indigo-400" href="mailto:ahmadkurniaprisma@gmail.com">ahmadkurniaprisma@gmail.com</a></li>
-                                    <li>Instagram: <a className="text-indigo-400" href="https://www.instagram.com/akprisma">@akprisma</a></li>
-                                    <li>WhatsApp: <a className="text-indigo-400" href="https://wa.me/+628989209565">+628989209565</a></li>
+                                    <li>Email: <a className="text-indigo-400 hover:text-indigo-600 duration-300" href="mailto:ahmadkurniaprisma@gmail.com">ahmadkurniaprisma@gmail.com</a></li>
+                                    <li>Instagram: <a className="text-indigo-400 hover:text-indigo-600 duration-300" href="https://www.instagram.com/akprisma">@akprisma</a></li>
+                                    <li>WhatsApp: <a className="text-indigo-400 hover:text-indigo-600 duration-300" href="https://wa.me/+628989209565">+628989209565</a></li>
                                 </ul>
 
                                 <p className="text-slate-400 mt-4 text-sm">Proyek ini dibuat sebagai tugas pembelajaran menggunakan Next.js, Tailwind CSS, dan Supabase.</p>

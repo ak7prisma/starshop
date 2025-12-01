@@ -48,7 +48,7 @@ export default function InputForm({ label, identity, type, placeholder, value, o
                         onClick={() => setIsVisible(!isVisible)}
                         className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
                         <div className="text-gray-400 hover:text-gray-300">
-                            {isVisible ? <FaEyeSlash/> : <FaEye/>} 
+                            {isVisible ? <FaEye/> : <FaEyeSlash/>} 
                         </div>
                     </button>
                 )}
