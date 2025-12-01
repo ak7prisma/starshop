@@ -41,7 +41,7 @@ export default function Maintenance({ backLink = "/" }: Readonly<MaintenanceView
             </h1>
             
             <p className="text-gray-400 text-sm md:text-lg max-w-lg mx-auto leading-relaxed">
-                Website <span className="text-indigo-400 font-semibold">Starshop</span> sedang dalam tahap pengembangan untuk memberikan pengalaman Top Up termurah & terpercaya bagi Anda.
+                Website <span className="text-indigo-400 font-semibold">Starshop</span> sedang dalam tahap pengembangan untuk memberikan pengalaman Top Up yang lebih baik untuk Anda.
             </p>
         </div>
 

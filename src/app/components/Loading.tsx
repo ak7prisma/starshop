@@ -10,12 +10,16 @@ export default function Loading() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(false);
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
   }, [pathname, searchParams]);
 
   useEffect(() => {
     const handleAnchorClick = (e: MouseEvent) => {
-
       const anchor = (e.target as HTMLElement).closest("a");
 
       if (!anchor?.href) return;
