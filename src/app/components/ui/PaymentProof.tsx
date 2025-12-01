@@ -1,5 +1,6 @@
 'use client';
 import { useState, useCallback } from 'react';
+import { RiImageAddLine } from 'react-icons/ri';
 
 interface PaymentProofUploadProps {
     paymentProofPreview: string | null;
@@ -8,7 +9,7 @@ interface PaymentProofUploadProps {
     inputId?: string;
 }
 
-export default function PaymentProofUpload({ paymentProofPreview, onFileChange, onRemove, inputId = 'paymentProof' }: Readonly<PaymentProofUploadProps>) {
+export default function PaymentProof({ paymentProofPreview, onFileChange, onRemove, inputId = 'paymentProof' }: Readonly<PaymentProofUploadProps>) {
     const [dragActive, setDragActive] = useState(false);
 
     const handleFiles = useCallback((files: FileList | null) => {
@@ -65,9 +66,7 @@ export default function PaymentProofUpload({ paymentProofPreview, onFileChange, 
                     </div>
                 ) : (
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg className="w-10 h-10 mb-3 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a2 2 0 0 0 1.965-2.196L15.5 3.5l-4-4L7.5 3.5l-1.965 7.304A2 2 0 0 0 7.5 13h3m0 0v-6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v6m-6 0h6"/>
-                        </svg>
+                        <RiImageAddLine size={40} className="text-gray-400 mb-3 rounded-t-2xl rounded-l-2xl" />
                         <p className="mb-2 text-sm text-gray-400">
                             <span className="font-semibold">Klik untuk upload</span> atau drag & drop
                         </p>

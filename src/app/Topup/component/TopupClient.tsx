@@ -7,7 +7,7 @@ import SubmitLoading from '@/app/components/ui/SubmitLoading';
 import ProductDetailCard from '@/app/components/ui/ProductDetailCard';
 import TopupHeaderForm from '@/app/components/ui/TopupHeaderForm';
 import PaymentMethodChoice from '@/app/components/ui/PaymentMethodChoice';
-import PaymentProofUpload from '@/app/components/ui/PaymentProofUpload';
+import PaymentProofUpload from '@/app/components/ui/PaymentProof';
 import CheckoutDetail from '@/app/components/ui/CheckoutDetail';
 import TopupSuccessModal from '@/app/components/modals/TopupSuccessModal';
 
