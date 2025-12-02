@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Navbar from '../app/components/Navbar';
 import Footer from '../app/components/Footer';
+import { Suspense } from 'react';
 
 const disablePaths = new Set([
   '/auth/Login',
@@ -19,8 +20,14 @@ export default function LayoutSetting({ children }: Readonly<{ children: React.R
 
   return (
     <>
-      {Layoutshow && <Navbar />}
+      {Layoutshow && (
+        <Suspense fallback={null}> 
+           <Navbar />
+        </Suspense>
+      )}
+      
       {children} 
+      
       {Layoutshow && <Footer />}
     </>
   );
