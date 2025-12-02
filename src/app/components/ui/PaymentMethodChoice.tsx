@@ -38,7 +38,7 @@ export default function PaymentMethodChoice({paymentMethods, selectedPaymentMeth
                             <img
                                 src={method.imgUrl}
                                 alt={method.imgAlt || method.paymentMethod || 'Payment Method'}
-                                className="object-contain w-full h-full"
+                                className="object-contain rounded-lg w-full h-full"
                             />
                         </div>
                     )}
