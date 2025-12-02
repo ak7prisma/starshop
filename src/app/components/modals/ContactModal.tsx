@@ -20,17 +20,17 @@ export default function ContactModal({ isOpen, onClose }: Readonly<ContactModalP
       popup 
       theme={{
         content: {
-          base: "relative w-full p-4 h-auto flex justify-center items-center",
+          base: "relative w-full h-auto flex justify-center items-center",
           inner: "relative rounded-lg shadow-xl flex flex-col w-full md:w-[35rem] animate-scale-in" 
         }
       }}
     >
 
-      <ModalHeader className="border-0 pb-2 pt-6 px-6">
+      <ModalHeader className="rounded-t-lg bg-slate-800 pb-2 pt-6 px-6">
           <span className="text-xl font-bold text-indigo-400 tracking-wide">Contact Me</span>
       </ModalHeader>
       
-      <ModalBody className="px-6 pb-6 pt-2">
+      <ModalBody className="rounded-b-lg bg-slate-800 px-6 pb-6 pt-2">
         <div className="space-y-4 text-slate-200">
 
           <div className="flex flex-col space-y-2">
