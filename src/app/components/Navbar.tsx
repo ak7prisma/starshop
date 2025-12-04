@@ -64,11 +64,6 @@ export default function Navbar() {
             Home
           </Link>
           <Link 
-            href="/History" 
-            className={mainMenuClass}>
-            History
-          </Link>
-          <Link 
             href="/About" 
             className={mainMenuClass}>
             About
@@ -110,11 +105,6 @@ export default function Navbar() {
             href="/Home" 
             className={mobileMenuClass}>
             Home
-          </Link>
-          <Link 
-            href="/History" 
-            className={mobileMenuClass}>
-            History
           </Link>
           <Link 
             href="/About" 
