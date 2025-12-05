@@ -2,8 +2,13 @@
 
 import Image from "next/image";
 import { FaInstagram, FaWhatsapp, FaTiktok, FaEnvelope } from "react-icons/fa";
+import ServiceItem from "./component/ServiceItem";
+import Link from "next/link";
 
 export default function About() {
+
+    const socialMediaClass="bg-[#1e293b] hover:bg-indigo-700 hover:scale-120 duration-300 p-2 rounded";
+
     return (
         <main className="flex flex-col w-full pt-35 md:pt-45 pb-15 text-white">
 
@@ -30,18 +35,18 @@ export default function About() {
                             <p className="text-sm text-slate-300 mb-4">Online Top-up Store — Game & Digital Products</p>
 
                             <div className="flex space-x-3">
-                                <a href="https://www.instagram.com/akprisma?igsh=MTJtd2lwaHZoeXFrZA==" aria-label="Instagram" className="bg-[#1e293b] hover:bg-indigo-700 hover:scale-120 duration-300 p-2 rounded">
+                                <Link href="https://www.instagram.com/akprisma?igsh=MTJtd2lwaHZoeXFrZA==" aria-label="Instagram" className={socialMediaClass}>
                                     <FaInstagram size={18} />
-                                </a>
-                                <a href="https://wa.me/qr/424AF5XR3VZ7B1" aria-label="WhatsApp" className="bg-[#1e293b] hover:bg-indigo-700 hover:scale-120 duration-300 p-2 rounded">
+                                </Link>
+                                <Link href="https://wa.me/qr/424AF5XR3VZ7B1" aria-label="WhatsApp" className={socialMediaClass}>
                                     <FaWhatsapp size={18} />
-                                </a>
-                                <a href="https://www.tiktok.com/@royuciha246?_t=ZS-8v6zPNJpxJK&_r=1" aria-label="TikTok" className="bg-[#1e293b] hover:bg-indigo-700 hover:scale-120 duration-300 p-2 rounded">
+                                </Link>
+                                <Link href="https://www.tiktok.com/@royuciha246?_t=ZS-8v6zPNJpxJK&_r=1" aria-label="TikTok" className={socialMediaClass}>
                                     <FaTiktok size={18} />
-                                </a>
-                                <a href="mailto:ahmadkurniaprisma@gmail.com" aria-label="Email" className="bg-[#1e293b] hover:bg-indigo-700 hover:scale-120 duration-300 p-2 rounded">
+                                </Link>
+                                <Link href="mailto:ahmadkurniaprisma@gmail.com" aria-label="Email" className={socialMediaClass}>
                                     <FaEnvelope size={18} />
-                                </a>
+                                </Link>
                             </div>
                         </div>
 
@@ -59,22 +64,10 @@ export default function About() {
                             <section className="mb-6">
                                 <h3 className="text-lg font-semibold mb-2">Layanan</h3>
                                 <div className="flex flex-col gap-2 text-slate-300">
-                                    <div className="flex items-start gap-3">
-                                        <span className="font-semibold">•</span>
-                                        <span>Top-up game (voucher & in-game currency)</span>
-                                    </div>
-                                    <div className="flex items-start gap-3">
-                                        <span className="font-semibold">•</span>
-                                        <span>Pulsa & Token Listrik</span>
-                                    </div>
-                                    <div className="flex items-start gap-3">
-                                        <span className="font-semibold">•</span>
-                                        <span>Pembayaran via transfer & upload bukti</span>
-                                    </div>
-                                    <div className="flex items-start gap-3">
-                                        <span className="font-semibold">•</span>
-                                        <span>Customer support via Instagram / WhatsApp</span>
-                                    </div>
+                                    <ServiceItem text="Top-up game (voucher & in-game currency)" />
+                                    <ServiceItem text="Pulsa & Token Listrik" />
+                                    <ServiceItem text="Pembayaran via transfer & upload bukti" />
+                                    <ServiceItem text="Customer support via Instagram / WhatsApp" />
                                 </div>
                             </section>
 

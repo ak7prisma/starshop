@@ -4,7 +4,9 @@ import { Product } from "@/datatypes/productsType";
 
 export default async function Promosection() {
 
-    const {data: products, error} = await supabase.from('Products').select('*');
+    const {data: products, error} = await supabase
+        .from('Products')
+        .select('*');
 
     if (error) {
         return (

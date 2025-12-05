@@ -3,7 +3,9 @@ import ProductClient from "./ProductsClient";
 
 export default async function Products() {
 
-    const {data: products, error} = await supabase.from('Products').select('*');
+    const {data: products, error} = await supabase
+        .from('Products')
+        .select('*');
 
     if (error) {
         return (

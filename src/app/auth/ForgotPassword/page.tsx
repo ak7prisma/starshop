@@ -1,8 +1,8 @@
 "use client";
 import { useState } from 'react';
 import { supabase } from '@/app/lib/supabase';
-import FormHeader from '@/app/components/ui/AuthHeader';
-import FormFooter from '@/app/components/ui/AuthFooter';
+import FormHeader from '@/app/auth/component/AuthHeader';
+import FormFooter from '@/app/auth/component/AuthFooter';
 import SubmitLoading from '@/app/components/ui/SubmitLoading';
 import InputForm from '@/app/components/ui/InputForm';
 

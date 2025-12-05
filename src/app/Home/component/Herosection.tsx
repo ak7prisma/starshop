@@ -29,7 +29,6 @@ export default function Herosection({ newsCarouselSlot }: HerosectionProps) {
             
             <div className="max-w-7xl w-full flex flex-col-reverse md:flex-row items-center justify-between">
                 
-                {/*left-section*/}
                 <div className="flex-1 max-w-lg space-y-7 text-center md:text-left">
                     
                     <h1 className={`${anta.className} ${anta.variable} md:w-5xl flex flex-col text-4xl md:text-5xl lg:text-6xl leading-tight`}>
@@ -64,7 +63,6 @@ export default function Herosection({ newsCarouselSlot }: HerosectionProps) {
                     </div>
                 </div>
 
-                {/*right-section*/}
                 <div className="flex-1 items-center w-full max-w-lg px-5 mt-5 md:mt-0">
                    {newsCarouselSlot}
                 </div>

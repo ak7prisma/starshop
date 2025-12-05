@@ -2,7 +2,11 @@ import { supabase } from '@/app/lib/supabase';
 import TopupClient from '../component/TopupClient';
 
 export default async function Topup({ params }: Readonly<{ params: { idTopup: string } }>) {
-  const { data, error } = await supabase.from('Products').select('*').eq('idProduct', params.idTopup).single();
+  const { data, error } = await supabase
+    .from('Products')
+    .select('*')
+    .eq('idProduct', params.idTopup)
+    .single();
 
   if (error) {
         return (

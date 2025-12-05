@@ -9,8 +9,7 @@ const disablePaths = new Set([
   '/auth/Login',
   '/auth/Register',
   '/auth/ForgotPassword',
-  '/auth/ResetPassword',
-  '/Admin', 
+  '/auth/ResetPassword', 
 ]);
 
 export default function LayoutSetting({ children }: Readonly<{ children: React.ReactNode }>) {

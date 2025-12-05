@@ -15,9 +15,9 @@ export async function POST(request: NextRequest) {
       userId
     } = body;
 
-    if (!idProduct || !idGame || !amount || !price || !paymentMethod || !userId) {
+    if (!idProduct || !idGame || !amount || !price || !paymentMethod) {
       return NextResponse.json(
-        { error: 'Missing required fields: idProduct, idGame, amount, price, paymentMethod, userId' },
+        { error: 'Missing required fields: idProduct, idGame, amount, price, paymentMethod' },
         { status: 400 }
       );
     }

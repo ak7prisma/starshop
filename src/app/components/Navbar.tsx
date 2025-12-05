@@ -8,12 +8,14 @@ import { TbMenuDeep, TbX } from "react-icons/tb";
 import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
+
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const mainMenuClass=`font-medium hover:text-indigo-300 transition duration-300`;
   const mobileMenuClass=`hover:text-indigo-300 transition`;
+  const loginClass=`bg-red-600 hover:bg-red-700 duration-300 text-slate-200 font-semibold py-2 px-4 rounded disabled:opacity-50`;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data : { session } }) => {
@@ -80,7 +82,7 @@ export default function Navbar() {
             <button 
               onClick={handleLogout} 
               disabled={Loading}
-              className="bg-red-600 hover:bg-red-700 duration-300 text-slate-200 font-semibold py-2 px-4 rounded disabled:opacity-50">
+              className={loginClass}>
               {Loading ? 'Logging out...' : 'Logout'}
             </button>
           ) : (
@@ -127,7 +129,7 @@ export default function Navbar() {
             <button 
               onClick={handleLogout} 
               disabled={Loading}
-              className="bg-red-600 hover:bg-red-700 duration-300 text-slate-200 font-semibold py-2 px-4 rounded disabled:opacity-50">
+              className={loginClass}>
               {Loading ? 'Logging out...' : 'Logout'}
             </button>
           ) : (

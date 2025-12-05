@@ -15,8 +15,8 @@ export default function ProductCard({product} : Readonly<{product: Product}>) {
             </Link>
 
             <div className="flex flex-col items-center mt-5">
-                <h3 className="text-md text-slate-500">{product.nameProduct}</h3>
-                <p className="mt-1 mb-4 text-lg font-medium">{product.developer}</p>
+                <h3 className="text-md text-slate-500">{product.developer}</h3>
+                <p className="mt-1 mb-4 text-lg font-medium">{product.nameProduct}</p>
                 <Link 
                     href={product.href} 
                     className="bg-indigo-600 hover:bg-indigo-700 px-6 py-1 w-fit rounded-md font-medium transition">

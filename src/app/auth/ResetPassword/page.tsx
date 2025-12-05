@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabase';
-import FormHeader from '@/app/components/ui/AuthHeader';
+import FormHeader from '@/app/auth/component/AuthHeader';
 import SubmitLoading from '@/app/components/ui/SubmitLoading';
 import InputForm from '../../components/ui/InputForm';
 

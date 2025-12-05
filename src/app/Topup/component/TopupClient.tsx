@@ -5,11 +5,11 @@ import { supabase } from '@/app/lib/supabase';
 import type { Product } from '@/datatypes/productsType';
 import InputForm from '@/app/components/ui/InputForm';
 import SubmitLoading from '@/app/components/ui/SubmitLoading';
-import ProductDetailCard from '@/app/components/ui/ProductDetailCard';
-import TopupHeaderForm from '@/app/components/ui/TopupHeaderForm';
-import PaymentMethodChoice from '@/app/components/ui/PaymentMethodChoice';
-import PaymentProofUpload from '@/app/components/ui/PaymentProof';
-import CheckoutDetail from '@/app/components/ui/CheckoutDetail';
+import ProductDetailCard from '@/app/Topup/component/ProductDetailCard';
+import TopupHeaderForm from '@/app/Topup/component/TopupHeaderForm';
+import PaymentMethodChoice from '@/app/Topup/component/PaymentMethodChoice';
+import PaymentProofUpload from '@/app/Topup/component/PaymentProof';
+import CheckoutDetail from '@/app/Topup/component/CheckoutDetail';
 import TopupSuccessModal from '@/app/components/modals/TopupSuccessModal';
 import type { PaymentMethodDetail } from '@/datatypes/paymentMethodDetailType';
 import { useRouter } from 'next/navigation';
@@ -131,18 +131,12 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
         try {
             const { data: { user } } = await supabase.auth.getUser();
 
-            if (!user) {
-                setError("Sesi Anda habis atau belum login. Silakan login terlebih dahulu.");
-                setLoading(false);
-                return;
-            }
-
             const proofUrl = await uploadProofToApi(paymentProof);
 
             const selectedMethod = paymentMethods.find(pm => pm.idPaymentMethod === selectedPaymentMethod);
             
             const payload = {
-                userId: user.id,
+                userId: user?.id,
                 idProduct: product.idProduct,
                 idGame: gameId,
                 amount: amount,
@@ -169,7 +163,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
     const label = product.category === "Games" ? "ID Game" : "No HP";
 
     return (
-        <div className="max-w-full mx-auto text-gray-200 min-h-screen px-10 pt-45 pb-15 ">
+        <div className="max-w-full mx-auto text-gray-200 min-h-screen px-10 pt-40 pb-15 ">
             <div className="flex flex-col lg:flex-row gap-8">
                 <ProductDetailCard product={product} />
 
@@ -267,7 +261,6 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
             <TopupSuccessModal
                 isOpen={showSuccessModal}
                 onClose={() => setShowSuccessModal(false)}
-                onTopupAgain={() => setShowSuccessModal(false)}
                 idTopup={successTopupId}
             />
         </div>

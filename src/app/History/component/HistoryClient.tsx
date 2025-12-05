@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabase'; 
 import type { TopupData } from '@/datatypes/TopupData'; 
-import HistoryCard from '@/app/components/ui/HistoryCard';
+import HistoryCard from './HistoryCard';
+import { FaHistory } from 'react-icons/fa';
 
 export default function HistoryClient() {
     const [historyData, setHistoryData] = useState<TopupData[]>([]);
@@ -77,9 +78,7 @@ export default function HistoryClient() {
         return (
             <div className="bg-[#181B2B] rounded-2xl p-12 border border-[#2D3142] text-center shadow-xl">
                 <div className="w-16 h-16 bg-[#2D3142] rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
+                    <FaHistory className="w-8 h-8 text-gray-500" />
                 </div>
                 <h3 className="text-xl font-medium text-white mb-2">Belum ada riwayat</h3>
                 <p className="text-gray-400 mb-6">Anda belum melakukan transaksi apapun.</p>
@@ -94,7 +93,7 @@ export default function HistoryClient() {
     };
 
     return (
-        <div className="max-w-full mx-auto text-gray-200 min-h-screen px-4 md:px-10 pt-32 pb-15">
+        <div className="max-w-full mx-auto text-gray-200 min-h-screen px-4">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-10 text-center md:text-left">
                     <h1 className="text-3xl font-bold text-white mb-2">Riwayat Top Up</h1>
