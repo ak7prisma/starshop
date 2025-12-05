@@ -1,15 +1,8 @@
 'use client';
-
-interface PaymentMethod {
-    idPaymentMethod: number;
-    paymentMethod: string | null;
-    imgUrl: string | null;
-    imgAlt: string | null;
-    adminFee: number | null;
-}
+import { PaymentMethodDetail } from "@/datatypes/paymentMethodDetailType";
 
 interface PaymentMethodChoiceProps {
-    paymentMethods: PaymentMethod[];
+    paymentMethods: PaymentMethodDetail[];
     selectedPaymentMethod: number | null;
     onSelect: (idPaymentMethod: number) => void;
     formatRupiah: (value: number | null) => string;

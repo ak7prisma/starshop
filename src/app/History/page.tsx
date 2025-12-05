@@ -1,3 +1,5 @@
+'use client';
+
 import HistoryClient from "./component/HistoryClient";
 
 export default function HistoryPage() {

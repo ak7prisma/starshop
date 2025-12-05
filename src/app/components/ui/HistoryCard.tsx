@@ -1,4 +1,3 @@
-import React from 'react';
 import HistoryStatusBadge from './HistoryStatusBadge';
 import type { TopupData } from '@/datatypes/TopupData';
 import Link from 'next/link';

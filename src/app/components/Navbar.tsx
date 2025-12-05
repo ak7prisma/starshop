@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import { supabase } from "@/app/lib/supabase";
 import { useState, useEffect } from "react";
 import Image from "next/image";
