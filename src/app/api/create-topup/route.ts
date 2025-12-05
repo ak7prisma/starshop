@@ -4,18 +4,20 @@ import { createClient } from '@supabase/supabase-js';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    
     const { 
       idProduct, 
       idGame, 
       amount, 
       price, 
       paymentMethod, 
-      paymentProofUrl 
+      paymentProofUrl,
+      userId
     } = body;
 
-    if (!idProduct || !idGame || !amount || !price || !paymentMethod) {
+    if (!idProduct || !idGame || !amount || !price || !paymentMethod || !userId) {
       return NextResponse.json(
-        { error: 'Missing required fields: idProduct, idGame, amount, price, paymentMethod' },
+        { error: 'Missing required fields: idProduct, idGame, amount, price, paymentMethod, userId' },
         { status: 400 }
       );
     }
@@ -40,6 +42,7 @@ export async function POST(request: NextRequest) {
     const { data: insertData, error: insertError } = await supabaseAdmin
       .from('topup')
       .insert({
+        uid: userId,
         idProduct,
         idGame,
         amount,
@@ -66,6 +69,7 @@ export async function POST(request: NextRequest) {
       success: true,
       idTopup: insertData.idTopup,
     });
+
   } catch (error) {
     console.error('Error creating topup:', error);
     return NextResponse.json(
@@ -77,4 +81,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

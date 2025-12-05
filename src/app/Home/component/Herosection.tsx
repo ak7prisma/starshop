@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { RiArrowDownWideLine, RiArrowLeftWideLine, RiArrowRightWideLine } from "react-icons/ri";
+import { RiArrowDownWideLine} from "react-icons/ri";
 import { Anta } from "next/font/google";
 import { useModal } from "@/hooks/useModals";
 import ContactModal from "../../components/modals/ContactModal"; 

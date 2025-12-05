@@ -1,4 +1,5 @@
-"use client"
+'use client';
+
 import { useState } from 'react';
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
@@ -15,7 +16,7 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleLogin = async (e: { preventDefault: () => void; }) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -27,21 +28,20 @@ export default function Login() {
 
     if (error) {
       setError(error.message);
+      setLoading(false);
     } 
     else {
-      setError('Login is Successful.');
+      router.refresh(); 
       router.push("/");
     }
-
-    setLoading(false);
   };
-  return (
 
+  return (
       <div className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8">
         <FormHeader label1="Welcome back!" label2="Welcome back! Please enter your account information."/>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleLogin} method='POST' className="space-y-6">
+          <form onSubmit={handleLogin} className="space-y-6">
             <InputForm 
               label='Email Address'
               identity='email'
@@ -64,20 +64,20 @@ export default function Login() {
             </InputForm>
 
             {error && (
-              <p className={`text-sm text-center ${error.includes('Successful') ? 'text-green-600' : 'text-red-600'}`}>
+              <p className="text-sm text-center text-red-600 bg-red-500/10 p-2 rounded border border-red-500/20">
                 {error}
               </p>
             )}
 
             <SubmitLoading 
-                    label='Login' 
-                    loading={loading}
-                    disabled={loading}/>
+                label='Login' 
+                loading={loading}
+                disabled={loading}/>
           </form>
 
           <FormFooter 
             label1="Don't have an account?" 
-            label2="Sign In" 
+            label2="Sign Up"
             linkroute="/auth/Register"/>
         </div>
       </div>

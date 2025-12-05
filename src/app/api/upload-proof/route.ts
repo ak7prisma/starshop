@@ -68,7 +68,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get public URL
     const { data: urlData } = supabaseAdmin.storage
       .from('proofs')
       .getPublicUrl(filePath);

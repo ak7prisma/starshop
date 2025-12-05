@@ -26,6 +26,7 @@ export default function Footer() {
 
         <div className="flex space-x-8 font-medium">
           <Link href="/Home" className={hoverFooterClass}>Home</Link>
+          <Link href="/History" className={hoverFooterClass}>History</Link>
           <Link href="/About" className={hoverFooterClass}>About</Link>
         </div>
 

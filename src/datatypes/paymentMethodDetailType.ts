@@ -1,7 +1,7 @@
 export interface PaymentMethodDetail {
     idPaymentMethod: number;
-    paymentMethod: string;
-    imgUrl: string;
-    imgAlt: string;
-    adminFee?: number;
+    paymentMethod: string | null;
+    imgUrl: string | null;
+    imgAlt: string | null;
+    adminFee: number | null;
 }

@@ -11,14 +11,8 @@ import PaymentMethodChoice from '@/app/components/ui/PaymentMethodChoice';
 import PaymentProofUpload from '@/app/components/ui/PaymentProof';
 import CheckoutDetail from '@/app/components/ui/CheckoutDetail';
 import TopupSuccessModal from '@/app/components/modals/TopupSuccessModal';
-
-interface PaymentMethod {
-    idPaymentMethod: number;
-    paymentMethod: string | null;
-    imgUrl: string | null;
-    imgAlt: string | null;
-    adminFee: number | null;
-}
+import type { PaymentMethodDetail } from '@/datatypes/paymentMethodDetailType';
+import { useRouter } from 'next/navigation';
 
 const getErrorMessage = async (response: Response, defaultMessage: string) => {
     try {
@@ -32,11 +26,12 @@ const getErrorMessage = async (response: Response, defaultMessage: string) => {
 export default function TopupClient({ product }: Readonly<{ product: Product }>) {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const [gameId, setGameId] = useState('');
     const [amount, setAmount] = useState<number | null>(null);
     const [price, setPrice] = useState<number | null>(null);
-    const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
+    const [paymentMethods, setPaymentMethods] = useState<PaymentMethodDetail[]>([]);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<number | null>(null);
     const [paymentProof, setPaymentProof] = useState<File | null>(null);
     const [paymentProofPreview, setPaymentProofPreview] = useState<string | null>(null);
@@ -134,10 +129,20 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
         setError(null);
 
         try {
+            const { data: { user } } = await supabase.auth.getUser();
+
+            if (!user) {
+                setError("Sesi Anda habis atau belum login. Silakan login terlebih dahulu.");
+                setLoading(false);
+                return;
+            }
+
             const proofUrl = await uploadProofToApi(paymentProof);
 
             const selectedMethod = paymentMethods.find(pm => pm.idPaymentMethod === selectedPaymentMethod);
+            
             const payload = {
+                userId: user.id,
                 idProduct: product.idProduct,
                 idGame: gameId,
                 amount: amount,
