@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import type { Product } from '@/datatypes/productsType'; 
+import ButtonLinkPrimary from './ButtonLinkPrimary';
 
 const tempUrl = "https://uteiryrjhxezentpeclo.supabase.co/storage/v1/object/public/productsIcon/";
 
@@ -17,11 +18,7 @@ export default function ProductCard({product} : Readonly<{product: Product}>) {
             <div className="flex flex-col items-center mt-5">
                 <h3 className="text-md text-slate-500">{product.developer}</h3>
                 <p className="mt-1 mb-4 text-lg font-medium">{product.nameProduct}</p>
-                <Link 
-                    href={product.href} 
-                    className="bg-indigo-600 hover:bg-indigo-700 px-6 py-1 w-fit rounded-md font-medium transition">
-                    Top Up
-                </Link>
+                <ButtonLinkPrimary href={product.href} label="Top Up" rounded='lg' extraclass='py-1 px-4'/>
             </div>
         </div>
     );

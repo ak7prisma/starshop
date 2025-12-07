@@ -3,6 +3,35 @@
 body {
   overflow: auto !important;
   padding-right: 0 !important;
+  background-color: #030712; 
+  color: white;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-animasi {
+ background: linear-gradient(
+    -45deg, 
+    #020617, 
+    #0f172a, 
+    #1a1842, 
+    #0f172a, 
+    #020617
+  );
+
+  background-size: 400% 400%;
+  animation: gradient-flow 10s ease infinite;
+  min-height: 100vh;
 }
 
 @keyframes scaleIn {

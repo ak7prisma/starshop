@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="overscroll-auto scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0f172a]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-animasi`}
       >
        <Suspense fallback={null}>
         <Loading/>

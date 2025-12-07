@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabase'; 
 import type { TopupData } from '@/datatypes/TopupData'; 
 import HistoryCard from './HistoryCard';
+import ButtonLinkPrimary from '@/app/components/ui/ButtonLinkPrimary';
 import { FaHistory } from 'react-icons/fa';
 
 export default function HistoryClient() {
@@ -82,12 +82,7 @@ export default function HistoryClient() {
                 </div>
                 <h3 className="text-xl font-medium text-white mb-2">Belum ada riwayat</h3>
                 <p className="text-gray-400 mb-6">Anda belum melakukan transaksi apapun.</p>
-                <Link 
-                    href="/" 
-                    className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-500/30"
-                >
-                    Top Up Now
-                </Link>
+                <ButtonLinkPrimary href="/Home" label="Top Up Now" rounded='lg' extraclass='px-5 py-3'/>
             </div>
         );
     };
