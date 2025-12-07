@@ -18,7 +18,7 @@ export default function ProductCard({product} : Readonly<{product: Product}>) {
             <div className="flex flex-col items-center mt-5">
                 <h3 className="text-md text-slate-500">{product.developer}</h3>
                 <p className="mt-1 mb-4 text-lg font-medium">{product.nameProduct}</p>
-                <ButtonLinkPrimary href={product.href} label="Top Up" rounded='lg' extraclass='py-1 px-4'/>
+                <ButtonLinkPrimary href={product.href} label="Top Up" rounded='lg' extraclass='py-1 px-6'/>
             </div>
         </div>
     );
