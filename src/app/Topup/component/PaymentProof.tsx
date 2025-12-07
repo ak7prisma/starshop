@@ -60,7 +60,7 @@ export default function PaymentProof({ paymentProofPreview, onFileChange, onRemo
                         <button
                             type="button"
                             onClick={onRemove}
-                            className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-1.5 text-xs font-semibold transition duration-200">
+                            className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-5 text-center items-center h-5 text-xs font-semibold transition duration-200">
                             X
                         </button>
                     </div>

@@ -2,7 +2,6 @@
 
 import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import Link from "next/link";
-import React from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
 interface TopupSuccessModalProps {
@@ -25,7 +24,7 @@ export default function TopupSuccessModal({
       position="center" 
       theme={{ 
         content: { 
-          base: "relative w-full h-auto flex justify-center items-center pointer-events-none", // pointer-events-none di base agar klik di luar area modal tembus (opsional, tergantung UX)
+          base: "relative w-full h-auto flex justify-center items-center pointer-events-none",
           inner: "relative pointer-events-auto rounded-lg shadow-xl flex flex-col w-90 md:w-125 h-auto bg-[#181B2B] border border-[#2D3142] animate-scale-in" 
         },
         header: { 

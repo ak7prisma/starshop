@@ -74,9 +74,9 @@ export default function About() {
                             <section>
                                 <h3 className="text-lg font-semibold mb-2">Kontak</h3>
                                 <ul className="mt-3 text-slate-300 space-y-1">
-                                    <li>Email: <a className="text-indigo-400 hover:text-indigo-600 duration-300" href="mailto:ahmadkurniaprisma@gmail.com">ahmadkurniaprisma@gmail.com</a></li>
-                                    <li>Instagram: <a className="text-indigo-400 hover:text-indigo-600 duration-300" href="https://www.instagram.com/akprisma">@akprisma</a></li>
-                                    <li>WhatsApp: <a className="text-indigo-400 hover:text-indigo-600 duration-300" href="https://wa.me/+628989209565">+628989209565</a></li>
+                                    <li>Email: <Link className="text-indigo-400 hover:text-indigo-600 duration-300" href="mailto:ahmadkurniaprisma@gmail.com">ahmadkurniaprisma@gmail.com</Link></li>
+                                    <li>Instagram: <Link className="text-indigo-400 hover:text-indigo-600 duration-300" href="https://www.instagram.com/akprisma">@akprisma</Link></li>
+                                    <li>WhatsApp: <Link className="text-indigo-400 hover:text-indigo-600 duration-300" href="https://wa.me/+628989209565">+628989209565</Link></li>
                                 </ul>
 
                                 <p className="text-slate-400 mt-4 text-sm">Proyek ini dibuat sebagai tugas pembelajaran menggunakan Next.js, Tailwind CSS, dan Supabase.</p>

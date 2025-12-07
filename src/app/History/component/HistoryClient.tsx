@@ -91,7 +91,7 @@ export default function HistoryClient() {
         <div className="max-w-full mx-auto text-gray-200 min-h-screen px-4">
             <div className="max-w-4xl mx-auto">
                 <div className="mb-10 text-center md:text-left">
-                    <h1 className="text-3xl font-bold text-white mb-2">Riwayat Top Up</h1>
+                    <h1 className="text-3xl font-bold text-white mb-2">History Top Up</h1>
                     <p className="text-gray-400">Daftar transaksi yang pernah Anda lakukan.</p>
                 </div>
 

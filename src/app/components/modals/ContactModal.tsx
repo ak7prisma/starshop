@@ -1,5 +1,6 @@
 "use client";
 import { Modal, ModalBody, ModalHeader } from "flowbite-react";
+import Link from "next/link";
 import React from 'react';
 import { FaWhatsapp, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
@@ -35,7 +36,7 @@ export default function ContactModal({ isOpen, onClose }: Readonly<ContactModalP
 
           <div className="flex flex-col space-y-2">
             
-            <a href="https://wa.me/628989209565" target="_blank" rel="noopener noreferrer" className={contactItemStyle}>
+            <Link href="https://wa.me/628989209565" target="_blank" rel="noopener noreferrer" className={contactItemStyle}>
               <div className="p-3 bg-slate-900 rounded-full shrink-0">
                   <FaWhatsapp size={22} className="text-green-500" />
               </div>
@@ -43,17 +44,17 @@ export default function ContactModal({ isOpen, onClose }: Readonly<ContactModalP
                 <span className="font-semibold text-lg">WhatsApp</span>
                 <span className="text-sm text-slate-400 tracking-wide">+62 898-9209-565</span>
               </div>
-            </a>
+            </Link>
             
-            <a href="mailto:ahmadkurniaprisma@gmail.com" className={contactItemStyle}>
+            <Link href="mailto:ahmadkurniaprisma@gmail.com" className={contactItemStyle}>
               <div className="p-3 bg-slate-900 rounded-full shrink-0">
                   <FaEnvelope size={22} className="text-red-500" />
               </div>
               <div className="flex flex-col">
                 <span className="font-semibold text-lg">Email</span>
-                <span className="text-sm text-slate-400 tracking-wide">starshop@gmail.com</span>
+                <span className="text-sm text-slate-400 tracking-wide">ahmadkurniaprisma@gmail.com</span>
               </div>
-            </a>
+            </Link>
             
             <div className={contactItemStyle}>
               <div className="p-3 bg-slate-900 rounded-full shrink-0">
