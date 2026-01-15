@@ -2,14 +2,26 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export default async function proxy(request: NextRequest) {
-  // 1. Init Response
+  const path = request.nextUrl.pathname
+
+  // Matcher
+  if (
+    path.startsWith('/_next') ||
+    path.startsWith('/static') ||
+    path === '/favicon.ico' ||
+    new RegExp(/\.(svg|png|jpg|jpeg|gif|webp)$/).exec(path)
+  ) {
+    return NextResponse.next()
+  }
+
+  // Setup Response
   let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
   })
 
-  // 2. Setup Supabase Client
+  // Supabase Logic
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -33,18 +45,15 @@ export default async function proxy(request: NextRequest) {
     }
   )
 
-  // 3. Logic Keamanan (Admin Check & IdProfil)
+  // Admin Check
   const { data: { user } } = await supabase.auth.getUser()
-  const url = request.nextUrl
 
   // Proteksi Dashboard
-  if (url.pathname.startsWith('/dashboard')) {
-    // A. Belum Login -> Login
+  if (path.startsWith('/dashboard')) {
     if (!user) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
 
-    // B. Cek Role (Admin/Boss)
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
@@ -56,16 +65,10 @@ export default async function proxy(request: NextRequest) {
     }
   }
 
-  // Proteksi Halaman Login
-  if (url.pathname.startsWith('/login') && user) {
+  // B. Proteksi Login
+  if (path.startsWith('/login') && user) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
   return response
-}
-
-export const config = {
-  matcher: [
-    String.raw`/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp)$).*)`,
-  ],
 }
