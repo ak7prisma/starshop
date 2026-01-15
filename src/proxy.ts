@@ -1,13 +1,15 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
+  // 1. Init Response
   let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
   })
 
+  // 2. Setup Supabase Client
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -20,11 +22,9 @@ export async function middleware(request: NextRequest) {
           cookiesToSet.forEach(({ name, value, options }) => {
             request.cookies.set(name, value)
           })
-
           response = NextResponse.next({
             request,
           })
-
           cookiesToSet.forEach(({ name, value, options }) => {
             response.cookies.set(name, value, options)
           })
@@ -33,34 +33,32 @@ export async function middleware(request: NextRequest) {
     }
   )
 
+  // 3. Logic Keamanan (Admin Check & IdProfil)
   const { data: { user } } = await supabase.auth.getUser()
-
   const url = request.nextUrl
-  const isDashboardRoute = url.pathname.startsWith('/dashboard')
-  const isAuthRoute = url.pathname.startsWith('/login')
 
-  // Logic Keamanan Role login
+  // Proteksi Dashboard
+  if (url.pathname.startsWith('/dashboard')) {
+    // A. Belum Login -> Login
+    if (!user) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
 
-  if (isDashboardRoute && !user) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
-
-  if (isAuthRoute && user) {
-    return NextResponse.redirect(new URL('/', request.url))
-  }
-
-  if (isDashboardRoute && user) {
+    // B. Cek Role (Admin/Boss)
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('idProfil', user.id)
       .single()
 
-    const userRole = profile?.role
-
-    if (userRole !== 'admin' && userRole !== 'boss') {
+    if (profile?.role !== 'admin' && profile?.role !== 'boss') {
       return NextResponse.redirect(new URL('/', request.url))
     }
+  }
+
+  // Proteksi Halaman Login
+  if (url.pathname.startsWith('/login') && user) {
+    return NextResponse.redirect(new URL('/', request.url))
   }
 
   return response
