@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/app/lib/supabase'; 
+import { createClient } from '@/app/utils/client';
 import type { TopupData } from '@/datatypes/TopupData'; 
 import HistoryCard from './HistoryCard';
 import ButtonLinkPrimary from '@/app/components/ui/ButtonLinkPrimary';
@@ -12,6 +12,7 @@ export default function HistoryClient() {
     const [historyData, setHistoryData] = useState<TopupData[]>([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    const supabase = createClient();
 
     useEffect(() => {
         const fetchHistory = async () => {

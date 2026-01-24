@@ -51,7 +51,7 @@ export default async function proxy(request: NextRequest) {
   // Proteksi Dashboard
   if (path.startsWith('/dashboard')) {
     if (!user) {
-      return NextResponse.redirect(new URL('/login', request.url))
+      return NextResponse.redirect(new URL('/auth/Login', request.url))
     }
 
     const { data: profile } = await supabase
@@ -65,8 +65,8 @@ export default async function proxy(request: NextRequest) {
     }
   }
 
-  // B. Proteksi Login
-  if (path.startsWith('/login') && user) {
+  // Proteksi Login
+  if (path.startsWith('/auth/Login') && user) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
