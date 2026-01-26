@@ -6,6 +6,8 @@ import { TopupData } from "@/datatypes/TopupData";
 import { 
   Search, ChevronDown, Check, X, Copy, Eye, FileText, XCircle, Loader2, SearchX
 } from "lucide-react";
+import { createClient } from "@/app/utils/client";
+import { FaHome } from "react-icons/fa";
 
 export default function TransactionsPage() {
   const [transactions, setTransactions] = useState<TopupData[]>([]);
@@ -16,6 +18,8 @@ export default function TransactionsPage() {
   const [selectedTrx, setSelectedTrx] = useState<TopupData | null>(null);
   
   const [toast, setToast] = useState<{ show: boolean; message: string; type: 'success' | 'error' } | null>(null);
+
+  const supabase = createClient();
 
   const fetchTransactions = async () => {
     setIsLoading(true);

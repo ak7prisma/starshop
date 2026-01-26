@@ -48,7 +48,7 @@ export default async function proxy(request: NextRequest) {
   // Admin Check
   const { data: { user } } = await supabase.auth.getUser()
 
-  /* Proteksi Dashboard
+  // Proteksi Dashboard
   if (path.startsWith('/dashboard')) {
     if (!user) {
       return NextResponse.redirect(new URL('/auth/Login', request.url))
@@ -60,15 +60,15 @@ export default async function proxy(request: NextRequest) {
       .eq('idProfil', user.id)
       .single()
 
-    if (profile?.role !== 'admin' && profile?.role !== 'boss') {
-      return NextResponse.redirect(new URL('/', request.url))
+    if (profile?.role === 'admin' && profile?.role === 'boss') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
     }
-  } */
+  }
 
   // Proteksi Login
   if (path.startsWith('/auth/Login') && user) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  return response 
+  return response
 }

@@ -28,7 +28,7 @@ export async function loginAction(formData: FormData) {
   const role = profile?.role
   
   if (role === 'admin' || role === 'boss') {
-    return { success: true, redirectUrl: '/History' }
+    return { success: true, redirectUrl: '/dashboard' }
   } else {
     return { success: true, redirectUrl: '/' }
   }
