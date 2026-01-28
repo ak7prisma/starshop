@@ -44,7 +44,7 @@ export default function TransactionsPage() {
   const filteredData = transactions.filter((t) => {
     const term = searchTerm.toLowerCase();
     return (
-      t.uid?.toLowerCase().includes(term) || 
+      t.idGame?.toLowerCase().includes(term) || 
       t.products?.nameProduct?.toLowerCase().includes(term) ||
       t.idTopup?.toString().includes(term)
     );
