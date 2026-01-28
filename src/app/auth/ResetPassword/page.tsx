@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabase';
 import FormHeader from '@/app/auth/component/AuthHeader';
-import SubmitLoading from '@/app/components/ui/SubmitLoading';
-import InputForm from '../../components/ui/InputForm';
+import SubmitLoading from '@/components/ui/SubmitLoading';
+import InputForm from '@/components/ui/InputForm';
 
 export default function UpdatePassword() {
   const [newPassword, setNewPassword] = useState('');

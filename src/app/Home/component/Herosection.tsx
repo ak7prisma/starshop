@@ -3,7 +3,7 @@ import Link from "next/link";
 import { RiArrowDownWideLine} from "react-icons/ri";
 import { Anta } from "next/font/google";
 import { useModal } from "@/hooks/useModals";
-import ContactModal from "../../components/modals/ContactModal"; 
+import ContactModal from "@/components/modals/ContactModal"; 
 
 const anta = Anta({
     subsets: ['latin'],

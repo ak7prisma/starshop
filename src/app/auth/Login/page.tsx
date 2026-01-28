@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Link from "next/link";
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
-import SubmitLoading from '@/app/components/ui/SubmitLoading';
-import InputForm from '@/app/components/ui/InputForm';
+import SubmitLoading from '@/components/ui/SubmitLoading';
+import InputForm from '@/components/ui/InputForm';
 import { loginAction } from '../action';
 import { useRouter } from 'next/navigation';
 

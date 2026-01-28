@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/app/lib/supabase';
 import type { Product } from '@/datatypes/productsType';
-import InputForm from '@/app/components/ui/InputForm';
-import SubmitLoading from '@/app/components/ui/SubmitLoading';
+import InputForm from '@/components/ui/InputForm';
+import SubmitLoading from '@/components/ui/SubmitLoading';
 import ProductDetailCard from '@/app/Topup/component/ProductDetailCard';
 import TopupHeaderForm from '@/app/Topup/component/TopupHeaderForm';
 import PaymentMethodChoice from '@/app/Topup/component/PaymentMethodChoice';
 import PaymentProofUpload from '@/app/Topup/component/PaymentProof';
 import CheckoutDetail from '@/app/Topup/component/CheckoutDetail';
-import TopupSuccessModal from '@/app/components/modals/TopupSuccessModal';
+import TopupSuccessModal from '@/components/modals/TopupSuccessModal';
 import type { PaymentMethodDetail } from '@/datatypes/paymentMethodDetailType';
 import { useRouter } from 'next/navigation';
 

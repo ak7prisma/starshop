@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/app/utils/client';
 import type { TopupData } from '@/datatypes/TopupData'; 
 import HistoryCard from './HistoryCard';
-import ButtonLinkPrimary from '@/app/components/ui/ButtonLinkPrimary';
+import ButtonLinkPrimary from '@/components/ui/ButtonLinkPrimary';
 import { FaHistory } from 'react-icons/fa';
 
 export default function HistoryClient() {
