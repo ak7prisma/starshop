@@ -23,3 +23,13 @@ export const Badge = ({ className = '', variant = 'default', children, ...props 
         </span>
     );
 };
+
+export const getBadgeVariant = (status: string): BadgeProps['variant'] => {
+    switch (status?.toLowerCase()) {
+        case 'success': return 'success';
+        case 'pending': return 'warning';
+        case 'processing': return 'info';
+        case 'failed': return 'error';
+        default: return 'default';
+    }
+};

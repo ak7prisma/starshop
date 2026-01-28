@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -18,6 +18,12 @@ import {
 export default function Sidebar() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const menuItems = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -25,12 +31,17 @@ export default function Sidebar() {
     { name: "Products", href: "/dashboard/products", icon: Package },
   ];
 
+  if (!isMounted) {
+    return <aside className="h-screen bg-gray-900 border-r border-gray-800 w-[280px]" />;
+  }
+
   return (
     <aside
       className={`h-screen bg-gray-900 border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out relative ${
         isCollapsed ? "w-20" : "w-[280px]"
       }`}
     >
+      {/* Tombol Toggle */}
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
         className="absolute -right-3 top-9 bg-blue-600 hover:bg-blue-500 text-white p-1.5 rounded-full border-4 border-[#0B1120] shadow-lg z-50 transition-transform hover:scale-110 flex items-center justify-center"
@@ -38,6 +49,7 @@ export default function Sidebar() {
         {isCollapsed ? <ChevronRight size={14} strokeWidth={3} /> : <ChevronLeft size={14} strokeWidth={3} />}
       </button>
 
+      {/* Logo Area */}
       <div className="h-24 flex items-center justify-center border-b border-gray-800/50 transition-all duration-300 w-full overflow-hidden relative">
         <Link href="/dashboard" className="flex items-center justify-center w-full h-full">
             {isCollapsed ? (
@@ -45,13 +57,13 @@ export default function Sidebar() {
                     <Store size={24} />
                 </div>
             ) : (
-                 <div className="animate-in fade-in duration-500 w-full flex justify-center items-center">
+                 <div className="animate-in fade-in duration-500 w-full flex justify-center items-center px-4">
                     <Image
                         src="/logostarshop.png"
                         alt="Star Shop"
                         width={150} 
                         height={40} 
-                        className="object-contain mx-auto" 
+                        className="object-contain" 
                         priority
                     />
                  </div>
@@ -83,7 +95,7 @@ export default function Sidebar() {
                 className={`transition-colors shrink-0 ${isActive ? "text-white" : "text-gray-500 group-hover:text-white"}`}
               />
               <span className={`font-medium text-sm whitespace-nowrap transition-all duration-300 origin-left ${
-                  isCollapsed ? "w-0 opacity-0 translate-x-10 overflow-hidden" : "w-auto opacity-100 translate-x-0"
+                  isCollapsed ? "w-0 opacity-0 translate-x-10 overflow-hidden" : "opacity-100 translate-x-0"
               }`}>
                   {item.name}
               </span>
@@ -103,13 +115,13 @@ export default function Sidebar() {
             className={`flex items-center gap-3 px-3 py-3 w-full text-gray-400 hover:bg-gray-800 hover:text-white rounded-xl transition-all duration-200 group overflow-hidden ${isCollapsed ? 'justify-center' : ''}`}
         >
              <Settings size={22} className="text-gray-500 group-hover:text-white transition-colors shrink-0" />
-             <span className={`font-medium text-sm whitespace-nowrap transition-all duration-300 ${isCollapsed ? "w-0 opacity-0 hidden" : "w-auto opacity-100"}`}>Settings</span>
+             {!isCollapsed && <span className="font-medium text-sm whitespace-nowrap">Settings</span>}
         </button>
         <button
             className={`flex items-center gap-3 px-3 py-3 w-full text-red-400 hover:bg-red-500/10 hover:text-red-500 rounded-xl transition-all duration-200 group overflow-hidden ${isCollapsed ? 'justify-center' : ''}`}
         >
           <LogOut size={22} className="group-hover:rotate-12 transition-transform shrink-0" />
-          <span className={`font-medium text-sm whitespace-nowrap transition-all duration-300 ${isCollapsed ? "w-0 opacity-0 hidden" : "w-auto opacity-100"}`}>Logout</span>
+          {!isCollapsed && <span className="font-medium text-sm whitespace-nowrap">Logout</span>}
         </button>
       </div>
     </aside>
