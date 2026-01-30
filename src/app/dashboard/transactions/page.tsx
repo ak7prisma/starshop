@@ -35,8 +35,9 @@ export default function TransactionsPage() {
       
       setTransactions((prev) => prev.map((item) => item.idTopup === id ? { ...item, status: newStatus } : item));
       showToast(`Order #${id} updated to ${newStatus}`, "success");
-    } catch (error) {
-      showToast("Gagal update status", "error");
+    } catch (error: any) {
+      console.error("Failed to update status:", error);
+      showToast(`Gagal update status: ${error?.message || error}`, "error");
     }
   };
 
