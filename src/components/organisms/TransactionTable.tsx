@@ -19,7 +19,7 @@ export default function TransactionTable({
   onView, 
   onStatusChange, 
   formatRupiah, 
-}: Props) {
+}: Readonly<Props>) {
   
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
