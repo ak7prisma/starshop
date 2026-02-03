@@ -26,7 +26,7 @@ export const RecentTransactionsTable = ({ transactions }: RecentTransactionsTabl
     };
 
     return (
-        <Card className="lg:col-span-2 !p-0 overflow-hidden flex flex-col h-full">
+        <Card className="lg:col-span-2 p-0! overflow-hidden flex flex-col h-full">
             <div className="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-900/50">
                 <div>
                     <h3 className="font-bold text-lg text-white">Recent Transactions</h3>
