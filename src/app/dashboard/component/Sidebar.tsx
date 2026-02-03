@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -18,10 +18,30 @@ import {
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  
+  const [isMobile, setIsMobile] = useState(false);
 
   const supabase = createClient();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsMobile(true);
+        setIsCollapsed(true); 
+      } else {
+        setIsMobile(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -43,13 +63,14 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`h-screen bg-gray-900 border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out relative ${
+      className={`h-screen bg-gray-900 border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out relative flex-shrink-0 ${
         isCollapsed ? "w-[80px]" : "w-[280px]"
       }`}
     >
+
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute -right-3 top-9 bg-blue-600 hover:bg-blue-500 text-white p-1.5 rounded-full border-4 border-[#0B1120] shadow-lg z-50 transition-transform hover:scale-110 flex items-center justify-center"
+        className="hidden md:flex absolute -right-3 top-9 bg-blue-600 hover:bg-blue-500 text-white p-1.5 rounded-full border-4 border-[#0B1120] shadow-lg z-50 transition-transform hover:scale-110 items-center justify-center"
       >
         {isCollapsed ? <ChevronRight size={14} strokeWidth={3} /> : <ChevronLeft size={14} strokeWidth={3} />}
       </button>
@@ -94,11 +115,13 @@ export default function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden ${
+              className={`flex items-center px-3 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden ${
+                isCollapsed ? "justify-center gap-0" : "gap-3"
+              } ${
                 isActive
                   ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
                   : "text-gray-400 hover:bg-gray-800 hover:text-white"
-              } ${isCollapsed ? "justify-center" : ""}`}
+              }`}
             >
               <item.icon
                 size={22}
@@ -110,7 +133,7 @@ export default function Sidebar() {
                   {item.name}
               </span>
               
-              {isCollapsed && (
+              {isCollapsed && !isMobile && (
                 <div className="absolute left-full ml-4 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 whitespace-nowrap border border-gray-700 shadow-xl">
                   {item.name}
                 </div>
@@ -124,12 +147,14 @@ export default function Sidebar() {
         <button
             onClick={handleLogout}
             disabled={isLoggingOut}
-            className={`flex items-center gap-3 px-3 py-3 w-full text-red-400 hover:bg-red-500/10 hover:text-red-500 rounded-xl transition-all duration-200 group overflow-hidden ${isCollapsed ? 'justify-center' : ''} ${isLoggingOut ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`flex items-center px-3 py-3 w-full text-red-400 hover:bg-red-500/10 hover:text-red-500 rounded-xl transition-all duration-200 group overflow-hidden ${
+                isCollapsed ? "justify-center gap-0" : "gap-3"
+            } ${isLoggingOut ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           {isLoggingOut ? (
              <Loader2 size={22} className="animate-spin flex-shrink-0" />
           ) : (
-             <LogOut size={22} className="group-hover:rotate-12 transition-transform flex-shrink-0" />
+             <LogOut size={22} className="group-hover:rotate-12 transition-transfo  rm flex-shrink-0" />
           )}
           
           <span className={`font-medium text-sm whitespace-nowrap transition-all duration-300 ${isCollapsed ? "w-0 opacity-0 hidden" : "w-auto opacity-100"}`}>
