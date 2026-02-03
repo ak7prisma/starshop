@@ -63,8 +63,8 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`h-screen bg-gray-900 border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out relative flex-shrink-0 ${
-        isCollapsed ? "w-[80px]" : "w-[280px]"
+      className={`h-screen bg-gray-900 border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out relative shrink-0 ${
+        isCollapsed ? "w-20" : "w-[280px]"
       }`}
     >
 
@@ -77,7 +77,17 @@ export default function Sidebar() {
 
       <div className="h-24 flex items-center justify-center border-b border-gray-800/50 transition-all duration-300 w-full overflow-hidden relative">
         <Link href="/dashboard" className="flex items-center justify-center w-full h-full">
-            {!isCollapsed ? (
+            {isCollapsed ? (
+                <div className="animate-in zoom-in duration-300 flex justify-center items-center p-2">
+                    <Image
+                        src="/favicon.ico"
+                        alt="Icon"
+                        width={36}
+                        height={36}
+                        className="object-contain"
+                    />
+                </div>
+            ) : (
                  <div className="animate-in fade-in duration-500 w-full flex justify-center items-center">
                     <Image
                         src="/logostarshop.png"
@@ -88,16 +98,6 @@ export default function Sidebar() {
                         priority
                     />
                  </div>
-            ) : (
-                <div className="animate-in zoom-in duration-300 flex justify-center items-center p-2">
-                    <Image
-                        src="/favicon.ico"
-                        alt="Icon"
-                        width={36}
-                        height={36}
-                        className="object-contain"
-                    />
-                </div>
             )}
         </Link>
       </div>
@@ -125,7 +125,7 @@ export default function Sidebar() {
             >
               <item.icon
                 size={22}
-                className={`transition-colors flex-shrink-0 ${isActive ? "text-white" : "text-gray-500 group-hover:text-white"}`}
+                className={`transition-colors shrink-0 ${isActive ? "text-white" : "text-gray-500 group-hover:text-white"}`}
               />
               <span className={`font-medium text-sm whitespace-nowrap transition-all duration-300 origin-left ${
                   isCollapsed ? "w-0 opacity-0 translate-x-10 overflow-hidden" : "w-auto opacity-100 translate-x-0"
@@ -152,9 +152,9 @@ export default function Sidebar() {
             } ${isLoggingOut ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           {isLoggingOut ? (
-             <Loader2 size={22} className="animate-spin flex-shrink-0" />
+             <Loader2 size={22} className="animate-spin shrink-0" />
           ) : (
-             <LogOut size={22} className="group-hover:rotate-12 transition-transfo  rm flex-shrink-0" />
+             <LogOut size={22} className="group-hover:rotate-12 transition-transfo  rm shrink-0" />
           )}
           
           <span className={`font-medium text-sm whitespace-nowrap transition-all duration-300 ${isCollapsed ? "w-0 opacity-0 hidden" : "w-auto opacity-100"}`}>
