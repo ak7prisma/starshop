@@ -125,9 +125,9 @@ export const ProductEditModal = ({
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-6 bg-[#0B1120] relative">
+                <div className="flex-1 overflow-y-auto px-6 pb-6 bg-[#0B1120] relative">
 
-                    <div className="grid grid-cols-12 gap-6 px-4 pb-3 border-b border-gray-800/50 mb-4 text-xs font-bold text-gray-500 uppercase tracking-wider sticky top-0 bg-[#0B1120] z-10">
+                    <div className="grid grid-cols-12 gap-6 px-4 py-5 border-b border-slate-800/50 mb-4 text-xs font-bold text-gray-500 uppercase tracking-wider sticky top-0 bg-[#0B1120]/90 z-10">
                         <div className="col-span-8 pl-2">Item Name / Amount</div>
                         <div className="col-span-3">Selling Price (IDR)</div>
                         <div className="col-span-1 text-center">Action</div>

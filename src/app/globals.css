@@ -71,3 +71,13 @@ html {
     scrollbar-width: thin;
     scrollbar-color: #4338ca #0f172a;
 }
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}

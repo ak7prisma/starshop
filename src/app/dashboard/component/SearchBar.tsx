@@ -6,9 +6,9 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-export default function SearchBar({ value, onChange, placeholder = "Search Order ID, Product, ID Game..." }: SearchBarProps) {
+export default function SearchBar({ value, onChange, placeholder = "Search Order ID, Product, ID Game..." }: Readonly<SearchBarProps>) {
   return (
-    <div className="relative w-72">
+    <div className="relative w-full md:w-72">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={16} />
       <input
         type="text"

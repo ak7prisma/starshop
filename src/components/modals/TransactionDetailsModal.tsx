@@ -8,7 +8,7 @@ interface Props {
   formatRupiah: (val: number | string) => string;
 }
 
-export default function TransactionModal({ data, onClose, copyToClipboard, formatRupiah }: Props) {
+export default function TransactionModal({ data, onClose, copyToClipboard, formatRupiah }: Readonly<Props>) {
   if (!data) return null;
 
   return (
@@ -34,7 +34,7 @@ export default function TransactionModal({ data, onClose, copyToClipboard, forma
               <p className="text-xs text-gray-500 uppercase font-semibold">User UID</p>
               <div className="flex items-center gap-2 text-white font-mono bg-gray-800/50 p-2 rounded border border-gray-700 text-sm overflow-hidden">
                 <span className="truncate">{data.uid}</span>
-                <button onClick={() => copyToClipboard(data.uid, 'User UID')} className="text-gray-400 hover:text-blue-400 ml-auto flex-shrink-0"><Copy size={14} /></button>
+                <button onClick={() => copyToClipboard(data.uid, 'User UID')} className="text-gray-400 hover:text-blue-400 ml-auto shrink-0"><Copy size={14} /></button>
               </div>
             </div>
           </div>

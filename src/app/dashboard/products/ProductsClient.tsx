@@ -8,9 +8,10 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
-import { ProductEditModal } from "@/components/organisms/ProductEditModal";
+import { ProductEditModal } from "@/components/modals/ProductEditModal";
 import type { Product } from "@/datatypes/productsType";
 import { createClient } from "@/app/utils/client"; 
+import SearchBar from "../component/SearchBar";
 
 const tempUrl = "https://uteiryrjhxezentpeclo.supabase.co/storage/v1/object/public/productsIcon/";
 
@@ -124,15 +125,7 @@ const handleSaveEdit = async (updatedProduct: Product) => {
             </button>
           ))}
         </div>
-        <div className="w-full md:w-80 mr-2">
-          <Input
-            leftIcon={<Search size={18} />}
-            placeholder="Search games..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-gray-950 border-gray-800 rounded-xl"
-          />
-        </div>
+        <SearchBar value={searchTerm} onChange={setSearchTerm} />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
