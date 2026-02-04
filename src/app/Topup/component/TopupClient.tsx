@@ -3,16 +3,15 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/app/lib/supabase';
 import type { Product } from '@/datatypes/productsType';
-import InputForm from '@/app/components/ui/InputForm';
-import SubmitLoading from '@/app/components/ui/SubmitLoading';
+import { Input } from '@/components/ui/Input';
+import SubmitLoading from '@/components/ui/SubmitLoading';
 import ProductDetailCard from '@/app/Topup/component/ProductDetailCard';
 import TopupHeaderForm from '@/app/Topup/component/TopupHeaderForm';
 import PaymentMethodChoice from '@/app/Topup/component/PaymentMethodChoice';
 import PaymentProofUpload from '@/app/Topup/component/PaymentProof';
 import CheckoutDetail from '@/app/Topup/component/CheckoutDetail';
-import TopupSuccessModal from '@/app/components/modals/TopupSuccessModal';
+import TopupSuccessModal from '@/components/modals/TopupSuccessModal';
 import type { PaymentMethodDetail } from '@/datatypes/paymentMethodDetailType';
-import { useRouter } from 'next/navigation';
 
 const getErrorMessage = async (response: Response, defaultMessage: string) => {
     try {
@@ -26,7 +25,6 @@ const getErrorMessage = async (response: Response, defaultMessage: string) => {
 export default function TopupClient({ product }: Readonly<{ product: Product }>) {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
 
     const [gameId, setGameId] = useState('');
     const [amount, setAmount] = useState<number | null>(null);
@@ -171,13 +169,15 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
                     <form onSubmit={handleTopup} className="space-y-8">
                         <div className="p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]">
                             <TopupHeaderForm no='1' label={`Masukkan ${label} Anda`} />
-                            <InputForm
+                            <Input
                                 label='User ID / Game ID'
-                                identity='user'
+                                id='user'
                                 type='text'
+                                name='user'
                                 placeholder='123456789'
                                 value={gameId}
-                                onChange={setGameId} />
+                                onChange={(e) => setGameId(e.target.value)}
+                            />
                         </div>
 
                         <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>

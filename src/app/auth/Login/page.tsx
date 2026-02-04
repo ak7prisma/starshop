@@ -2,39 +2,42 @@
 
 import { useState } from 'react';
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
-import { supabase } from '@/app/lib/supabase';
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
-import SubmitLoading from '@/app/components/ui/SubmitLoading';
-import InputForm from '@/app/components/ui/InputForm';
+import SubmitLoading from '@/components/ui/SubmitLoading';
+import { Input } from '@/components/ui/Input';
+import { loginAction } from '../action';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+  const router = useRouter()
+  
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const formData = new FormData(e.currentTarget)
+    
+    const result = await loginAction(formData)
 
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-    } 
-    else {
-      router.refresh(); 
-      router.push("/");
+    if (result?.error) {
+      setError(result.error)
+      setLoading(false)
+    } else if (result?.success) {
+      
+      router.refresh() 
+      
+      router.push(result.redirectUrl || '/') 
+      
+      setLoading(false)
     }
-  };
+  }
 
   return (
       <div className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8">
@@ -42,26 +45,31 @@ export default function Login() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleLogin} className="space-y-6">
-            <InputForm 
+            <Input 
               label='Email Address'
-              identity='email'
+              id='email'
               type='email'
+              name='email'
               placeholder='youremail@example.com'
               value={email}
-              onChange={setEmail}/>
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-            <InputForm
+            <Input
               label="Password"
-              identity="password"
+              id="password"
               type="password"
+              name='password'
               value={password}
-              onChange={setPassword}>
+              onChange={(e) => setPassword(e.target.value)}
+              extraLabel={
               <div className="text-sm">
                   <Link href="/auth/ForgotPassword" className="font-semibold text-indigo-400 hover:text-indigo-300">
                       Forgot password?
                   </Link>
               </div>
-            </InputForm>
+              }
+            />
 
             {error && (
               <p className="text-sm text-center text-red-600 bg-red-500/10 p-2 rounded border border-red-500/20">

@@ -1,4 +1,5 @@
 export interface TopupData {
+    uid: string;
     idTopup: number;
     idGame: string;
     idProduct: number;

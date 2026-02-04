@@ -12,6 +12,7 @@ export default function SubmitLoading({ label, loading, disabled }: Readonly<Sub
     <button
       type="submit"
       disabled={disabled}
+      suppressHydrationWarning={true}
       className={ButtonClass}>
       {loading ? (
         <div className="flex justify-center items-center h-5 w-full">

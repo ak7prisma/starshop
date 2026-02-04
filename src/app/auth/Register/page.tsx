@@ -1,89 +1,98 @@
 "use client"
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/app/lib/supabase';
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
-import SubmitLoading from '@/app/components/ui/SubmitLoading';
-import InputForm from '@/app/components/ui/InputForm';
+import SubmitLoading from '@/components/ui/SubmitLoading';
+import { Input } from '@/components/ui/Input';
+import { registerAction } from '../action';
 
 export default function Register() {
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPassword, setConfirmedPassword] = useState('');
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleRegist = async (e: { preventDefault: () => void; }) => {
+  const handleRegist = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: username,   
-        }
-      }
-    });
-
-    if (error) {
-      setError(error.message);
+    if (password !== confirmedPassword) {
+      setError("Password dan Konfirmasi berbeda!");
+      setLoading(false);
+      return;
     }
-    else if (password === confirmedPassword){
-      setError('Registration successful! Please check your email to confirm your account before logging in.');
+
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('username', username);
+
+    const result = await registerAction(formData);
+
+    if (result?.error) {
+      setError(result.error);
+    } else {
+      setError('Registrasi berhasil! Cek email untuk konfirmasi.');
       router.push("/auth/Login");
     }
-    else {
-      setError("The password and confirmation are different!");
-      setLoading(false);
-    }
-
+    
     setLoading(false);
   };
-  return (
 
+  return (
       <div className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8">
-        <FormHeader label1="Create your account" label2="Register your account to access full feature in Starshop."/>
+        <FormHeader label1="Create your account" label2="Register to Starshop."/>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleRegist} method="POST" className="space-y-6">
-            <InputForm 
+          <form onSubmit={handleRegist} className="space-y-6">
+            
+            <Input 
               label='Username'
-              identity='username'
+              id='username'
               type='text'
+              name='username'
               placeholder='Antonio Sandova'
               value={username}
-              onChange={setUsername}/>
+              onChange={(e) => setUsername(e.target.value)}
+            />
 
-            <InputForm 
+            <Input 
               label='Email Address'
-              identity='email'
+              id='email'
               type='email'
+              name='email'
               placeholder='youremail@example.com'
               value={email}
-              onChange={setEmail}/>
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-            <InputForm 
+            <Input 
               label='Password'
-              identity='password'
+              id='password'
               type='password'
+              name='password'
               value={password}
-              onChange={setPassword}/>
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-            <InputForm 
+            <Input 
               label='Confirmed Password'
-              identity='confirmedpassword'
+              id='confirmedpassword'
               type='password'
+              name='password'
               value={confirmedPassword}
-              onChange={setConfirmedPassword}/>
+              onChange={(e) => setConfirmedPassword(e.target.value)}
+            />
 
             {error && (
-              <p className={`text-sm text-center ${error.includes('successful') ? 'text-green-600' : 'text-red-600'}`}>
+              <p className={`text-sm text-center ${error.includes('berhasil') ? 'text-green-600' : 'text-red-600'}`}>
                 {error}
               </p>
             )}
@@ -91,13 +100,11 @@ export default function Register() {
             <SubmitLoading 
               label='Register' 
               loading={loading}
-              disabled={loading}/>
+              disabled={loading}
+            />
           </form>
 
-          <FormFooter 
-            label1="Do you have an account?" 
-            label2="Log In" 
-            linkroute="/auth/Login"/>
+          <FormFooter label1="Have an account?" label2="Log In" linkroute="/auth/Login"/>
         </div>
       </div>
   )

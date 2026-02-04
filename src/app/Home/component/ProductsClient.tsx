@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useMemo } from 'react';
 import { Product } from '@/datatypes/productsType';
-import ProductCard from '@/app/components/ui/ProductCard';
+import ProductCard from '@/components/ui/ProductCard';
 
 const getCategories = (products: Product[]): string[] => {
     return ["All", ...new Set(products.map(p => p.category))];

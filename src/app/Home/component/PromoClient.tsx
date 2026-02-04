@@ -1,5 +1,5 @@
 import { Product } from "@/datatypes/productsType"
-import ProductCard from "@/app/components/ui/ProductCard";
+import ProductCard from "@/components/ui/ProductCard";
 
 interface PromoCardProps {
     promoProduct: Product[];

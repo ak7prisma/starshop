@@ -2,8 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import type { Product } from '@/datatypes/productsType'; 
 import ButtonLinkPrimary from './ButtonLinkPrimary';
-
-const tempUrl = "https://uteiryrjhxezentpeclo.supabase.co/storage/v1/object/public/productsIcon/";
+import { producticon } from '@/constant/tempurl';
 
 export default function ProductCard({product} : Readonly<{product: Product}>) {
     return (
@@ -11,7 +10,7 @@ export default function ProductCard({product} : Readonly<{product: Product}>) {
             <Link href={product.href} className="w-full">
                 <img
                     alt={product.imgAlt}
-                    src={`${tempUrl}${product.imgUrl}`}
+                    src={`${producticon}${product.imgUrl}`}
                     className="aspect-square w-full h-full rounded-lg bg-slate-600 object-cover hover:opacity-80 hover:scale-95 duration-300 xl:aspect-7/8"/>
             </Link>
 

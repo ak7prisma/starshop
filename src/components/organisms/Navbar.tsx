@@ -1,6 +1,6 @@
 'use client';
 
-import { supabase } from "@/app/lib/supabase";
+import { createClient } from "@/app/utils/client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +13,9 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+
+  const supabase = createClient();
+
   const mainMenuClass=`font-medium hover:text-indigo-300 transition duration-300`;
   const mobileMenuClass=`hover:text-indigo-300 transition`;
   const loginClass=`bg-red-600 hover:bg-red-700 duration-300 text-slate-200 font-semibold py-2 px-4 rounded disabled:opacity-50`;

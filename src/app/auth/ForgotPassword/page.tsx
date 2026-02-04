@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { supabase } from '@/app/lib/supabase';
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
-import SubmitLoading from '@/app/components/ui/SubmitLoading';
-import InputForm from '@/app/components/ui/InputForm';
+import SubmitLoading from '@/components/ui/SubmitLoading';
+import { Input } from '@/components/ui/Input';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -44,13 +44,16 @@ export default function ForgotPassword() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handlePasswordReset} className="space-y-6">
 
-            <InputForm 
+            <Input 
               label='Email Address'
-              identity='email'
+              id='email'
               type='email'
+              name='email'
               placeholder='youremail@example.com'
               value={email}
-              onChange={setEmail}/>
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
           {(error || message) && (
             <div className={`p-3 rounded-md text-center text-sm ${message ? 'bg-green-600/10 text-green-400' : 'bg-red-600/10 text-red-400'}`}>

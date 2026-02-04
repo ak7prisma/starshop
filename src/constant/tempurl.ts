@@ -1,0 +1,1 @@
+export const producticon = "https://uteiryrjhxezentpeclo.supabase.co/storage/v1/object/public/productsIcon/";

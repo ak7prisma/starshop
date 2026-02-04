@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname } from 'next/navigation';
-import Navbar from '../app/components/Navbar';
-import Footer from '../app/components/Footer';
+import Navbar from '@/components/organisms/Navbar';
+import Footer from '@/components/organisms/Footer';
 import { Suspense } from 'react';
 
 const disablePaths = new Set([
@@ -10,6 +10,9 @@ const disablePaths = new Set([
   '/auth/Register',
   '/auth/ForgotPassword',
   '/auth/ResetPassword', 
+  '/dashboard' ,
+  '/dashboard/transactions',
+  '/dashboard/products',
 ]);
 
 export default function LayoutSetting({ children }: Readonly<{ children: React.ReactNode }>) {
