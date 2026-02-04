@@ -68,14 +68,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             type={currentType}
             disabled={disabled}
             className={`
-              block w-full rounded-lg border bg-gray-950 py-2.5 text-white shadow-sm transition-all
+              block w-full rounded-lg border bg-slate-950 py-2.5 text-white shadow-sm transition-all
               text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 
               ${leftIcon ? "pl-10" : "pl-4"}
               ${rightIcon || isPasswordType ? "pr-10" : "pr-4"}
               ${
                 error
                   ? "border-red-900/50 text-red-400 focus:border-red-500 focus:ring-red-500/20"
-                  : "border-gray-800 focus:border-blue-500 focus:ring-blue-500"
+                  : "border-gray-800 focus:border-indigo-500 focus:ring-indigo-500"
               }
               ${disabled ? "opacity-50 cursor-not-allowed bg-gray-900" : ""}
               ${className}

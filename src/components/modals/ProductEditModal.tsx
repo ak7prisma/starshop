@@ -128,7 +128,7 @@ export const ProductEditModal = ({
                                             placeholder="E.g. 100" 
                                             value={item.name || ''} 
                                             onChange={(e) => updateItem(item.internalId, 'name', e.target.value)}
-                                            className='bg-transparent border-0 border-b border-gray-800 rounded-none px-0 focus:ring-0 shadow-none'
+                                            className='bg-transparent border-0 border-b border-gray-800 px-0 rounded-lg shadow-none'
                                         />
                                     </div>
                                 </div>
@@ -137,13 +137,14 @@ export const ProductEditModal = ({
                                 <div className="w-full sm:col-span-3 sm:pt-1">
                                     <span className="sm:hidden text-[10px] text-gray-500 uppercase font-bold mb-1 block mt-2">Price (IDR)</span>
                                     <div className="relative">
-                                        <span className="absolute left-3 top-2.5 text-xs font-bold text-gray-500">Rp</span>
-                                        <input
-                                            type="number"
+                                        <Input 
+                                            required
+                                            type='number'
+                                            placeholder="0" 
                                             value={item.price === 0 ? '' : item.price}
                                             onChange={(e) => updateItem(item.internalId, 'price', e.target.value === '' ? 0 : Number(e.target.value))}
-                                            className="w-full pl-8 pr-3 py-2 bg-gray-950 border border-gray-700 text-white rounded-lg text-sm font-bold focus:outline-none focus:border-blue-500"
-                                            placeholder="0"
+                                            className='border border-gray-700px-0 focus:ring-0 shadow-none rounded-lg font-semibold'
+                                            leftIcon={<span className="text-xs font-bold font-sans">Rp.</span>}
                                         />
                                     </div>
                                 </div>

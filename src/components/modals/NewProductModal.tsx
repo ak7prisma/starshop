@@ -46,7 +46,7 @@ export const NewProductModal = ({ onClose, onSave }: NewProductModalProps) => {
           </button>
         </div>
 
-        {/* FORM */}
+        {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
           
           <div className="flex-1 overflow-y-auto p-6 space-y-8">
