@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { Product } from "@/datatypes/productsType";
 import { createClient } from "@/app/utils/client";
+import { producticon } from "@/constant/tempurl";
 
 const BUCKET_NAME = "productsIcon";
 
@@ -9,8 +10,6 @@ type GameItem = {
   name: string; 
   price: number 
 };
-
-const tempUrl = "https://uteiryrjhxezentpeclo.supabase.co/storage/v1/object/public/productsIcon/";
 
 export const useProductForm = (onSaveSuccess?: (data: Omit<Product, 'idProduct'>) => void) => {
   const supabase = createClient();
@@ -126,8 +125,8 @@ export const useProductForm = (onSaveSuccess?: (data: Omit<Product, 'idProduct'>
             sideImgUrl: product.sideImgUrl
         });
 
-        if (product.imgUrl) setIconPreview(`${tempUrl}${product.imgUrl}`);
-        if (product.sideImgUrl) setSidePreview(`${tempUrl}${product.sideImgUrl}`);
+        if (product.imgUrl) setIconPreview(`${producticon}${product.imgUrl}`);
+        if (product.sideImgUrl) setSidePreview(`${producticon}${product.sideImgUrl}`);
 
         if (product.amount && product.price) {
             const mappedItems = product.amount.map((amt, index) => ({

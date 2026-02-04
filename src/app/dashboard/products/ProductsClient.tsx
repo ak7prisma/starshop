@@ -1,20 +1,18 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import {
-  Gamepad2, Plus, ChevronRight, Zap
-} from "lucide-react";
+import { Gamepad2, Plus } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import { ProductEditModal } from "@/components/modals/ProductEditModal";
 import { NewProductModal } from "@/components/modals/NewProductModal";
 import type { Product } from "@/datatypes/productsType";
 import { createClient } from "@/app/utils/client";
 import SearchBar from "../component/SearchBar";
 import { useRouter } from "next/navigation";
-
-const tempUrl = "https://uteiryrjhxezentpeclo.supabase.co/storage/v1/object/public/productsIcon/";
+import FilterTabs from "../component/FilterTabs";
+import { CATEGORY_OPTIONS } from "@/constant/menu";
+import { ProductCard } from "../component/ProductCardDashboard";
 
 interface ProductsClientProps {
   initialProducts: Product[];
@@ -129,7 +127,8 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
 
   return (
     <div className="space-y-8 min-h-screen pb-20 relative font-sans">
-
+      
+      {/* Modals */}
       {selectedGame && (
         <ProductEditModal
           selectedGame={selectedGame}
@@ -145,6 +144,7 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
         />
       )}
 
+      {/* Header */}
       <PageHeader
         title="Products Management"
         subtitle="Control your game catalog, prices, and inventory."
@@ -159,74 +159,28 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
         }
       />
 
+      {/* Filters */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-2 flex flex-col md:flex-row gap-4 items-center justify-between">
-        <div className="flex gap-2 p-2 overflow-x-auto max-w-full">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${activeCategory === cat
-                ? "bg-gray-800 text-white shadow ring-1 ring-gray-700"
-                : "text-gray-400 hover:text-white hover:bg-gray-800/50"
-                }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        <FilterTabs 
+          tabs={CATEGORY_OPTIONS.map(cat => cat.value)} 
+          activeTab={activeCategory} 
+          onTabChange={setActiveCategory} 
+        />
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
       </div>
 
+      {/* Product Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {filteredGames.map((game) => (
-          <button
-            key={game.idProduct}
-            type="button"
-            onClick={() => setSelectedGame(game)}
-            className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden group hover:border-blue-500/40 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-900/10 cursor-pointer relative outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label={`Manage ${game.nameProduct}`}
-            style={{ padding: 0, textAlign: "inherit" }}
-          >
-            <div className={`h-40 w-full bg-gray-800 relative flex items-center justify-center overflow-hidden`}>
-              {game.imgUrl ? (
-                <img
-                  src={`${tempUrl}${game.imgUrl}`}
-                  alt={game.nameProduct}
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                />
-              ) : (
-                <>
-                  <div className="absolute inset-0 bg-linear-to-t from-gray-900 to-transparent opacity-90" />
-                  <Gamepad2 size={48} className="text-white/20 group-hover:scale-110 transition-transform duration-500" />
-                </>
-              )}
-
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-gray-900 via-gray-900/80 to-transparent">
-                <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors truncate drop-shadow-md">
-                  {game.nameProduct}
-                </h3>
-                <div className="flex justify-between items-center mt-1">
-                  <span className="text-xs text-gray-300 bg-gray-800/80 px-2 py-0.5 rounded border border-white/10">
-                    {game.category}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 border-t border-gray-800 flex justify-between items-center bg-gray-900">
-              <Badge variant="success">
-                <Zap size={10} fill="currentColor" />
-                Active
-              </Badge>
-
-              <div className="text-xs font-medium text-gray-500 group-hover:text-blue-400 transition-colors flex items-center gap-1">
-                Manage <ChevronRight size={12} />
-              </div>
-            </div>
-          </button>
+          <ProductCard 
+            key={game.idProduct} 
+            game={game} 
+            onClick={setSelectedGame} 
+          />
         ))}
       </div>
 
+      {/* Empty State */}
       {filteredGames.length === 0 && (
         <div className="text-center py-20 opacity-50">
           <Gamepad2 size={48} className="mx-auto mb-4" />

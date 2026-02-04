@@ -7,7 +7,7 @@ import { Product } from "@/datatypes/productsType";
 import SelectDropdown from "../ui/DropdownMenu";
 import ImageUploader from "@/components/ui/ImageUploader";
 import { useProductForm } from "@/hooks/useProductForm";
-import { CATEGORY_OPTIONS } from "@/constant/dropdownopt";
+import { CATEGORY_OPTIONS } from "@/constant/menu";
 
 interface NewProductModalProps {
   onClose: () => void;

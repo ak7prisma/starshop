@@ -4,7 +4,7 @@ import { Eye, Loader2, SearchX } from "lucide-react";
 import { TopupData } from "@/datatypes/TopupData";
 import { Badge, getBadgeVariant } from "../ui/Badge";
 import DropdownMenu from "../ui/DropdownMenu";
-import { STATUS_OPTIONS } from "@/constant/dropdownopt";
+import { STATUS_OPTIONS } from "@/constant/menu";
 
 interface Props {
   data: (TopupData & { products?: { nameProduct: string } })[];
