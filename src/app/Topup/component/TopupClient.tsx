@@ -12,7 +12,6 @@ import PaymentProofUpload from '@/app/Topup/component/PaymentProof';
 import CheckoutDetail from '@/app/Topup/component/CheckoutDetail';
 import TopupSuccessModal from '@/components/modals/TopupSuccessModal';
 import type { PaymentMethodDetail } from '@/datatypes/paymentMethodDetailType';
-import { useRouter } from 'next/navigation';
 
 const getErrorMessage = async (response: Response, defaultMessage: string) => {
     try {
@@ -26,7 +25,6 @@ const getErrorMessage = async (response: Response, defaultMessage: string) => {
 export default function TopupClient({ product }: Readonly<{ product: Product }>) {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
 
     const [gameId, setGameId] = useState('');
     const [amount, setAmount] = useState<number | null>(null);

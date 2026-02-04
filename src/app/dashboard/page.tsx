@@ -8,17 +8,7 @@ import {
 } from "lucide-react";
 
 import { createClient } from "@/app/utils/client";
-
-type TopupData = {
-  idTopup: number;
-  uid: string;
-  idGame: string;
-  amount: string;
-  price: number;
-  status: string;
-  created_at: string;
-  paymentMethod: string;
-};
+import type { TopupData } from "@/datatypes/TopupData";
 
 export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);

@@ -2,13 +2,13 @@ import Sidebar from "./component/Sidebar";
 
 export default function DashboardLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <div className="flex h-screen w-full bg-[#0B1120] text-white overflow-hidden font-sans">
       
-      <div className="flex-shrink-0 h-full z-20 shadow-xl shadow-blue-900/5">
+      <div className="shrink-0 h-full z-20 shadow-xl shadow-blue-900/5">
         <Sidebar />
       </div>
 

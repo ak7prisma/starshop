@@ -4,7 +4,7 @@ interface FilterTabsProps {
   onTabChange: (tab: string) => void;
 }
 
-export default function FilterTabs({ tabs, activeTab, onTabChange }: FilterTabsProps) {
+export default function FilterTabs({ tabs, activeTab, onTabChange }: Readonly<FilterTabsProps>) {
   return (
     <div className="flex bg-gray-950 p-1 rounded-lg border border-gray-800">
       {tabs.map((tab) => (
