@@ -28,7 +28,7 @@ export const NewProductModal = ({ onClose, onSave }: NewProductModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in zoom-in-95 duration-200 font-sans">
+    <div className="fixed inset-0 z-50 h-full flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in zoom-in-95 duration-200 font-sans">
       <div className="bg-[#0B1120] border border-gray-800 w-full max-w-5xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
         
         <div className="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-900/50 shrink-0">
@@ -132,7 +132,8 @@ export const NewProductModal = ({ onClose, onSave }: NewProductModalProps) => {
                   <div key={item.internalId} className="grid grid-cols-12 gap-4 items-start bg-gray-900/30 p-3 rounded-xl border border-gray-800/50 hover:border-blue-500/30">
                     <div className="col-span-7">
                       <Input 
-                        required 
+                        required
+                        type="number"
                         placeholder="Item Amount (e.g. 100)" 
                         value={item.name} 
                         onChange={(e) => updateItem(item.internalId, "name", e.target.value)} 
