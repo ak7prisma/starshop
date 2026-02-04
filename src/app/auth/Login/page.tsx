@@ -5,7 +5,7 @@ import Link from "next/link";
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
 import SubmitLoading from '@/components/ui/SubmitLoading';
-import InputForm from '@/components/ui/InputForm';
+import { Input } from '@/components/ui/Input';
 import { loginAction } from '../action';
 import { useRouter } from 'next/navigation';
 
@@ -45,26 +45,31 @@ export default function Login() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleLogin} className="space-y-6">
-            <InputForm 
+            <Input 
               label='Email Address'
-              identity='email'
+              id='email'
               type='email'
+              name='email'
               placeholder='youremail@example.com'
               value={email}
-              onChange={setEmail}/>
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-            <InputForm
+            <Input
               label="Password"
-              identity="password"
+              id="password"
               type="password"
+              name='password'
               value={password}
-              onChange={setPassword}>
+              onChange={(e) => setPassword(e.target.value)}
+              extraLabel={
               <div className="text-sm">
                   <Link href="/auth/ForgotPassword" className="font-semibold text-indigo-400 hover:text-indigo-300">
                       Forgot password?
                   </Link>
               </div>
-            </InputForm>
+              }
+            />
 
             {error && (
               <p className="text-sm text-center text-red-600 bg-red-500/10 p-2 rounded border border-red-500/20">

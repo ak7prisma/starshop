@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
 import SubmitLoading from '@/components/ui/SubmitLoading';
-import InputForm from '@/components/ui/InputForm';
+import { Input } from '@/components/ui/Input';
 import { registerAction } from '../action';
 
 export default function Register() {
@@ -53,38 +53,42 @@ export default function Register() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleRegist} className="space-y-6">
             
-            <InputForm 
+            <Input 
               label='Username'
-              identity='username'
+              id='username'
               type='text'
+              name='username'
               placeholder='Antonio Sandova'
               value={username}
-              onChange={setUsername}
+              onChange={(e) => setUsername(e.target.value)}
             />
 
-            <InputForm 
+            <Input 
               label='Email Address'
-              identity='email'
+              id='email'
               type='email'
+              name='email'
               placeholder='youremail@example.com'
               value={email}
-              onChange={setEmail}
+              onChange={(e) => setEmail(e.target.value)}
             />
 
-            <InputForm 
+            <Input 
               label='Password'
-              identity='password'
+              id='password'
               type='password'
+              name='password'
               value={password}
-              onChange={setPassword}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
-            <InputForm 
+            <Input 
               label='Confirmed Password'
-              identity='confirmedpassword'
+              id='confirmedpassword'
               type='password'
+              name='password'
               value={confirmedPassword}
-              onChange={setConfirmedPassword}
+              onChange={(e) => setConfirmedPassword(e.target.value)}
             />
 
             {error && (

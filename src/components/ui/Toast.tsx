@@ -7,7 +7,7 @@ interface ToastProps {
   onClose?: () => void;
 }
 
-export default function Toast({ show, message, type, onClose }: ToastProps) {
+export default function Toast({ show, message, type, onClose }: Readonly<ToastProps>) {
   if (!show) return null;
 
   return (

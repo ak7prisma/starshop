@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/app/lib/supabase';
 import type { Product } from '@/datatypes/productsType';
-import InputForm from '@/components/ui/InputForm';
+import { Input } from '@/components/ui/Input';
 import SubmitLoading from '@/components/ui/SubmitLoading';
 import ProductDetailCard from '@/app/Topup/component/ProductDetailCard';
 import TopupHeaderForm from '@/app/Topup/component/TopupHeaderForm';
@@ -169,13 +169,15 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
                     <form onSubmit={handleTopup} className="space-y-8">
                         <div className="p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]">
                             <TopupHeaderForm no='1' label={`Masukkan ${label} Anda`} />
-                            <InputForm
+                            <Input
                                 label='User ID / Game ID'
-                                identity='user'
+                                id='user'
                                 type='text'
+                                name='user'
                                 placeholder='123456789'
                                 value={gameId}
-                                onChange={setGameId} />
+                                onChange={(e) => setGameId(e.target.value)}
+                            />
                         </div>
 
                         <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>

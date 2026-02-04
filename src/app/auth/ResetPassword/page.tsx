@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/app/lib/supabase';
 import FormHeader from '@/app/auth/component/AuthHeader';
 import SubmitLoading from '@/components/ui/SubmitLoading';
-import InputForm from '@/components/ui/InputForm';
+import { Input } from '@/components/ui/Input';
 
 export default function UpdatePassword() {
   const [newPassword, setNewPassword] = useState('');
@@ -63,12 +63,13 @@ export default function UpdatePassword() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form onSubmit={handleResetPassword} className="space-y-6">
 
-            <InputForm 
+            <Input 
               label='New Password'
-              identity='password'
+              id='password'
               type='password'
               value={newPassword}
-              onChange={setNewPassword}/>
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
 
             {(error || message) && (
                 <div className={`p-3 rounded-md text-center text-sm ${message ? 'bg-green-600/10 text-green-400' : 'bg-red-600/10 text-red-400'}`}>

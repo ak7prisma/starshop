@@ -1,7 +1,14 @@
 import { Check, Clock, X } from "lucide-react";
 
 export const STATUS_OPTIONS = [
-  { id: "pending", label: "Pending", icon: Clock, color: "text-amber-400" },
-  { id: "success", label: "Success", icon: Check, color: "text-emerald-400" },
-  { id: "failed", label: "Failed", icon: X, color: "text-red-400" },
-] as const;
+  { value: "pending", label: "Pending", icon: Clock, color: "text-amber-400" },
+  { value: "success", label: "Success", icon: Check, color: "text-emerald-400" },
+  { value: "failed", label: "Failed", icon: X, color: "text-red-400" },
+];
+
+export const CATEGORY_OPTIONS = [
+  { value: "Games", label: "Games" },
+  { value: "Voucher", label: "Voucher" },
+  { value: "E-Money", label: "E-Money" },
+  { value: "Lainnya", label: "Lainnya" },
+];
