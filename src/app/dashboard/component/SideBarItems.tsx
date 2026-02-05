@@ -16,7 +16,7 @@ export const SidebarItem = ({ href, icon: Icon, label, isActive, isCollapsed, is
     className={`
       flex items-center py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
       ${isCollapsed ? "justify-center px-0" : "px-3 gap-3"}
-      ${isActive ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" : "text-gray-400 hover:bg-gray-800 hover:text-white"}
+      ${isActive ? "bg-indigo-600 text-white shadow-lg shadow-blue-600/20" : "text-gray-400 hover:bg-gray-800 hover:text-white"}
     `}
   >
     <Icon size={22} className={`shrink-0 transition-colors ${isActive ? "text-white" : "text-gray-500 group-hover:text-white"}`} />

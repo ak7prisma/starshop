@@ -57,7 +57,7 @@ export default function SelectDropdown({
           onClick={() => setIsOpen(!isOpen)}
           className={`w-full flex items-center justify-between bg-gray-950 border border-gray-800 text-white rounded-lg text-sm py-2.5 px-4 transition-all focus:outline-none focus:ring-1 focus:ring-blue-500 ${
             icon ? "pl-10" : ""
-          } ${isOpen ? "border-blue-500 ring-1 ring-blue-500" : ""}`}
+          } ${isOpen ? "border-indigo-500 ring-1 ring-indigo-500" : ""}`}
         >
           <span className={selectedOption ? "text-white" : "text-gray-500"}>
             {selectedOption?.label || placeholder}

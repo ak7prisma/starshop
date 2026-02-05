@@ -162,7 +162,7 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
       {/* Filters */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-2 flex flex-col md:flex-row gap-4 items-center justify-between">
         <FilterTabs 
-          tabs={CATEGORY_OPTIONS.map(cat => cat.value)} 
+          tabs={["All", ...CATEGORY_OPTIONS.map(cat => cat.value)]}
           activeTab={activeCategory} 
           onTabChange={setActiveCategory} 
         />

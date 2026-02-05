@@ -8,6 +8,7 @@ import TransactionTable from "@/app/dashboard/component/TransactionTable";
 import Toast from "@/components/ui/Toast";
 import FilterTabs from "../component/FilterTabs";
 import SearchBar from "../component/SearchBar";
+import { formatRupiah } from "@/app/utils/formatRupiah";
 
 export default function TransactionsPage() {
   const [activeTab, setActiveTab] = useState("All");
@@ -24,9 +25,6 @@ export default function TransactionsPage() {
     setToast({ show: true, message, type });
     setTimeout(() => setToast((prev) => ({ ...prev, show: false })), 3000);
   };
-
-  const formatRupiah = (val: any) => 
-    new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(Number(val));
 
   const handleStatusChange = async (id: number, newStatus: string) => {
     try {
