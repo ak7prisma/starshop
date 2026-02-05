@@ -12,6 +12,7 @@ import PaymentProofUpload from '@/app/Topup/component/PaymentProof';
 import CheckoutDetail from '@/app/Topup/component/CheckoutDetail';
 import TopupSuccessModal from '@/components/modals/TopupSuccessModal';
 import type { PaymentMethodDetail } from '@/datatypes/paymentMethodDetailType';
+import { formatRupiah } from '@/app/utils/formatRupiah';
 
 const getErrorMessage = async (response: Response, defaultMessage: string) => {
     try {
@@ -49,11 +50,6 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
 
         fetchPaymentMethods();
     }, []);
-
-    const formatRupiah = (value: number | null): string => {
-        if (value === null) return 'Free';
-        return value.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
-    };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];

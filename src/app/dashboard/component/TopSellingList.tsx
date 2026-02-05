@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Trophy, MoreHorizontal, AlertCircle } from 'lucide-react';
-import { Card } from '../ui/Card';
+import { Card } from '../../../components/ui/Card';
+import { formatRupiah } from '@/app/utils/formatRupiah';
 
 interface TopGame {
     name: string;
@@ -15,9 +16,6 @@ interface TopSellingListProps {
 }
 
 export const TopSellingList = ({ games, totalTransactions, userRole }: TopSellingListProps) => {
-
-    const formatRupiah = (val: number) =>
-        new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(val);
 
     return (
         <Card className="h-fit">

@@ -1,17 +1,15 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { Card } from '../ui/Card';
-import { Badge } from '../ui/Badge';
+import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
 import type { TopupData } from '@/datatypes/TopupData';
+import { formatRupiah } from '@/app/utils/formatRupiah';
 
 interface RecentTransactionsTableProps {
     transactions: TopupData[];
 }
 
 export const RecentTransactionsTable = ({ transactions }: RecentTransactionsTableProps) => {
-
-    const formatRupiah = (val: number) =>
-        new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(val);
 
     const getStatusVariant = (status: string) => {
         const s = status?.toLowerCase() || "";

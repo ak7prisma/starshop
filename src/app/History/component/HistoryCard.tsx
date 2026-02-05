@@ -2,19 +2,13 @@ import HistoryStatusBadge from './HistoryStatusBadge';
 import type { TopupData } from '@/datatypes/TopupData';
 import Link from 'next/link';
 import { FaEye } from 'react-icons/fa';
+import { formatRupiah } from '@/app/utils/formatRupiah';
 
 interface HistoryItemProps {
     item: TopupData;
 }
 
 export default function HistoryCard({ item }: Readonly<HistoryItemProps>) {
-    const formatRupiah = (value: number) => {
-        return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
-        }).format(value);
-    };
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('id-ID', {

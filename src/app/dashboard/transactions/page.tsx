@@ -4,7 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/app/utils/client";
 import { useTransactions } from "@/hooks/useTransaction";
 import TransactionModal from "@/components/modals/TransactionDetailsModal";
-import TransactionTable from "@/components/organisms/TransactionTable";
+import TransactionTable from "@/app/dashboard/component/TransactionTable";
 import Toast from "@/components/ui/Toast";
 import FilterTabs from "../component/FilterTabs";
 import SearchBar from "../component/SearchBar";
