@@ -26,18 +26,38 @@ export default function TransactionsPage() {
     setTimeout(() => setToast((prev) => ({ ...prev, show: false })), 3000);
   };
 
-  const handleStatusChange = async (id: number, newStatus: string) => {
-    try {
-      const { error } = await supabase.from('topup').update({ status: newStatus.toLowerCase() }).eq('idTopup', id);
-      if (error) throw error;
-      
-      setTransactions((prev) => prev.map((item) => item.idTopup === id ? { ...item, status: newStatus } : item));
-      showToast(`Order #${id} updated to ${newStatus}`, "success");
-    } catch (error: any) {
-      console.error("Failed to update status:", error);
-      showToast(`Gagal update status: ${error?.message || error}`, "error");
+const handleStatusChange = async (id: number, newStatus: string) => {
+  const previousTransactions = [...transactions]; 
+
+  setTransactions((prev) => 
+    prev.map((item) => item.idTopup === id ? { ...item, status: newStatus } : item)
+  );
+
+  try {
+    console.log(`Updating ID: ${id} to Status: ${newStatus}`);
+
+    const { data, error } = await supabase
+      .from('topup')
+      .update({ status: newStatus })
+      .eq('idTopup', id)
+      .select();
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      throw new Error("Data tidak ditemukan atau terblokir RLS Policy.");
     }
-  };
+
+    showToast(`Order #${id} updated to ${newStatus}`, "success");
+
+  } catch (error: any) {
+    console.error("Failed to update status:", error);
+    
+    setTransactions(previousTransactions);
+    
+    showToast(`Gagal update: ${error?.message || "Cek permission DB"}`, "error");
+  }
+};
 
   // Filter Logic
   const filteredData = transactions.filter((t) => {
