@@ -58,8 +58,8 @@ export const getStatsList = ({
     },
     {
       title: "Active Products",
-      value: `${productCount} Games`,
-      trend: "Total games in catalog",
+      value: `${productCount} Product Items`,
+      trend: "Total product in catalog",
       icon: Gamepad2,
       color: "purple",
     },
