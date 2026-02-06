@@ -69,7 +69,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             disabled={disabled}
             className={`
               block w-full rounded-lg border bg-slate-950 py-2.5 text-white shadow-sm transition-all
-              text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 
+              text-sm placeholder:text-gray-600 placeholder:items-start focus:outline-none focus:ring-1 
               ${leftIcon ? "pl-10" : "pl-4"}
               ${rightIcon || isPasswordType ? "pr-10" : "pr-4"}
               ${
