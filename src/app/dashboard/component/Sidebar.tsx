@@ -50,8 +50,12 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className={`h-screen bg-gray-900 border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out relative shrink-0 ${isCollapsed ? "w-20" : "w-[280px]"}`}>
-      
+    <aside 
+      className={`
+        h-screen bg-gray-900 border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out relative shrink-0
+        ${isCollapsed ? "w-14 md:w-20" : "w-[280px]"} 
+      `}
+    >
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
         className="hidden md:flex absolute -right-3 top-9 bg-blue-600 hover:bg-blue-500 text-white p-1.5 rounded-full border-4 border-[#0B1120] shadow-lg z-50 transition-transform hover:scale-110 items-center justify-center"
@@ -65,7 +69,7 @@ export default function Sidebar() {
         <Link href="/dashboard" className="flex items-center justify-center w-full h-full">
           {isCollapsed ? (
             <div className="animate-in zoom-in duration-300 p-2">
-              <Image src="/favicon.ico" alt="Icon" width={36} height={36} className="object-contain" />
+              <Image src="/favicon.ico" alt="Icon" width={24} height={24} className="object-contain md:w-[36px] md:h-[36px]" />
             </div>
           ) : (
             <div className="animate-in fade-in duration-500">
@@ -76,7 +80,7 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-6 px-3 space-y-2 overflow-y-auto scrollbar-hide">
+      <nav className="flex-1 py-6 px-1 md:px-3 space-y-2 overflow-y-auto scrollbar-hide">
         {!isCollapsed && (
           <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 animate-in fade-in duration-300">
             Main Menu

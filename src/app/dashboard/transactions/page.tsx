@@ -9,6 +9,7 @@ import Toast from "@/components/ui/Toast";
 import FilterTabs from "../component/FilterTabs";
 import SearchBar from "../component/SearchBar";
 import { formatRupiah } from "@/app/utils/formatRupiah";
+import { Button } from "@/components/ui/Button";
 
 export default function TransactionsPage() {
   const [activeTab, setActiveTab] = useState("All");
@@ -93,13 +94,14 @@ const handleStatusChange = async (id: number, newStatus: string) => {
           <h1 className="text-3xl font-bold text-white tracking-tight">Transactions</h1>
           <p className="text-gray-400 text-sm">Manage orders and status transactions.</p>
         </div>
-        <button 
+        <Button 
+          variant="ghost"
           onClick={fetchTransactions} 
           suppressHydrationWarning
           className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2.5 rounded-lg text-sm border border-gray-700 transition-colors"
         >
           Refresh Data
-        </button>
+        </Button>
       </div>
 
       {/* Table Section */}
