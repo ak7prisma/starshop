@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import SearchBar from "../component/SearchBar";
 import NewsCard from "../component/NewsCrad";
 import type { NewsItem } from "@/datatypes/newsType";
+import { Button } from "@/components/ui/Button";
 
 export default function NewsPage() {
   const supabase = createClient();
@@ -151,12 +152,14 @@ export default function NewsPage() {
         title="News & Banner Management"
         subtitle="Manage sliders, news updates, and promo banners."
         extra={
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow-lg shadow-blue-500/20 transition-all"
-          >
-            <Plus size={18} /> Add News
-          </button>
+            <Button
+              variant="primary"
+              onClick={() => setIsModalOpen(true)}
+              leftIcon={<Plus size={18} />}
+            >
+              Add News
+            </Button>
+
         }
       />
 
