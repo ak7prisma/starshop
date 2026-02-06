@@ -13,6 +13,7 @@ const disablePaths = new Set([
   '/dashboard' ,
   '/dashboard/transactions',
   '/dashboard/products',
+  '/dashboard/news',
 ]);
 
 export default function LayoutSetting({ children }: Readonly<{ children: React.ReactNode }>) {
