@@ -9,12 +9,14 @@ interface ProductEditModalProps {
     selectedGame: Product;
     onClose: () => void;
     onSave: (updatedProduct: Product) => void;
+    isLoading: boolean;
 }
 
 export const ProductEditModal = ({
     selectedGame,
     onClose,
     onSave,
+    isLoading,
 }: ProductEditModalProps) => {
     const {
         formData,

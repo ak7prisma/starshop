@@ -115,11 +115,6 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
     }
 };
 
-  const categories = useMemo(() => {
-    const cats = new Set(games.map(g => g.category));
-    return ["All", ...Array.from(cats)];
-  }, [games]);
-
   const filteredGames = games.filter((game) => {
     const matchesSearch = game.nameProduct.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = activeCategory === "All" || game.category === activeCategory;
@@ -135,6 +130,7 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
           selectedGame={selectedGame}
           onClose={() => setSelectedGame(null)}
           onSave={handleSaveEdit}
+          isLoading={isSaving}
         />
       )}
 
@@ -142,6 +138,7 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
         <NewProductModal
           onClose={() => close()}
           onSave={handleCreateProduct}
+          isLoading={isSaving}
         />
       )}
 

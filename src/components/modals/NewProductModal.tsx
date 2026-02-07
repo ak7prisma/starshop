@@ -12,9 +12,10 @@ import { CATEGORY_OPTIONS } from "@/constant/menu";
 interface NewProductModalProps {
   onClose: () => void;
   onSave: (newProduct: Omit<Product, 'idProduct'>) => void;
+  isLoading: boolean;
 }
 
-export const NewProductModal = ({ onClose, onSave }: NewProductModalProps) => {
+export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalProps) => {
   const {
     formData, updateField,
     items, addItem, removeItem, updateItem,
