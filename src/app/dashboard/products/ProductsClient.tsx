@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import FilterTabs from "../component/FilterTabs";
 import { CATEGORY_OPTIONS } from "@/constant/menu";
 import { ProductCard } from "../component/ProductCardDashboard";
+import { useModal } from "@/hooks/useModals";
 
 interface ProductsClientProps {
   initialProducts: Product[];
@@ -26,7 +27,7 @@ export default function ProductsClient({ initialProducts }: Readonly<ProductsCli
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedGame, setSelectedGame] = useState<Product | null>(null);
-  const [showNewProductModal, setShowNewProductModal] = useState(false);
+  const { isOpen: isModalOpen, open, close } = useModal();
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSaveEdit = async (updatedProduct: Product) => {
@@ -103,7 +104,7 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
         console.log("Product Created & Href Updated:", generatedHref);
       }
 
-      setShowNewProductModal(false); 
+      close();
       router.refresh();
 
     } catch (error: any) {
@@ -137,9 +138,9 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
         />
       )}
 
-      {showNewProductModal && (
+      {isModalOpen && (
         <NewProductModal
-          onClose={() => setShowNewProductModal(false)}
+          onClose={() => close()}
           onSave={handleCreateProduct}
         />
       )}
@@ -152,7 +153,7 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
           <Button
             leftIcon={<Plus size={20} />}
             className="shadow-lg shadow-blue-500/20"
-            onClick={() => setShowNewProductModal(true)}
+            onClick={() => open()}
           >
             Add New Game
           </Button>
@@ -166,7 +167,11 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
           activeTab={activeCategory} 
           onTabChange={setActiveCategory} 
         />
-        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+        <SearchBar 
+          value={searchTerm} 
+          onChange={setSearchTerm} 
+          placeholder="Search Order ID, Product, ID Game..."
+        />
       </div>
 
       {/* Product Cards */}

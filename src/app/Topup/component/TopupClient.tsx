@@ -13,6 +13,8 @@ import CheckoutDetail from '@/app/Topup/component/CheckoutDetail';
 import TopupSuccessModal from '@/components/modals/TopupSuccessModal';
 import type { PaymentMethodDetail } from '@/datatypes/paymentMethodDetailType';
 import { formatRupiah } from '@/app/utils/formatRupiah';
+import { useModal } from '@/hooks/useModals';
+import ImageUploader from '@/components/ui/ImageUploader';
 
 const getErrorMessage = async (response: Response, defaultMessage: string) => {
     try {
@@ -34,7 +36,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<number | null>(null);
     const [paymentProof, setPaymentProof] = useState<File | null>(null);
     const [paymentProofPreview, setPaymentProofPreview] = useState<string | null>(null);
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const { isOpen: isModalOpen, open, close } = useModal();
     const [successTopupId, setSuccessTopupId] = useState<number | null>(null);
 
     useEffect(() => {
@@ -51,8 +53,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
         fetchPaymentMethods();
     }, []);
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
+    const handleImageSelect = (file: File) => {
         if (!file) return;
 
         if (!file.type.startsWith('image/')) {
@@ -64,12 +65,15 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
             return;
         }
 
-        setPaymentProof(file);
-        const reader = new FileReader();
-        reader.onloadend = () => setPaymentProofPreview(reader.result as string);
-        reader.readAsDataURL(file);
         setError(null);
+        setPaymentProof(file);
+        setPaymentProofPreview(URL.createObjectURL(file));
     };
+
+    const handleRemoveImage = () => {
+    setPaymentProof(null);
+    setPaymentProofPreview(null);
+}
 
     const uploadProofToApi = async (file: File): Promise<string> => {
         const formData = new FormData();
@@ -142,7 +146,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
             const topupData = await createTopupRecord(payload);
 
             setSuccessTopupId(topupData.idTopup ?? null);
-            setShowSuccessModal(true);
+            open();
             resetFormState();
 
         } catch (error: unknown) {
@@ -220,13 +224,13 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
 
                         <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
                             <TopupHeaderForm no='4' label='Upload Bukti Pembayaran' />
-                            <PaymentProofUpload
-                                paymentProofPreview={paymentProofPreview}
-                                onFileChange={handleFileChange}
-                                onRemove={() => {
-                                    setPaymentProof(null);
-                                    setPaymentProofPreview(null);
-                                }}
+                            <ImageUploader 
+                                inputId="payment-proof-upload"
+                                previewUrl={paymentProofPreview}
+                                onFileSelect={handleImageSelect}
+                                onRemove={handleRemoveImage}
+                                variant="rect"
+                                placeholder="Klik atau drag bukti transfer"
                             />
                         </div>
 
@@ -255,8 +259,8 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
             </div>
 
             <TopupSuccessModal
-                isOpen={showSuccessModal}
-                onClose={() => setShowSuccessModal(false)}
+                isOpen={isModalOpen}
+                onClose={() => close()}
                 idTopup={successTopupId}
             />
         </div>

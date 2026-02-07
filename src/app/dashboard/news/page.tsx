@@ -9,6 +9,7 @@ import SearchBar from "../component/SearchBar";
 import NewsCard from "../component/NewsCrad";
 import type { NewsItem } from "@/datatypes/newsType";
 import { Button } from "@/components/ui/Button";
+import { useModal } from "@/hooks/useModals";
 
 export default function NewsPage() {
   const supabase = createClient();
@@ -17,7 +18,7 @@ export default function NewsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isOpen: isModalOpen, open, close } = useModal();
   const [editingItem, setEditingItem] = useState<NewsItem | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -69,7 +70,7 @@ export default function NewsPage() {
       }
 
       await fetchNews();
-      setIsModalOpen(false);
+      close();
       setEditingItem(null);
     } catch (error: any) {
       console.error("Save failed:", error.message);
@@ -118,7 +119,7 @@ export default function NewsPage() {
               data={news}
               onEdit={(item) => {
                 setEditingItem(item);
-                setIsModalOpen(true);
+                open();
               }}
               onDelete={handleDelete}
             />
@@ -140,7 +141,7 @@ export default function NewsPage() {
       <NewsModal
         isOpen={isModalOpen}
         onClose={() => {
-          setIsModalOpen(false);
+          close();
           setEditingItem(null);
         }}
         onSave={handleSave}
@@ -154,7 +155,7 @@ export default function NewsPage() {
         extra={
             <Button
               variant="primary"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => open()}
               leftIcon={<Plus size={18} />}
             >
               Add News
@@ -166,7 +167,11 @@ export default function NewsPage() {
       {/* Filter and Seacrh */}
       <div className="flex justify-between items-center bg-gray-900/50 p-3 rounded-xl border border-gray-800">
         <div className="w-full max-w-md">
-          <SearchBar value={searchTerm} onChange={setSearchTerm} />
+          <SearchBar 
+            value={searchTerm} 
+            onChange={setSearchTerm}
+            placeholder="Search by tittle or description..."
+          />
         </div>
         <div className="text-xs text-gray-500 px-4">
           Total: {filteredNews.length} Articles
