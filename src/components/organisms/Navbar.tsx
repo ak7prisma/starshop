@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TbMenuDeep, TbX } from "react-icons/tb";
 import { useRouter } from 'next/navigation';
+import { navLinks } from "@/constant/menu";
 
 export default function Navbar() {
 
@@ -64,21 +65,17 @@ export default function Navbar() {
           className="font-medium tracking-wide mr-5 object-contain"
         />
         <div className="hidden md:flex space-x-10 items-center text-center">
-          <Link 
-            href="/Home" 
-            className={mainMenuClass}>
-            Home
-          </Link>
-          <Link 
-            href="/History" 
-            className={mainMenuClass}>
-            History
-          </Link>
-          <Link 
-            href="/About" 
-            className={mainMenuClass}>
-            About
+          
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href} 
+              className={mainMenuClass}
+            >
+              {link.label}
             </Link>
+          ))}
+
         </div>
         <div className="hidden md:flex">
           {isLogin ? (
@@ -112,21 +109,17 @@ export default function Navbar() {
           `md:hidden mt-3 flex flex-col transition-all duration-400 ease-in-out overflow-hidden ${isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`
         }>
         <div className="flex justify-around bg-[#1e293b] rounded-lg p-4 mb-3">
-          <Link 
-            href="/Home" 
-            className={mobileMenuClass}>
-            Home
-          </Link>
-          <Link 
-            href="/History" 
-            className={mobileMenuClass}>
-            History
-          </Link>
-          <Link 
-            href="/About" 
-            className={mobileMenuClass}>
-            About
-          </Link>
+          
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href} 
+              className={mobileMenuClass}
+            >
+              {link.label}
+            </Link>
+          ))}
+
         </div>
           {isLogin ? (
             <button 

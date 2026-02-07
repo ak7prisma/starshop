@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/app/utils/client";
 import { LogOut, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
-import { menuItems } from "@/constant/menu";
+import { dashboarMenu } from "@/constant/menu";
 import { SidebarItem } from "./SideBarItems";
 
 function useSidebarLogic() {
@@ -87,7 +87,7 @@ export default function Sidebar() {
           </p>
         )}
 
-        {menuItems.map((item) => (
+        {dashboarMenu.map((item) => (
           <SidebarItem
             key={item.href}
             href={item.href}
