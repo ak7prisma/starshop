@@ -69,7 +69,7 @@ export default function Sidebar() {
         <Link href="/dashboard" className="flex items-center justify-center w-full h-full">
           {isCollapsed ? (
             <div className="animate-in zoom-in duration-300 p-2">
-              <Image src="/favicon.ico" alt="Icon" width={24} height={24} className="object-contain md:w-[36px] md:h-[36px]" />
+              <Image src="/favicon.ico" alt="Icon" width={24} height={24} className="object-contain md:w-9 md:h-9" />
             </div>
           ) : (
             <div className="animate-in fade-in duration-500">
@@ -80,7 +80,7 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-6 px-1 md:px-3 space-y-2 overflow-y-auto scrollbar-hide">
+      <nav className="flex-1 py-6 px-1.5 md:px-3 space-y-2 overflow-y-auto scrollbar-hide">
         {!isCollapsed && (
           <p className="px-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 animate-in fade-in duration-300">
             Main Menu
@@ -106,7 +106,7 @@ export default function Sidebar() {
           onClick={handleLogout}
           disabled={isLoggingOut}
           className={`
-            flex items-center py-3 w-full text-red-400 hover:bg-red-500/10 hover:text-red-500 rounded-xl transition-all duration-200 group overflow-hidden
+            sticky bottom-5 flex items-center py-3 w-full text-red-400 hover:bg-red-500/10 hover:text-red-500 rounded-xl transition-all duration-200 group overflow-hidden
             ${isCollapsed ? "justify-center" : "px-3 gap-3"}
             ${isLoggingOut ? 'opacity-50 cursor-not-allowed' : ''}
           `}

@@ -14,7 +14,7 @@ export const SidebarItem = ({ href, icon: Icon, label, isActive, isCollapsed, is
   <Link
     href={href}
     className={`
-      flex items-center py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
+      flex items-center py-2.5 md:py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
       ${isCollapsed ? "justify-center px-0" : "px-3 gap-3"}
       ${isActive ? "bg-indigo-600 text-white shadow-lg shadow-blue-600/20" : "text-gray-400 hover:bg-gray-800 hover:text-white"}
     `}
