@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Starshop - Digital Product Top-Up Platform
 
-## Getting Started
+![Project Banner](public/Preview.png)
 
-First, run the development server:
+**Your one-stop destination for seamless game credits top-up.**
+  *Fast, Secure, and Managed with a powerful Admin Dashboard.*
+
+🔗 **Live Demo:** [https://starshop-jf2g.vercel.app/](https://starshop-jf2g.vercel.app/)
+
+---
+
+## 🛠️ Tech Stack
+
+This project leverages the latest web technologies for optimal performance and developer experience:
+
+-   **Framework:** [Next.js 14/15 (App Router)](https://nextjs.org/)
+-   **Language:** [TypeScript](https://www.typescriptlang.org/)
+-   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+-   **Icons:** [Lucide React](https://lucide.dev/) & [React Icons](https://react-icons.github.io/react-icons/)
+-   **Deployment:** [Vercel](https://vercel.com/)
+
+---
+
+## ✨ Key Features
+
+### 👤 For Users
+-   **🛒 Browsing & Search:** Easy to find games with category filtering.
+-   **💳 Seamless Checkout:** Input User ID, select nominal, and choose payment method.
+-   **upload Proof:** Integrated image uploader with preview for payment proof.
+-   **History Tracker:** Authenticated users can see their purchase history.
+-   **📱 Responsive Design:** Optimized for Mobile and Desktop (Sidebar/Navbar adaptive).
+-   **🔐 Secure Auth:** Login & Register system powered by Supabase Auth.
+
+### 🛡️ For Admins (Dashboard)
+-   **📊 Product Management:** CRUD (Create, Read, Update, Delete) products.
+-   **🔍 Search & Filter:** Quickly find transactions or products by ID/Name.
+-   **🖼️ News Management:** Handle CRUD ffor News at Landing Page.
+-   **📈 Real-time Updates:** Changes in dashboard reflect instantly via Supabase.
+
+---
+
+## 📂 Project Structure
+
+The project follows a "Clean Code" structure to ensure scalability:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+root
+├── src/
+│    ├── app/
+│    │   ├── (auth)/             # Login & Register Routes
+│    │   ├── Topup/              # Topup Logic & Components
+│    │   ├── dashboard/          # Admin Panel (product, etc.)
+│    │   ├── lib/                # Supabase Client & Utils
+│    │   ├── History/            # History Page (access for auth user)
+│    │   └── Home/               # Home Landing Page
+│    ├── components/
+│    │   ├── modals/             # ProductEditModal, NewProductModal, ContactModal, etc
+│    │   ├── ui/                 # Atomic UI (Buttons, Inputs, ImageUploader)
+│    │   └── ...                 # Feature-specific components
+│    ├── datatypes/              # TypeScript Interfaces (Product, PaymentMethod)
+│    ├── hooks/                  # Custom Hooks (useModal, useAuth)
+│    └── public/                 # Static Assets
+└── ...
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Getting Started Locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Follow these steps to run the project on your local machine:
 
-## Learn More
+1. **Clone the repository**
+```bash
+git clone [https://github.com/ak7prisma/starshop.git](https://github.com/ak7prisma/starshop.git)
+cd portfolio-ahmad-kurnia-prisma
 
-To learn more about Next.js, take a look at the following resources:
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install Dependencies**
+```bash
+npm install
+# or
+yarn install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
 
-## Deploy on Vercel
+3. **Setup Environment Variables**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create a .env.local file in the root directory and add your Supabase credentials:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ ```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+4. **Run Development Server**
+```bash
+npm run dev
+
+```
+
+5. **Open in Browser**
+Visit `http://localhost:3001` to see the app in action.
+
+---
+
+## 📬 Contact
+
+Feel free to reach out if you want to collaborate or just say hi!
+
+* **Email:** ahmadkurniaprisma@gmail.com
+* **LinkedIn:** [Ahmad Kurnia Prisma](https://www.google.com/search?q=https://www.linkedin.com/in/ahmad-kurnia-prisma-1b639a313)
+* **Instagram:** [@akprisma](https://www.google.com/search?q=https://www.instagram.com/akprisma)
+
+---
+
+Developed by **Ahmad Kurnia Prisma**
+
+```
+
+```
