@@ -4,7 +4,7 @@ import { Eye, Loader2, SearchX } from "lucide-react";
 import { TopupData } from "@/datatypes/TopupData";
 import { Badge, getBadgeVariant } from "../../../components/ui/Badge";
 import DropdownMenu from "../../../components/ui/DropdownMenu";
-import { STATUS_OPTIONS } from "@/constant/menu";
+import { statusOptions } from "@/constant/menu";
 
 interface Props {
   data: (TopupData & { products?: { nameProduct: string } })[];
@@ -80,7 +80,7 @@ export default function TransactionTable({
                     <DropdownMenu
                       value={trx.status}
                       onChange={(newStatus) => onStatusChange(trx.idTopup, newStatus)}
-                      options={STATUS_OPTIONS}                  />
+                      options={statusOptions} />
 
                   </div>
                 </td>

@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { FaInstagram, FaWhatsapp, FaTiktok, FaEnvelope } from "react-icons/fa";
 import ServiceItem from "./component/ServiceItem";
 import Link from "next/link";
+import { socialLinks } from "@/constant/socialdata";
+import { serviceData, storeData } from "@/constant";
 
 export default function About() {
 
@@ -16,7 +17,7 @@ export default function About() {
                 <div className="bg-[#243867]/20 rounded-lg p-8 md:p-12">
                     <header className="mb-6">
                         <h1 className="text-3xl md:text-4xl font-bold">About Starshop</h1>
-                        <p className="text-slate-300 mt-2">Layanan top-up game dan produk digital MURAH x TERPERCAYA.</p>
+                        <p className="text-slate-300 mt-2">{storeData.tagline}</p>
                     </header>
 
                     <div className="grid md:grid-cols-3 gap-6 items-start ">
@@ -32,21 +33,18 @@ export default function About() {
                             </div>
 
                             <h2 className="text-xl font-semibold">Starshop</h2>
-                            <p className="text-sm text-slate-300 mb-4">Online Top-up Store — Game & Digital Products</p>
+                            <p className="text-sm text-slate-300 mb-4">{storeData.tagline2}</p>
 
                             <div className="flex space-x-3">
-                                <Link href="https://www.instagram.com/akprisma?igsh=MTJtd2lwaHZoeXFrZA==" aria-label="Instagram" className={socialMediaClass}>
-                                    <FaInstagram size={18} />
-                                </Link>
-                                <Link href="https://wa.me/qr/424AF5XR3VZ7B1" aria-label="WhatsApp" className={socialMediaClass}>
-                                    <FaWhatsapp size={18} />
-                                </Link>
-                                <Link href="https://www.tiktok.com/@royuciha246?_t=ZS-8v6zPNJpxJK&_r=1" aria-label="TikTok" className={socialMediaClass}>
-                                    <FaTiktok size={18} />
-                                </Link>
-                                <Link href="mailto:ahmadkurniaprisma@gmail.com" aria-label="Email" className={socialMediaClass}>
-                                    <FaEnvelope size={18} />
-                                </Link>
+                                {socialLinks.map((link) => (
+                                    <Link
+                                        key={link.href}
+                                        href={link.href} 
+                                        className={socialMediaClass}
+                                    >
+                                        {<link.icon size={20}/>}
+                                    </Link>
+                                ))}
                             </div>
                         </div>
 
@@ -54,29 +52,33 @@ export default function About() {
                             <section className="mb-6">
                                 <h3 className="text-lg font-semibold mb-2">Tentang Toko</h3>
                                 <p className="text-slate-300 leading-relaxed">
-                                    Starshop menyediakan layanan top-up game dan produk digital lainnya dengan harga terjangkau dan
-                                    pelayanan cepat. Kami melayani pembelian pulsa, paket data, voucher game, dan item digital untuk
-                                    berbagai platform. Setelah pembayaran, pelanggan dapat mengunggah bukti bayar untuk diproses melalui
-                                    sistem kami.
+                                   {storeData.description}
                                 </p>
                             </section>
 
                             <section className="mb-6">
                                 <h3 className="text-lg font-semibold mb-2">Layanan</h3>
                                 <div className="flex flex-col gap-2 text-slate-300">
-                                    <ServiceItem text="Top-up game (voucher & in-game currency)" />
-                                    <ServiceItem text="Pulsa & Token Listrik" />
-                                    <ServiceItem text="Pembayaran via transfer & upload bukti" />
-                                    <ServiceItem text="Customer support via Instagram / WhatsApp" />
+                                    {serviceData.map((data) => (
+                                        <ServiceItem key={data} text={data}/>
+                                        )
+                                    )}
                                 </div>
                             </section>
 
                             <section>
                                 <h3 className="text-lg font-semibold mb-2">Kontak</h3>
                                 <ul className="mt-3 text-slate-300 space-y-1">
-                                    <li>Email: <Link className="text-indigo-400 hover:text-indigo-600 duration-300" href="mailto:ahmadkurniaprisma@gmail.com">ahmadkurniaprisma@gmail.com</Link></li>
-                                    <li>Instagram: <Link className="text-indigo-400 hover:text-indigo-600 duration-300" href="https://www.instagram.com/akprisma">@akprisma</Link></li>
-                                    <li>WhatsApp: <Link className="text-indigo-400 hover:text-indigo-600 duration-300" href="https://wa.me/+628989209565">+628989209565</Link></li>
+                                    {socialLinks.map((data) => (
+                                        <li key={data.href}>{data.label}: 
+                                            <Link 
+                                                className="text-indigo-400 hover:text-indigo-600 duration-300" 
+                                                href={data.href}>
+                                                    {data.value}
+                                            </Link>
+                                        </li>
+                                    )
+                                )}
                                 </ul>
 
                                 <p className="text-slate-400 mt-4 text-sm">Proyek ini dibuat sebagai tugas pembelajaran menggunakan Next.js, Tailwind CSS, dan Supabase.</p>

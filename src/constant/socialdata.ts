@@ -1,10 +1,10 @@
-import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarkedAlt, FaTiktok, FaWhatsapp } from "react-icons/fa"
+import { FaEnvelope, FaGithub, FaInstagram, FaMapMarkedAlt, FaWhatsapp } from "react-icons/fa"
 
 export const socialLinks = [
-  {href: "https://www.instagram.com/akprisma?igsh=MTJtd2lwaHZoeXFrZA==", icon: FaWhatsapp},
-  {href: "https://wa.me/qr/424AF5XR3VZ7B1", icon: FaInstagram},
-  {href: "https://www.tiktok.com/@royuciha246?_t=ZS-8v6zPNJpxJK&_r=1", icon: FaTiktok},
-  {href: "https://www.facebook.com/share/1D6zTt1ruu/", icon: FaFacebook},
+    {label: "Instagram", value: "akprisma", href: "https://www.instagram.com/akprisma?igsh=MTJtd2lwaHZoeXFrZA==", icon: FaWhatsapp},
+    {label: "WhatsApp", value: "+628989209565", href: "https://wa.me/qr/424AF5XR3VZ7B1", icon: FaInstagram},
+    {label: "Github", value: "Github", href: "https://github.com/ak7prisma", icon: FaGithub},
+    {label: "Email", value: "ahmadkurniaprisma@gmail.com", href: "https://mail.google.com/mail/u/0/#inbox?compose=jrjtXDxrKGgKwqjWRmXZtsfZJbNBzSDJmfPvVgTxFTJSqcppTFqKXdpnCLnnqjZWFFbxTKMW", icon:FaEnvelope}
 ]
 
 export const contactModalData = [

@@ -1,4 +1,4 @@
-import { LayoutDashboard, ShoppingCart, Package, Check, Clock, X, Newspaper } from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Newspaper } from "lucide-react";
 
 export const dashboarMenu = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -7,10 +7,10 @@ export const dashboarMenu = [
     { name: "News", href: "/dashboard/news", icon: Newspaper},
   ];
 
-export const STATUS_OPTIONS = [
-  { value: "pending", label: "Pending", icon: Clock, color: "text-amber-400" },
-  { value: "success", label: "Success", icon: Check, color: "text-emerald-400" },
-  { value: "failed", label: "Failed", icon: X, color: "text-red-400" },
+export const statusOptions = [
+  { value: "pending", label: "Pending" },
+  { value: "success", label: "Success" },
+  { value: "failed", label: "Failed "},
 ];
 
 export const categoryOptions = [
