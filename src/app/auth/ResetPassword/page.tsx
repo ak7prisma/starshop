@@ -63,7 +63,8 @@ export default function UpdatePassword() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form onSubmit={handleResetPassword} className="space-y-6">
 
-            <Input 
+            <Input
+              required
               label='New Password'
               id='password'
               type='password'

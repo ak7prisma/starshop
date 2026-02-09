@@ -53,7 +53,8 @@ export default function Register() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleRegist} className="space-y-6">
             
-            <Input 
+            <Input
+              required 
               label='Username'
               id='username'
               type='text'
@@ -63,7 +64,8 @@ export default function Register() {
               onChange={(e) => setUsername(e.target.value)}
             />
 
-            <Input 
+            <Input
+              required 
               label='Email Address'
               id='email'
               type='email'
@@ -73,7 +75,8 @@ export default function Register() {
               onChange={(e) => setEmail(e.target.value)}
             />
 
-            <Input 
+            <Input
+              required 
               label='Password'
               id='password'
               type='password'
@@ -82,7 +85,8 @@ export default function Register() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <Input 
+            <Input
+              required 
               label='Confirmed Password'
               id='confirmedpassword'
               type='password'

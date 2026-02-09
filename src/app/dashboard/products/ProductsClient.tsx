@@ -32,9 +32,6 @@ export default function ProductsClient({ initialProducts }: Readonly<ProductsCli
 
   const handleSaveEdit = async (updatedProduct: Product) => {
     setIsSaving(true);
-    console.log("=== MULAI UPDATE ===");
-    console.log("ID Product:", updatedProduct.idProduct, typeof updatedProduct.idProduct);
-    console.log("Data Update:", updatedProduct);
 
     try {
       const { data, error } = await supabase

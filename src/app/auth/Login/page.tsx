@@ -45,7 +45,8 @@ export default function Login() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleLogin} className="space-y-6">
-            <Input 
+            <Input
+              required
               label='Email Address'
               id='email'
               type='email'
@@ -56,6 +57,7 @@ export default function Login() {
             />
 
             <Input
+              required
               label="Password"
               id="password"
               type="password"
