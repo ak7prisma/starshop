@@ -119,7 +119,8 @@ const handleStatusChange = async (id: number, newStatus: string) => {
 
           {/* SearchBar */}
           <SearchBar 
-            value={searchTerm} 
+            value={searchTerm}
+            placeholder="Search GameID, Product, TopupID..."
             onChange={setSearchTerm} 
           />
           
