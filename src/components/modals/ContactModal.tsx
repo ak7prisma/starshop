@@ -1,5 +1,6 @@
 "use client";
 import { Modal, ModalBody, ModalHeader } from "flowbite-react";
+import { X } from "lucide-react";
 import Link from "next/link";
 import React from 'react';
 import { FaWhatsapp, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
@@ -16,7 +17,6 @@ export default function ContactModal({ isOpen, onClose }: Readonly<ContactModalP
   return (
     <Modal 
       show={isOpen} 
-      onClose={onClose} 
       position="center" 
       popup 
       theme={{
@@ -28,7 +28,10 @@ export default function ContactModal({ isOpen, onClose }: Readonly<ContactModalP
     >
 
       <ModalHeader className="rounded-t-lg bg-slate-800 pb-2 pt-6 px-6">
-          <span className="text-xl font-bold text-indigo-400 tracking-wide">Contact Me</span>
+        <span className="text-xl font-bold text-indigo-400">Contact Me</span>
+        <button type="button" onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-lg text-gray-400 hover:text-white transition-colors">
+          <X size={24} />
+        </button>    
       </ModalHeader>
       
       <ModalBody className="rounded-b-lg bg-slate-800 px-6 pb-6 pt-2">
