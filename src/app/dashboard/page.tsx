@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Loader2, Download } from "lucide-react";
-
+import { exportExcel } from "../lib/exportExcel";
 import { createClient } from "@/app/utils/client";
 import type { TopupData } from "@/datatypes/TopupData";
 import { StatsCard } from "./component/StatsCard";
@@ -10,6 +10,7 @@ import { RecentTransactionsTable } from "./component/RecentTransactionsTable";
 import { TopSellingList } from "./component/TopSellingList";
 import { getStatsList } from "../utils/dashboardStats";
 import { formatRupiah } from "../utils/formatRupiah";
+import { greetingTime, today} from "@/app/utils/greetingTime"
 
 export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -101,17 +102,6 @@ export default function DashboardPage() {
     formatRupiah
   });
 
-  const hour = new Date().getHours();
-  let greeting = "";
-  if (hour < 12) {
-    greeting = "Good Morning";
-  } else if (hour < 18) {
-    greeting = "Good Afternoon";
-  } else {
-    greeting = "Good Evening";
-  }
-  const today = new Date().toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
   if (isLoading) {
     return (
         <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
@@ -131,7 +121,7 @@ export default function DashboardPage() {
              <span>{today}</span>
           </div>
           <h1 className="text-3xl font-bold text-white tracking-tight">
-            {greeting}, {userRole === 'boss' ? 'Boss' : 'Admin'}
+            {greetingTime()}, {userRole === 'boss' ? 'Boss' : 'Admin'}
           </h1>
           <p className="text-gray-400 mt-1">Real-time business insights</p>
         </div>
