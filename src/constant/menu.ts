@@ -13,7 +13,7 @@ export const STATUS_OPTIONS = [
   { value: "failed", label: "Failed", icon: X, color: "text-red-400" },
 ];
 
-export const CATEGORY_OPTIONS = [
+export const categoryOptions = [
   { value: "Games", label: "Games" },
   { value: "Voucher", label: "Voucher" },
   { value: "E-Money", label: "E-Money" },

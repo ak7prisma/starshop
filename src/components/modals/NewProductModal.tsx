@@ -1,5 +1,6 @@
 "use client";
 
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { X, Save, Plus, Loader2, Gamepad2, User, Gem, LayoutGrid, Package, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -7,7 +8,7 @@ import { Product } from "@/datatypes/productsType";
 import SelectDropdown from "../ui/DropdownMenu";
 import ImageUploader from "@/components/ui/ImageUploader";
 import { useProductForm } from "@/hooks/useProductForm";
-import { CATEGORY_OPTIONS } from "@/constant/menu";
+import { categoryOptions } from "@/constant/menu";
 
 interface NewProductModalProps {
   onClose: () => void;
@@ -29,10 +30,29 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
   };
 
   return (
-    <div className="fixed inset-0 z-50 h-full flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in zoom-in-95 duration-200 font-sans">
-      <div className="bg-[#0B1120] border border-gray-800 w-full max-w-5xl rounded-2xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
-        
-        <div className="p-6 border-b border-gray-800 flex justify-between items-center bg-gray-900/50 shrink-0">
+    <Modal
+      show={true}
+      onClose={onClose}
+      position="center"
+      popup
+      size="5xl"
+      theme={{
+        root: {
+          base: "fixed inset-0 z-50 h-full overflow-y-auto overflow-x-hidden p-4 md:inset-0 h-modal md:h-full backdrop-blur-md bg-black/80",
+          show: {
+            on: "flex bg-black/80",
+            off: "hidden",
+          },
+        },
+        content: {
+          base: "relative h-full w-full p-0 md:h-auto",
+          inner: "relative rounded-2xl bg-[#0B1120] border border-gray-800 shadow-2xl flex flex-col max-h-[90vh] w-full mx-auto"
+        }
+      }}
+    >
+      {/* Header */}
+      <ModalHeader className="border-b border-gray-800 bg-gray-900/50 p-6 rounded-t-2xl">
+        <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 border border-blue-500/20">
               <Plus size={24} />
@@ -42,17 +62,21 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
               <p className="text-xs text-gray-400">Fill in details and upload assets.</p>
             </div>
           </div>
-          <button type="button" onClick={onClose} className="p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white transition-colors">
+          <button type="button" onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-gray-800 rounded-lg text-gray-400 hover:text-white transition-colors">
             <X size={24} />
           </button>
         </div>
+      </ModalHeader>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
+      {/* Form */}
+      <ModalBody className="p-0 overflow-hidden flex flex-col rounded-b-2xl bg-[#0B1120]">
+        <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden">
           
-          <div className="flex-1 overflow-y-auto p-6 space-y-8">
+          {/* Content */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
               
+              {/* Image Upload */}
               <div className="md:col-span-4 space-y-6">
                 <ImageUploader 
                   label="Icon" 
@@ -69,56 +93,45 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
                 />
               </div>
 
+              {/* Details */}
               <div className="md:col-span-8 space-y-5">
                 <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wider border-b border-gray-800 pb-2">Basic Details</h3>
                 
                 <div className="space-y-4">
-                  <div className="space-y-1">
-                    <Input 
-                      required
-                      label="Product Name"
-                      placeholder="e.g. Mobile Legends"
-                      value={formData.nameProduct}
-                      onChange={(e) => updateField("nameProduct", e.target.value)}
-                      leftIcon={<Gamepad2 size={16} />} 
-                    />
-                  </div>
+                  <Input 
+                    required label="Product Name" placeholder="e.g. Mobile Legends"
+                    value={formData.nameProduct}
+                    onChange={(e) => updateField("nameProduct", e.target.value)}
+                    leftIcon={<Gamepad2 size={16} />} 
+                  />
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <Input 
-                        required
-                        label="Developer"
-                        placeholder="e.g. Moonton" 
-                        value={formData.developer} 
-                        onChange={(e) => updateField("developer", e.target.value)} 
-                        leftIcon={<User size={16} />} 
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <Input 
-                        required 
-                        label="Items Name"
-                        placeholder="e.g. Diamonds" 
-                        value={formData.itemName} 
-                        onChange={(e) => updateField("itemName", e.target.value)} 
-                        leftIcon={<Gem size={16} />} 
-                      />
-                    </div>
+                    <Input 
+                      required label="Developer" placeholder="e.g. Moonton" 
+                      value={formData.developer} 
+                      onChange={(e) => updateField("developer", e.target.value)} 
+                      leftIcon={<User size={16} />} 
+                    />
+                    <Input 
+                      required label="Items Name" placeholder="e.g. Diamonds" 
+                      value={formData.itemName} 
+                      onChange={(e) => updateField("itemName", e.target.value)} 
+                      leftIcon={<Gem size={16} />} 
+                    />
                   </div>
 
                   <SelectDropdown 
                     label="Category"
                     icon={<LayoutGrid size={16} />}
                     value={formData.category || "Games"}
-                    options={CATEGORY_OPTIONS}
+                    options={categoryOptions}
                     onChange={(val: any) => updateField("category", val)}
                   />
-
                 </div>
               </div>
             </div>
 
+            {/* Variants Section */}
             <div className="space-y-4 border-t border-gray-800 pt-6">
               <div className="flex justify-between items-end mb-2">
                 <div>
@@ -133,9 +146,7 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
                   <div key={item.internalId} className="grid grid-cols-12 gap-4 items-start bg-gray-900/30 p-3 rounded-xl border border-gray-800/50 hover:border-blue-500/30">
                     <div className="col-span-7">
                       <Input 
-                        required
-                        type="number"
-                        placeholder="Item Amount (e.g. 100)" 
+                        required type="number" placeholder="Item Amount (e.g. 100)" 
                         value={item.name} 
                         onChange={(e) => updateItem(item.internalId, "name", e.target.value)} 
                         leftIcon={<Package size={14} />} 
@@ -143,10 +154,7 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
                     </div>
                     <div className="col-span-4">
                       <Input 
-                        required 
-                        type="number" 
-                        placeholder="0" 
-                        min="0" 
+                        required type="number" placeholder="0" min="0" 
                         value={item.price === 0 ? "" : item.price} 
                         onChange={(e) => updateItem(item.internalId, "price", Number(e.target.value))} 
                         leftIcon={<span className="text-xs font-bold font-sans">Rp</span>} 
@@ -168,14 +176,16 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
             </div>
           </div>
 
+          {/* Footer */}
           <div className="p-5 border-t border-gray-800 bg-gray-900 z-20 flex justify-end items-center gap-3 shrink-0">
             <Button type="button" variant="secondary" onClick={onClose} disabled={isUploading}>Cancel</Button>
             <Button type="submit" variant="primary" disabled={isUploading} leftIcon={isUploading ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}>
               {isUploading ? "Uploading..." : "Create Product"}
             </Button>
           </div>
+
         </form>
-      </div>
-    </div>
+      </ModalBody>
+    </Modal>
   );
 };

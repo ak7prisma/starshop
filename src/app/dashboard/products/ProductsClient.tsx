@@ -11,7 +11,7 @@ import { createClient } from "@/app/utils/client";
 import SearchBar from "../component/SearchBar";
 import { useRouter } from "next/navigation";
 import FilterTabs from "../component/FilterTabs";
-import { CATEGORY_OPTIONS } from "@/constant/menu";
+import { categoryOptions } from "@/constant/menu";
 import { ProductCard } from "../component/ProductCardDashboard";
 import { useModal } from "@/hooks/useModals";
 
@@ -157,7 +157,7 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
       {/* Filters */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-2 flex flex-col md:flex-row gap-4 items-center justify-between">
         <FilterTabs 
-          tabs={["All", ...CATEGORY_OPTIONS.map(cat => cat.value)]}
+          tabs={["All", ...categoryOptions.map(cat => cat.value)]}
           activeTab={activeCategory} 
           onTabChange={setActiveCategory} 
         />
