@@ -74,9 +74,9 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
                 
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-xs text-gray-400 ml-1">Product Name <span className="text-red-500">*</span></label>
                     <Input 
                       required
+                      label="Product Name"
                       placeholder="e.g. Mobile Legends"
                       value={formData.nameProduct}
                       onChange={(e) => updateField("nameProduct", e.target.value)}
@@ -86,9 +86,9 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1">
-                      <label className="text-xs text-gray-400 ml-1">Developer <span className="text-red-500">*</span></label>
                       <Input 
-                        required 
+                        required
+                        label="Developer"
                         placeholder="e.g. Moonton" 
                         value={formData.developer} 
                         onChange={(e) => updateField("developer", e.target.value)} 
@@ -96,9 +96,9 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-xs text-gray-400 ml-1">Item Name <span className="text-red-500">*</span></label>
                       <Input 
                         required 
+                        label="Items Name"
                         placeholder="e.g. Diamonds" 
                         value={formData.itemName} 
                         onChange={(e) => updateField("itemName", e.target.value)} 

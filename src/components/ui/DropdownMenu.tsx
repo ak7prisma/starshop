@@ -43,7 +43,7 @@ export default function SelectDropdown({
 
   return (
     <div className="space-y-1 relative" ref={dropdownRef}>
-      {label && <label className="text-xs text-gray-400 ml-1">{label}</label>}
+      {label && <label className="block text-sm font-medium leading-6 text-gray-100">{label}</label>}
       
       <div className="relative">
         {icon && (

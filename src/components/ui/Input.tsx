@@ -23,13 +23,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       extraLabel,
       disabled,
       id,
+      required,
       ...props
     },
     ref
   ) => {
     const [showPassword, setShowPassword] = useState(false);
     const isPasswordType = type === "password";
-    
+
     let passwordType = "password";
     if (showPassword) {
       passwordType = "text";
@@ -48,6 +49,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 className="block text-sm font-medium leading-6 text-gray-100"
               >
                 {label}
+                {required? <span className="text-red-600"> *</span> : <span> </span>}
               </label>
             )}
             {extraLabel}
