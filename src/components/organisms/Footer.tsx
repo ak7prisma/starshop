@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { navLinks, socialLinks } from "@/constant/menu";
+import { navLinks } from "@/constant/menu";
+import { socialLinks } from "@/constant/socialdata";
 
 export default function Footer() {
 

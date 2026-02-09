@@ -1,5 +1,4 @@
 import { LayoutDashboard, ShoppingCart, Package, Check, Clock, X, Newspaper } from "lucide-react";
-import { FaFacebook, FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 export const dashboarMenu = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -25,11 +24,4 @@ export const navLinks = [
   { label: 'Home', href: '/Home' },
   { label: 'History', href: '/History' },
   { label: 'About', href: '/About' },
-]
-
-export const socialLinks = [
-  {href: "https://www.instagram.com/akprisma?igsh=MTJtd2lwaHZoeXFrZA==", icon: FaWhatsapp},
-  {href: "https://wa.me/qr/424AF5XR3VZ7B1", icon: FaInstagram},
-  {href: "https://www.tiktok.com/@royuciha246?_t=ZS-8v6zPNJpxJK&_r=1", icon: FaTiktok},
-  {href: "https://www.facebook.com/share/1D6zTt1ruu/", icon: FaFacebook},
 ]
