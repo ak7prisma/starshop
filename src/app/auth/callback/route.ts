@@ -35,3 +35,4 @@ export async function GET(request: Request) {
 
   return NextResponse.redirect(`${origin}/auth/Login?error=auth-code-error`)
 }
+

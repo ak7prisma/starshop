@@ -7,7 +7,10 @@ import FormFooter from '@/app/auth/component/AuthFooter';
 import SubmitLoading from '@/components/ui/SubmitLoading';
 import { Input } from '@/components/ui/Input';
 import { loginAction } from '../action';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/Button';
+import { FaGoogle } from 'react-icons/fa';
+import { createBrowserClient } from '@supabase/ssr';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -32,11 +35,26 @@ export default function Login() {
     } else if (result?.success) {
       
       router.refresh() 
-      
-      router.push(result.redirectUrl || '/') 
-      
-      setLoading(false)
+      redirect(result.redirectUrl || '/') 
     }
+  }
+
+  const handleGoogleLogin = async () => {
+    const supabase = createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
+
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${location.origin}/auth/callback`, 
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
+    })
   }
 
   return (
@@ -88,7 +106,13 @@ export default function Login() {
           <FormFooter 
             label1="Don't have an account?" 
             label2="Sign Up"
-            linkroute="/auth/Register"/>
+            linkroute="/auth/Register"
+          >
+            or
+            <Button onClick={handleGoogleLogin} className="w-full" variant='secondary' leftIcon={<FaGoogle size={18}/>}>
+              Continue with Google
+            </Button>
+          </FormFooter>
         </div>
       </div>
   )
