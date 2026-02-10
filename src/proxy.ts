@@ -3,6 +3,10 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname
+  
+  if (path.startsWith('/auth/callback')) {
+    return NextResponse.next()
+  }
 
   // Matcher
   if (
@@ -47,10 +51,6 @@ export async function proxy(request: NextRequest) {
 
   // Admin Check
   const { data: { user } } = await supabase.auth.getUser()
-
-  if (path.startsWith('/auth/callback')) {
-    return NextResponse.next()
-  }
   
   // Proteksi Dashboard
   if (path.startsWith('/dashboard')) {
@@ -64,8 +64,8 @@ export async function proxy(request: NextRequest) {
       .eq('idProfil', user.id)
       .single()
 
-    if (profile?.role === 'admin' || profile?.role === 'boss') {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
+    if (profile?.role !== 'admin' && profile?.role !== 'boss') {
+      return NextResponse.redirect(new URL('/', request.url))
     }
   }
 
