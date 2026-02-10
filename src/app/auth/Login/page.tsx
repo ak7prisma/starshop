@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from "next/link";
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
 import SubmitLoading from '@/components/ui/SubmitLoading';
 import { Input } from '@/components/ui/Input';
 import { loginAction } from '../action';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { FaGoogle } from 'react-icons/fa';
 import { createBrowserClient } from '@supabase/ssr';
@@ -33,8 +33,7 @@ export default function Login() {
       setError(result.error)
       setLoading(false)
     } else if (result?.success) {
-      
-      router.refresh() 
+      router.refresh()
       router.push(result.redirectUrl || '/') 
     }
   }
@@ -45,10 +44,12 @@ export default function Login() {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     )
 
+    const origin = globalThis.location.origin
+    
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${location.origin}/auth/callback`, 
+        redirectTo: `${origin}/auth/callback`, 
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
@@ -109,7 +110,13 @@ export default function Login() {
             linkroute="/auth/Register"
           >
             or
-            <Button onClick={handleGoogleLogin} className="w-full" variant='secondary' leftIcon={<FaGoogle size={18}/>}>
+            <Button 
+                onClick={handleGoogleLogin} 
+                className="w-full" 
+                variant='secondary' 
+                type="button" 
+                leftIcon={<FaGoogle size={18}/>}
+            >
               Continue with Google
             </Button>
           </FormFooter>
