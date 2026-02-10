@@ -1,16 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from "next/link";
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
 import SubmitLoading from '@/components/ui/SubmitLoading';
 import { Input } from '@/components/ui/Input';
-import { loginAction } from '../action';
+import { loginAction, handleGoogleLogin } from '../action';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { FaGoogle } from 'react-icons/fa';
-import { createBrowserClient } from '@supabase/ssr';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -36,26 +35,6 @@ export default function Login() {
       router.refresh()
       router.push(result.redirectUrl || '/') 
     }
-  }
-
-  const handleGoogleLogin = async () => {
-    const supabase = createBrowserClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-
-    const origin = globalThis.location.origin
-    
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${origin}/auth/callback`, 
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-        },
-      },
-    })
   }
 
   return (

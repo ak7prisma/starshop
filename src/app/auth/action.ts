@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers"
 import { createClient } from "../utils/server"
+import { createBrowserClient } from "@supabase/ssr"
 
 export async function loginAction(formData: FormData) {
   const email = formData.get('email') as string
@@ -60,3 +61,23 @@ export async function registerAction(formData: FormData) {
 
   return { success: true }
 }
+
+export const handleGoogleLogin = async () => {
+    const supabase = createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
+
+    const origin = globalThis.location.origin
+    
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${origin}/auth/callback`, 
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      },
+    })
+  }
