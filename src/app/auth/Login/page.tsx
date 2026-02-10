@@ -35,7 +35,7 @@ export default function Login() {
     } else if (result?.success) {
       
       router.refresh() 
-      redirect(result.redirectUrl || '/') 
+      router.push(result.redirectUrl || '/') 
     }
   }
 
