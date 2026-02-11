@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { FaGoogle } from 'react-icons/fa';
 import { createBrowserClient } from '@supabase/ssr';
-import CaptchaModal from '@/components/modals/CapcthaModal';
+import CaptchaModal from '@/components/modals/CaptchaModal';
 
 export default function Login() {
   const [email, setEmail] = useState('');
