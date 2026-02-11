@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from "next/link";
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
@@ -11,17 +11,24 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { FaGoogle } from 'react-icons/fa';
 import { createBrowserClient } from '@supabase/ssr';
-import { Turnstile } from '@marsidev/react-turnstile';
+import CaptchaModal from '@/components/modals/CapcthaModal';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [captchaToken, setCaptchaToken] = useState<string | undefined>(undefined);
 
   const router = useRouter()
-  
+
+  const [showCaptcha, setShowCaptcha] = useState(true);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+
+  const handleCaptchaVerified = (token: string) => {
+    setCaptchaToken(token);
+    setShowCaptcha(false);
+  };
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
@@ -62,12 +69,11 @@ export default function Login() {
 
   return (
       <div className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8">
-        <Turnstile
-          siteKey="0x4AAAAAACaARJ4VrWF7Q2JW"
-          onSuccess={(token) => {
-            setCaptchaToken(token)
-          }}
-        />
+        
+        {showCaptcha && (
+          <CaptchaModal onVerify={handleCaptchaVerified} />
+        )}
+
         <FormHeader label1="Welcome back!" label2="Welcome back! Please enter your account information."/>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

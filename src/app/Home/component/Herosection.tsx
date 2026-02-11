@@ -17,7 +17,7 @@ interface HerosectionProps {
 
 export default function Herosection({ newsCarouselSlot }: HerosectionProps) {
     
-    const { isOpen, open: openContactModal, close: closeContactModal } = useModal(false); 
+    const { isOpen: isModalOpen, open, close } = useModal();
 
     const topupId = "#top-up-section"; 
     const bestsellerId = "#promo-section"; 
@@ -46,13 +46,14 @@ export default function Herosection({ newsCarouselSlot }: HerosectionProps) {
                             Top Up Now
                         </Link>
                         <button 
-                            onClick={openContactModal} 
+                            onClick={open} 
                             className={hoverButton} >
                             Contact Me
                         </button>
                        <ContactModal 
-                            isOpen={isOpen} 
-                            onClose={closeContactModal}/>
+                            isOpen={isModalOpen} 
+                            onClose={close}
+                        />
                     </div>
                     
                     <div className="pt-10 flex flex-col items-center md:items-start md:ml-40 text-gray-400 hover:text-gray-500 duration-300">
