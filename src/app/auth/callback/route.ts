@@ -28,13 +28,13 @@ export async function GET(request: Request) {
         },
       }
     )
-    
+
     const { error } = await supabase.auth.exchangeCodeForSession(code)
-    
+
     if (error) {
         console.error('Supabase Auth Error di Callback:', error.message)
     } else {
-      
+
       const forwardedHost = request.headers.get('x-forwarded-host')
       const isLocal = process.env.NODE_ENV === 'development'
 
