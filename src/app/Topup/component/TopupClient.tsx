@@ -116,7 +116,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
         setPaymentProofPreview(null);
     };
 
-    const handleTopup = async (e: React.FormEvent) => {
+    const handleTopup = async (e: React.SubmitEvent) => {
         e.preventDefault();
 
         if (!gameId || !amount || !price) return setError("Mohon lengkapi ID dan Nominal Topup.");

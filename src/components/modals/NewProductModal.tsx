@@ -24,7 +24,7 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
     isUploading, submitForm
   } = useProductForm(onSave);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     submitForm();
   };
