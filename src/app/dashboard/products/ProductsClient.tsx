@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { ProductEditModal } from "@/components/modals/ProductEditModal";
 import { NewProductModal } from "@/components/modals/NewProductModal";
+import { AlertModal } from "@/components/modals/AlertModal";
 import type { Product } from "@/datatypes/productsType";
 import { createClient } from "@/app/utils/client";
 import SearchBar from "../component/SearchBar";
@@ -27,12 +28,68 @@ export default function ProductsClient({ initialProducts }: Readonly<ProductsCli
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedGame, setSelectedGame] = useState<Product | null>(null);
+  
   const { isOpen: isModalOpen, open, close } = useModal();
   const [isSaving, setIsSaving] = useState(false);
 
+  const [alertConfig, setAlertConfig] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    type: "success" | "error" | "delete" | "info";
+    onConfirm?: () => void;
+  }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "info",
+  });
+
+  const showAlert = (type: "success" | "error" | "delete" | "info", title: string, message: string, onConfirm?: () => void) => {
+    setAlertConfig({ isOpen: true, type, title, message, onConfirm });
+  };
+
+  const closeAlert = () => {
+    setAlertConfig((prev) => ({ ...prev, isOpen: false }));
+  };
+
+  const initiateDelete = (id: number) => {
+    showAlert(
+      "delete",
+      "Delete Product?",
+      "Are you sure you want to delete this product? This action cannot be undone.",
+      () => confirmDelete(id)
+    );
+  };
+
+  const confirmDelete = async (id: number) => {
+    setIsSaving(true);
+    try {
+      const { error } = await supabase.from('Products').delete().eq('idProduct', id);
+      if (error) throw error;
+
+      setGames((prev) => prev.filter((g) => g.idProduct !== id));
+      router.refresh();
+      
+      closeAlert();
+      setTimeout(() => showAlert("success", "Deleted!", "Product has been successfully deleted."), 300);
+
+    } catch (error: any) {
+      closeAlert();
+      setTimeout(() => {
+        if (error?.code === '23503') {
+           showAlert("error", "Cannot Delete", "This product is used in transaction history.");
+        } else {
+           showAlert("error", "Delete Failed", error.message);
+        }
+      }, 300);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleSaveEdit = async (updatedProduct: Product) => {
     setIsSaving(true);
-
     try {
       const { data, error } = await supabase
         .from('Products')
@@ -46,71 +103,46 @@ export default function ProductsClient({ initialProducts }: Readonly<ProductsCli
         .eq('idProduct', updatedProduct.idProduct)
         .select();
 
-      if (error) {
-        console.error("Supabase Error:", error);
-        throw error;
-      }
+      if (error) throw error;
 
-      if (!data || data.length === 0) {
-        console.warn("UPDATE BERHASIL TAPI TIDAK ADA DATA BERUBAH.");
-        console.warn("Cek: 1. Apakah ID benar ada? 2. Cek RLS Policies di Supabase.");
-        alert("Update gagal: Data tidak ditemukan atau izin ditolak (RLS).");
-        return;
-      }
+      if (!data || data.length === 0) throw new Error("Product not found.");
 
-      console.log("Update Sukses di DB:", data);
-
-      setGames((prevGames) =>
-        prevGames.map((game) =>
-          game.idProduct === updatedProduct.idProduct ? updatedProduct : game
-        )
-      );
-
+      setGames((prev) => prev.map((g) => g.idProduct === updatedProduct.idProduct ? updatedProduct : g));
       setSelectedGame(null);
+      showAlert("success", "Updated!", "Product details updated.");
 
     } catch (error: any) {
-      console.error("CRITICAL ERROR:", error);
-      alert("Terjadi kesalahan: " + error.message);
+      showAlert("error", "Update Failed", error.message);
     } finally {
       setIsSaving(false);
     }
   };
 
-const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
+  const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
     setIsSaving(true);
     try {
-      const { data, error } = await supabase
-        .from('Products')
-        .insert(newProduct)
-        .select()
-        .single();
-
+      const { data, error } = await supabase.from('Products').insert(newProduct).select().single();
       if (error) throw error;
 
       if (data?.idProduct) {
         const newId = data.idProduct;
         const generatedHref = `/Topup/${newId}`;
-
-        const { error: updateError } = await supabase
-          .from('Products')
-          .update({ href: generatedHref })
-          .eq('idProduct', newId);
-
-        if (updateError) throw updateError;
         
-        console.log("Product Created & Href Updated:", generatedHref);
+        await supabase.from('Products').update({ href: generatedHref }).eq('idProduct', newId);
+        data.href = generatedHref;
       }
 
+      setGames((prev) => [...prev, data]);
       close();
-      router.refresh();
+      
+      showAlert("success", "Created!", "New product added to catalog.");
 
     } catch (error: any) {
-       console.error("Failed create product:", error.message);
-       alert("Error: " + error.message);
+       showAlert("error", "Creation Failed", error.message);
     } finally {
        setIsSaving(false);
     }
-};
+  };
 
   const filteredGames = games.filter((game) => {
     const matchesSearch = game.nameProduct.toLowerCase().includes(searchTerm.toLowerCase());
@@ -121,7 +153,16 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
   return (
     <div className="space-y-8 min-h-screen pb-20 relative font-sans">
       
-      {/* Modals */}
+      <AlertModal 
+        isOpen={alertConfig.isOpen}
+        onClose={closeAlert}
+        onConfirm={alertConfig.onConfirm}
+        title={alertConfig.title}
+        message={alertConfig.message}
+        type={alertConfig.type}
+        isLoading={isSaving && alertConfig.type === 'delete'}
+      />
+
       {selectedGame && (
         <ProductEditModal
           selectedGame={selectedGame}
@@ -139,7 +180,6 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
         />
       )}
 
-      {/* Header */}
       <PageHeader
         title="Products Management"
         subtitle="Control your game catalog, prices, and inventory."
@@ -154,7 +194,6 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
         }
       />
 
-      {/* Filters */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-2 flex flex-col md:flex-row gap-4 items-center justify-between">
         <FilterTabs 
           tabs={["All", ...categoryOptions.map(cat => cat.value)]}
@@ -164,22 +203,21 @@ const handleCreateProduct = async (newProduct: Omit<Product, 'idProduct'>) => {
         <SearchBar 
           value={searchTerm} 
           onChange={setSearchTerm} 
-          placeholder="Search Order ID, Product, ID Game..."
+          placeholder="Search products..."
         />
       </div>
 
-      {/* Product Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {filteredGames.map((game) => (
           <ProductCard 
             key={game.idProduct} 
             game={game} 
             onClick={setSelectedGame} 
+            onDelete={() => initiateDelete(game.idProduct)} 
           />
         ))}
       </div>
 
-      {/* Empty State */}
       {filteredGames.length === 0 && (
         <div className="text-center py-20 opacity-50">
           <Gamepad2 size={48} className="mx-auto mb-4" />
