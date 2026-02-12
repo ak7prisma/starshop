@@ -10,8 +10,7 @@ import { loginAction } from '../action';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { FaGoogle } from 'react-icons/fa';
-import { createBrowserClient } from '@supabase/ssr';
-import CaptchaModal from '@/components/modals/CaptchaModal';
+import { createClient } from '@/app/utils/client';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -19,15 +18,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const router = useRouter()
-
-  const [showCaptcha, setShowCaptcha] = useState(true);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-
-  const handleCaptchaVerified = (token: string) => {
-    setCaptchaToken(token);
-    setShowCaptcha(false);
-  };
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -48,10 +39,7 @@ export default function Login() {
   }
 
   const handleGoogleLogin = async () => {
-    const supabase = createBrowserClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
+    const supabase = createClient()
 
     const origin = globalThis.location.origin
     
@@ -69,10 +57,6 @@ export default function Login() {
 
   return (
       <div className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8">
-        
-        {showCaptcha && (
-          <CaptchaModal onVerify={handleCaptchaVerified} />
-        )}
 
         <FormHeader label1="Welcome back!" label2="Welcome back! Please enter your account information."/>
 
