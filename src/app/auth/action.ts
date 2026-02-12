@@ -21,7 +21,7 @@ export async function loginAction(formData: FormData) {
   const { data: profile } = await supabase
     .from('profiles')
     .select('role')
-    .eq('id', user.id)
+    .eq('idProfil', user.id)
     .single()
 
   const role = profile?.role
