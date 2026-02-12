@@ -1,28 +1,23 @@
 "use client";
-import React, { useState, useMemo } from 'react';
+
+import React, { useMemo } from 'react';
 import { Product } from '@/datatypes/productsType';
 import ProductCard from '@/components/ui/ProductCard';
-
-const getCategories = (products: Product[]): string[] => {
-    return ["All", ...new Set(products.map(p => p.category))];
-};
+import { useProductFilters } from '@/hooks/useProductFilter';
+import { getCategories } from '@/app/utils/getcategory';
 
 interface ProductClientProps {
     productCategory: Product[];
 }
 
 export default function ProductClient({ productCategory }: Readonly<ProductClientProps>) {
-    const [activeCategory, setActiveCategory] = useState("All");
+    const { 
+        activeCategory, 
+        setActiveCategory, 
+        filteredGames: filteredProducts 
+    } = useProductFilters(productCategory);
 
     const categories = useMemo(() => getCategories(productCategory), [productCategory]);
-
-    const filteredProducts = useMemo(() => {
-        if (activeCategory === "All") {
-            return productCategory;
-        }
-
-        return productCategory.filter(product => product.category === activeCategory);
-    }, [activeCategory, productCategory]);
 
     return (
         <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"> 
@@ -36,9 +31,14 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
                     <button
                         key={category}
                         onClick={() => setActiveCategory(category)}
-                        className={
-                            `px-6 py-2 rounded-full font-medium transition ${activeCategory === category ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-700 text-slate-200 hover:bg-indigo-500 hover:text-white'}`
-                        }>
+                        className={`
+                            px-6 py-2 rounded-full font-medium transition 
+                            ${activeCategory === category 
+                                ? 'bg-indigo-600 text-white shadow-md' 
+                                : 'bg-slate-700 text-slate-200 hover:bg-indigo-500 hover:text-white'
+                            }
+                        `}
+                    >
                         {category}
                     </button>
                 ))}
@@ -52,7 +52,7 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
             
             {filteredProducts.length === 0 && (
                 <p className="text-center text-slate-400 mt-10">
-                    Tidak ada produk ditemukan di kategori {activeCategory};.
+                    Tidak ada produk ditemukan di kategori {activeCategory}.
                 </p>
             )}
         </div>
