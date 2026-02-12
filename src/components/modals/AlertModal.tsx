@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { AlertTriangle, CheckCircle, XCircle, Trash2, X } from "lucide-react";
+import { X } from "lucide-react";
+import { getAlertConfig, AlertType } from "@/app/utils/alertconfig";
 
 interface AlertModalProps {
   isOpen: boolean;
@@ -10,7 +11,7 @@ interface AlertModalProps {
   onConfirm?: () => void;
   title: string;
   message: string;
-  type: "success" | "error" | "delete" | "info";
+  type: AlertType;
   isLoading?: boolean;
 }
 
@@ -28,61 +29,28 @@ export function AlertModal({
   useEffect(() => {
     setMounted(true);
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
-    return () => { document.body.style.overflow = 'unset'; };
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [isOpen]);
 
   if (!mounted || !isOpen) return null;
 
-  const getConfig = () => {
-    switch (type) {
-      case "success":
-        return {
-          icon: <CheckCircle size={48} className="text-green-500" />,
-          bgIcon: "bg-green-500/10",
-          borderColor: "border-green-500/20",
-          btnColor: "bg-green-600 hover:bg-green-500",
-          btnText: "OK",
-        };
-      case "error":
-        return {
-          icon: <XCircle size={48} className="text-red-500" />,
-          bgIcon: "bg-red-500/10",
-          borderColor: "border-red-500/20",
-          btnColor: "bg-red-600 hover:bg-red-500",
-          btnText: "Close",
-        };
-      case "delete":
-        return {
-          icon: <Trash2 size={40} className="text-red-500" />,
-          bgIcon: "bg-red-500/10",
-          borderColor: "border-red-500/20",
-          btnColor: "bg-red-600 hover:bg-red-500",
-          btnText: "Delete",
-        };
-      default:
-        return {
-          icon: <AlertTriangle size={48} className="text-blue-500" />,
-          bgIcon: "bg-blue-500/10",
-          borderColor: "border-blue-500/20",
-          btnColor: "bg-blue-600 hover:bg-blue-500",
-          btnText: "OK",
-        };
-    }
-  };
-
-  const config = getConfig();
+  // Panggil config dari file eksternal
+  const config = getAlertConfig(type);
 
   return createPortal(
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className={`bg-gray-950 border ${config.borderColor} w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 relative`}>
-        
+    <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div
+        className={`bg-gray-950 border ${config.borderColor} w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 relative`}
+      >
         {!isLoading && (
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="absolute top-3 right-3 text-gray-500 hover:text-white transition-colors"
           >
             <X size={20} />
@@ -90,7 +58,9 @@ export function AlertModal({
         )}
 
         <div className="p-6 text-center">
-          <div className={`w-20 h-20 ${config.bgIcon} rounded-full flex items-center justify-center mx-auto mb-4 border ${config.borderColor}`}>
+          <div
+            className={`w-20 h-20 ${config.bgIcon} rounded-full flex items-center justify-center mx-auto mb-4 border ${config.borderColor}`}
+          >
             {config.icon}
           </div>
 
@@ -100,7 +70,6 @@ export function AlertModal({
           </p>
 
           <div className="flex gap-3 justify-center">
-            
             {type === "delete" && (
               <button
                 disabled={isLoading}

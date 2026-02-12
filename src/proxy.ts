@@ -8,6 +8,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Matcher
   if (
     path.startsWith('/_next') ||
     path.startsWith('/static') ||
@@ -17,12 +18,14 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Setup Response
   let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
   })
 
+  // Supabase Logic
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -46,8 +49,10 @@ export async function proxy(request: NextRequest) {
     }
   )
 
+  // Admin Check
   const { data: { user } } = await supabase.auth.getUser()
   
+  // Proteksi Dashboard
   if (path.startsWith('/dashboard')) {
     if (!user) {
       return NextResponse.redirect(new URL('/auth/Login', request.url))
@@ -59,11 +64,12 @@ export async function proxy(request: NextRequest) {
       .eq('idProfil', user.id)
       .single()
 
-    if (profile?.role === 'admin' && profile?.role === 'boss') {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
+    if (profile?.role !== 'admin' && profile?.role !== 'boss') {
+      return NextResponse.redirect(new URL('/', request.url))
     }
   }
 
+  // Proteksi Login
   if (path.startsWith('/auth/Login') && user) {
     return NextResponse.redirect(new URL('/', request.url))
   }
