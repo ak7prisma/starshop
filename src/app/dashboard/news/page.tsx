@@ -1,111 +1,69 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { createClient } from "@/app/utils/client";
+import { useState, useMemo } from "react";
 import { Plus, Newspaper } from "lucide-react";
 import { NewsModal } from "@/components/modals/NewsModal";
+import { AlertModal } from "@/components/modals/AlertModal";
 import { PageHeader } from "@/components/ui/PageHeader";
 import SearchBar from "../component/SearchBar";
 import NewsCard from "../component/NewsCrad";
-import type { NewsItem } from "@/datatypes/newsType";
 import { Button } from "@/components/ui/Button";
 import { useModal } from "@/hooks/useModals";
+import { useNewsOperations } from "@/hooks/useNewsOperations";
+import { useAlert } from "@/hooks/useAlert";
+import type { NewsItem } from "@/datatypes/newsType";
 
 export default function NewsPage() {
-  const supabase = createClient();
 
-  const [newsList, setNewsList] = useState<NewsItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { isOpen: isFormOpen, open: openForm, close: closeForm } = useModal();
+  const { alertConfig, showAlert, closeAlert } = useAlert();
+  
+  const { newsList, isLoading, isSaving, saveNews, deleteNews } = 
+    useNewsOperations(showAlert, closeAlert);
+
   const [searchTerm, setSearchTerm] = useState("");
-
-  const { isOpen: isModalOpen, open, close } = useModal();
   const [editingItem, setEditingItem] = useState<NewsItem | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
 
-  const fetchNews = async () => {
-    setIsLoading(true);
-    const { data, error } = await supabase
-      .from("News")
-      .select("*")
-      .order("created_at", { ascending: false });
+  const filteredNews = useMemo(() => {
+    return newsList.filter(
+      (item) =>
+        item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [newsList, searchTerm]);
 
-    if (error) {
-      console.error("Error fetching news:", error);
-    } else {
-      setNewsList(data || []);
-    }
-    setIsLoading(false);
+  const handleEditClick = (item: NewsItem) => {
+    setEditingItem(item);
+    openForm();
   };
 
-  useEffect(() => {
-    fetchNews();
-  }, []);
+  const handleAddClick = () => {
+    setEditingItem(null);
+    openForm();
+  };
 
-  const handleSave = async (formData: NewsItem) => {
-    setIsSaving(true);
-    try {
-      if (editingItem) {
-        const { error } = await supabase
-          .from("News")
-          .update({
-            title: formData.title,
-            description: formData.description,
-            imgUrl: formData.imgUrl,
-            href: formData.href,
-          })
-          .eq("idNews", editingItem.idNews);
-
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.from("News").insert([
-          {
-            title: formData.title,
-            description: formData.description,
-            imgUrl: formData.imgUrl,
-            href: formData.href,
-          },
-        ]);
-
-        if (error) throw error;
-      }
-
-      await fetchNews();
-      close();
+  const handleSaveSubmit = async (formData: NewsItem) => {
+    const success = await saveNews(formData, editingItem?.idNews);
+    if (success) {
+      closeForm();
       setEditingItem(null);
-    } catch (error: any) {
-      console.error("Save failed:", error.message);
-      alert("Failed to save: " + error.message);
-    } finally {
-      setIsSaving(false);
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this news?")) return;
-
-    try {
-      const { error } = await supabase.from("News").delete().eq("idNews", id);
-
-      if (error) throw error;
-
-      setNewsList((prev) => prev.filter((item) => item.idNews !== id));
-    } catch (error: any) {
-      console.error("Delete failed:", error.message);
-      alert("Gagal hapus: " + error.message);
-    }
+  const handleDeleteRequest = (id: number) => {
+    showAlert(
+      "delete",
+      "Delete News?",
+      "Are you sure you want to delete this news? This action cannot be undone.",
+      () => deleteNews(id)
+    );
   };
-
-  const filteredNews = newsList.filter(
-    (item) =>
-      item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className="text-center py-20 text-gray-500">
-          Loading contents...
+        <div className="text-center py-20 text-gray-500 animate-pulse">
+          Loading news content...
         </div>
       );
     }
@@ -117,11 +75,8 @@ export default function NewsPage() {
             <NewsCard
               key={news.idNews}
               data={news}
-              onEdit={(item) => {
-                setEditingItem(item);
-                open();
-              }}
-              onDelete={handleDelete}
+              onEdit={handleEditClick}
+              onDelete={handleDeleteRequest}
             />
           ))}
         </div>
@@ -138,13 +93,20 @@ export default function NewsPage() {
 
   return (
     <div className="space-y-6 min-h-screen pb-20">
+      
+      <AlertModal
+        {...alertConfig}
+        onClose={closeAlert}
+        isLoading={isSaving && alertConfig.type === 'delete'}
+      />
+
       <NewsModal
-        isOpen={isModalOpen}
+        isOpen={isFormOpen}
         onClose={() => {
-          close();
+          closeForm();
           setEditingItem(null);
         }}
-        onSave={handleSave}
+        onSave={handleSaveSubmit}
         initialData={editingItem}
         isSaving={isSaving}
       />
@@ -155,30 +117,27 @@ export default function NewsPage() {
         extra={
             <Button
               variant="primary"
-              onClick={() => open()}
+              onClick={handleAddClick}
               leftIcon={<Plus size={18} />}
             >
               Add News
             </Button>
-
         }
       />
 
-      {/* Filter and Seacrh */}
-      <div className="flex justify-between items-center bg-gray-900/50 p-3 rounded-xl border border-gray-800">
+      <div className="flex flex-col sm:flex-row justify-between items-center bg-gray-900/50 p-3 rounded-xl border border-gray-800 gap-4">
         <div className="w-full max-w-md">
           <SearchBar 
             value={searchTerm} 
             onChange={setSearchTerm}
-            placeholder="Search by tittle or description..."
+            placeholder="Search by title or description..."
           />
         </div>
-        <div className="text-xs text-gray-500 px-4">
+        <div className="text-xs text-gray-500 px-4 whitespace-nowrap">
           Total: {filteredNews.length} Articles
         </div>
       </div>
 
-      {/* Content */}
       {renderContent()}
     </div>
   );
