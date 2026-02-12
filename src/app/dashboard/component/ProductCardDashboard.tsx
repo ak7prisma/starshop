@@ -13,7 +13,7 @@ export const ProductCard = ({ game, onClick, onDelete }: ProductCardProps) => {
     <div
       className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden group hover:border-blue-500/40 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-900/10 relative w-full text-left flex flex-col"
     >
-      <div 
+      <button 
         onClick={() => onClick(game)}
         className="cursor-pointer flex-1 relative"
       >
@@ -32,7 +32,7 @@ export const ProductCard = ({ game, onClick, onDelete }: ProductCardProps) => {
           )}
 
           <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-gray-900 via-gray-900/80 to-transparent">
-            <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors truncate drop-shadow-md">
+            <h3 className="flex justify-start text-xl font-bold text-white group-hover:text-blue-400 transition-colors truncate drop-shadow-md">
               {game.nameProduct}
             </h3>
             <div className="flex justify-between items-center mt-1">
@@ -42,7 +42,7 @@ export const ProductCard = ({ game, onClick, onDelete }: ProductCardProps) => {
             </div>
           </div>
         </div>
-      </div>
+      </button>
 
       <div className="p-4 border-t border-gray-800 flex justify-between items-center bg-gray-900 w-full mt-auto z-10 relative">
         
@@ -51,7 +51,7 @@ export const ProductCard = ({ game, onClick, onDelete }: ProductCardProps) => {
             e.stopPropagation(); 
             onDelete();
           }}
-          className="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-600 hover:text-white transition-all border border-red-500/20 group/delete"
+          className="p-2 rounded-lg bg-gray-800 hover:bg-red-600 hover:text-white text-gray-400 transition-all"
           title="Delete Product"
         >
           <Trash2 size={16} />
