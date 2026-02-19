@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
         idGame,
         amount,
         price,
-        status: 'Pending',
+        status: 'pending',
         paymentMethod,
         paymentProofUrl: paymentProofUrl || null,
       })
