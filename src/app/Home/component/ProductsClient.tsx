@@ -14,7 +14,7 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
     const { 
         activeCategory, 
         setActiveCategory, 
-        filteredGames: filteredProducts 
+        filteredProducts 
     } = useProductFilters(productCategory);
 
     const categories = useMemo(() => getCategories(productCategory), [productCategory]);
@@ -45,7 +45,7 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
             </div>
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-8">
-                {filteredProducts.map((product) => (
+                {filteredProducts.map((product: Product) => (
                     <ProductCard key={product.idProduct} product={product} />
                 ))}
             </div>
