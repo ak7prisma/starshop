@@ -124,7 +124,7 @@ export default function DashboardPage() {
              <span>{today}</span>
           </div>
           <h1 className="text-3xl font-bold text-white tracking-tight">
-            {greetingTime()}, {userRole === 'admin' ? 'Admin' : 'Boss'}
+            {greetingTime()}, {userRole}
           </h1>
           <p className="text-gray-400 mt-1">Real-time business insights</p>
         </div>

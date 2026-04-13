@@ -36,11 +36,11 @@ export const getStatsList = ({
   return [
     {
       title: "Total Revenue",
-      value: userRole === "boss" ? formatRupiah(totalRevenue) : "Rp ••••••••",
+      value: formatRupiah(totalRevenue),
       trend: "Calculated from 'Success' orders only",
       icon: CreditCard,
       color: "blue",
-      isRestricted: userRole !== "boss",
+      isRestricted: false,
     },
     {
       title: "Pending Orders",
