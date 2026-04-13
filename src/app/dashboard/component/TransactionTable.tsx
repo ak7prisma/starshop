@@ -30,7 +30,7 @@ export default function TransactionTable({
   );
 
   return (
-    <div className="overflow-x-auto min-h-[400px]">
+    <div className="overflow-x-auto min-h-100">
       <table className="w-full text-left text-sm">
         <thead className="bg-gray-950 text-gray-400 uppercase text-[10px] font-bold tracking-widest border-b border-gray-800">
           <tr>

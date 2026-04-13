@@ -123,7 +123,7 @@ export const NewProductModal = ({ onClose, onSave, isLoading }: NewProductModalP
                   <SelectDropdown 
                     label="Category"
                     icon={<LayoutGrid size={16} />}
-                    value={formData.category || "Games"}
+                    value={formData.category || "Product"}
                     options={categoryOptions}
                     onChange={(val: any) => updateField("category", val)}
                   />

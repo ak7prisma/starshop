@@ -20,7 +20,7 @@ export const GameSalesChart = ({ transactions }: GameSalesChartProps) => {
     transactions
       .filter((t) => normalize(t.status) === "success")
       .forEach((t) => {
-        const gameName = t.idGame || "Unknown";
+        const gameName = t.Products?.nameProduct || "Unknown";
         if (!gameSales[gameName]) {
           gameSales[gameName] = { count: 0, revenue: 0 };
         }

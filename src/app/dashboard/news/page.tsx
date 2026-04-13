@@ -6,7 +6,7 @@ import { NewsModal } from "@/components/modals/NewsModal";
 import { AlertModal } from "@/components/modals/AlertModal";
 import { PageHeader } from "@/components/ui/PageHeader";
 import SearchBar from "../component/SearchBar";
-import NewsCard from "../component/NewsCrad";
+import NewsCard from "../component/NewsCard";
 import { Button } from "@/components/ui/Button";
 import { useModal } from "@/hooks/useModals";
 import { useNewsOperations } from "@/hooks/useNewsOperations";
