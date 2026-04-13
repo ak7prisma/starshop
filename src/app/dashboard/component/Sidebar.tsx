@@ -53,7 +53,7 @@ export default function Sidebar() {
     <aside 
       className={`
         h-screen bg-gray-900 border-r border-gray-800 flex flex-col transition-all duration-300 ease-in-out relative shrink-0
-        ${isCollapsed ? "w-14 md:w-20" : "w-[280px]"} 
+        ${isCollapsed ? "w-14 md:w-20" : "w-70"} 
       `}
     >
       <button

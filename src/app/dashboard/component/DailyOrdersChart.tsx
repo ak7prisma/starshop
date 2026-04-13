@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { Card } from "@/components/ui/Card";
 import { BarChart3 } from "lucide-react";
@@ -11,6 +11,22 @@ interface DailyOrdersChartProps {
 }
 
 export const DailyOrdersChart = ({ transactions }: DailyOrdersChartProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const isMobile = containerWidth > 0 && containerWidth < 480;
+
   const { dates, successData, pendingData, failedData } = useMemo(() => {
     const normalize = (s: string) => (s || "").trim().toLowerCase();
     const now = new Date();
@@ -66,107 +82,113 @@ export const DailyOrdersChart = ({ transactions }: DailyOrdersChartProps) => {
     failedData.at(-1)!;
 
   return (
-    <Card className="overflow-hidden">
-      <div className="flex items-center justify-between mb-2">
+    <Card className="overflow-hidden flex flex-col justify-between ">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-1">
         <div>
-          <h3 className="font-bold text-lg text-white flex items-center gap-2">
+          <h3 className="font-bold text-base sm:text-lg text-white flex items-center gap-2">
             <BarChart3 size={18} className="text-amber-400" />
             Daily Orders
           </h3>
-          <p className="text-xs text-gray-500">Stacked by status</p>
+          <p className="text-[11px] sm:text-xs text-gray-500">Stacked by status</p>
         </div>
-        <div className="text-right">
-          <p className="text-xs text-gray-500">Today</p>
+        <div className="text-left sm:text-right">
+          <p className="text-[11px] sm:text-xs text-gray-500">Today</p>
           <p className="text-sm font-bold text-amber-400">
             {todayTotal} orders
           </p>
         </div>
       </div>
 
-      <div className="w-full" style={{ height: 260 }}>
-        <BarChart
-          xAxis={[
-            {
-              data: dates,
-              scaleType: "band",
-              tickLabelStyle: {
-                fill: "#6b7280",
-                fontSize: 11,
+      <div ref={containerRef} className="w-full" style={{ height: isMobile ? 200 : 260 }}>
+        {containerWidth > 0 && (
+          <BarChart
+            width={containerWidth}
+            xAxis={[
+              {
+                data: dates,
+                scaleType: "band",
+                tickLabelStyle: {
+                  fill: "#6b7280",
+                  fontSize: isMobile ? 9 : 11,
+                },
               },
-            },
-          ]}
-          yAxis={[
-            {
-              tickLabelStyle: {
-                fill: "#6b7280",
-                fontSize: 11,
+            ]}
+            yAxis={[
+              {
+                tickLabelStyle: {
+                  fill: "#6b7280",
+                  fontSize: isMobile ? 9 : 11,
+                },
               },
-            },
-          ]}
-          series={[
-            {
-              data: successData,
-              stack: "orders",
-              color: "#10b981",
-              label: "Success",
-              valueFormatter: (value: number | null) =>
-                value === null ? "-" : `${value} orders`,
-            },
-            {
-              data: pendingData,
-              stack: "orders",
-              color: "#f59e0b",
-              label: "Pending",
-              valueFormatter: (value: number | null) =>
-                value === null ? "-" : `${value} orders`,
-            },
-            {
-              data: failedData,
-              stack: "orders",
-              color: "#ef4444",
-              label: "Failed",
-              valueFormatter: (value: number | null) =>
-                value === null ? "-" : `${value} orders`,
-            },
-          ]}
-          sx={{
-            "& .MuiBarElement-root": {
-              rx: 2,
-              ry: 2,
-            },
-            "& .MuiChartsAxis-line": {
-              stroke: "#1f2937",
-            },
-            "& .MuiChartsAxis-tick": {
-              stroke: "#1f2937",
-            },
-            "& .MuiChartsGrid-line": {
-              stroke: "#1f293740",
-            },
-            "& .MuiChartsTooltip-paper": {
-              backgroundColor: "#111827 !important",
-              color: "#e5e7eb !important",
-              border: "1px solid #1f2937 !important",
-              borderRadius: "12px !important",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.5) !important",
-            },
-            "& .MuiChartsTooltip-cell": {
-              color: "#e5e7eb !important",
-            },
-            "& .MuiChartsTooltip-mark": {
-              borderColor: "transparent !important",
-            },
-            "& .MuiChartsLegend-root": {
-              display: "none",
-            },
-          }}
-          grid={{ horizontal: true }}
-          margin={{ top: 15, right: 15, bottom: 30, left: 35 }}
-        />
+            ]}
+            series={[
+              {
+                data: successData,
+                stack: "orders",
+                color: "#10b981",
+                label: "Success",
+                valueFormatter: (value: number | null) =>
+                  value === null ? "-" : `${value} orders`,
+              },
+              {
+                data: pendingData,
+                stack: "orders",
+                color: "#f59e0b",
+                label: "Pending",
+                valueFormatter: (value: number | null) =>
+                  value === null ? "-" : `${value} orders`,
+              },
+              {
+                data: failedData,
+                stack: "orders",
+                color: "#ef4444",
+                label: "Failed",
+                valueFormatter: (value: number | null) =>
+                  value === null ? "-" : `${value} orders`,
+              },
+            ]}
+            sx={{
+              "& .MuiBarElement-root": {
+                rx: 2,
+                ry: 2,
+              },
+              "& .MuiChartsAxis-line": {
+                stroke: "#1f2937",
+              },
+              "& .MuiChartsAxis-tick": {
+                stroke: "#1f2937",
+              },
+              "& .MuiChartsGrid-line": {
+                stroke: "#1f293740",
+              },
+              "& .MuiChartsTooltip-paper": {
+                backgroundColor: "#111827 !important",
+                color: "#e5e7eb !important",
+                border: "1px solid #1f2937 !important",
+                borderRadius: "12px !important",
+                boxShadow: "0 10px 25px rgba(0,0,0,0.5) !important",
+              },
+              "& .MuiChartsTooltip-cell": {
+                color: "#e5e7eb !important",
+              },
+              "& .MuiChartsTooltip-mark": {
+                borderColor: "transparent !important",
+              },
+              "& .MuiChartsLegend-root": {
+                display: "none",
+              },
+            }}
+            grid={{ horizontal: true }}
+            margin={isMobile
+              ? { top: 10, right: 8, bottom: 20, left: 0 }
+              : { top: 15, right: 15, bottom: 20, left: 0 }
+            }
+          />
+        )}
       </div>
 
       {/* Mini legend */}
-      <div className="flex items-center justify-center gap-5 mt-2 text-xs">
+      <div className="flex items-center justify-center gap-3 sm:gap-5 mt-2 text-[11px] sm:text-xs">
         <div className="flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full bg-emerald-500" />
           <span className="text-gray-400">Success</span>

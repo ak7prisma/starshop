@@ -42,7 +42,7 @@ export const TopSellingList = ({ games, totalTransactions, userRole }: TopSellin
                             <div className="flex-1">
                                 <div className="flex justify-between items-center mb-1">
                                     <h4 className="font-medium text-white text-sm group-hover:text-blue-400 transition-colors truncate w-24">{game.name}</h4>
-                                    <span className={`text-xs font-bold ${userRole === 'boss' ? 'text-gray-400' : 'text-gray-600 blur-sm'}`}>
+                                    <span className={`text-xs font-bold text-gray-600 blur-sm`}>
                                         {formatRupiah(game.revenue)}
                                     </span>
                                 </div>
