@@ -18,11 +18,15 @@ export async function loginAction(formData: FormData) {
   if (!user) return { error: 'User tidak ditemukan.' }
 
   // Cek Role
-  const { data: profile } = await supabase
+  const { data: profile, error:profilError } = await supabase
     .from('profiles')
     .select('role')
     .eq('idProfil', user.id)
     .single()
+
+  console.log('USER ID:', user.id)
+  console.log('PROFILE:', profile)
+  console.log('PROFILE ERROR:', profilError)
 
   const role = profile?.role
   

@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { Loader2, Download } from "lucide-react";
-import { exportExcel } from "../lib/exportExcel";
 import { createClient } from "@/app/utils/client";
 import type { TopupData } from "@/datatypes/TopupData";
 import { StatsCard } from "./component/StatsCard";
 import { RecentTransactionsTable } from "./component/RecentTransactionsTable";
 import { TopSellingList } from "./component/TopSellingList";
+import { RevenueChart } from "./component/RevenueChart";
+import { TransactionStatusChart } from "./component/TransactionStatusChart";
+import { GameSalesChart } from "./component/GameSalesChart";
+import { DailyOrdersChart } from "./component/DailyOrdersChart";
 import { getStatsList } from "../utils/dashboardStats";
 import { formatRupiah } from "../utils/formatRupiah";
 import { greetingTime, today} from "@/app/utils/greetingTime"
@@ -22,7 +25,7 @@ export default function DashboardPage() {
   const [successCount, setSuccessCount] = useState(0);
   const [topGames, setTopGames] = useState<any[]>([]);
 
-  const userRole = "boss"; 
+  const userRole = "admin"; 
   const supabase = createClient();
 
   useEffect(() => {
@@ -121,7 +124,7 @@ export default function DashboardPage() {
              <span>{today}</span>
           </div>
           <h1 className="text-3xl font-bold text-white tracking-tight">
-            {greetingTime()}, {userRole === 'boss' ? 'Boss' : 'Admin'}
+            {greetingTime()}, {userRole === 'admin' ? 'Admin' : 'Boss'}
           </h1>
           <p className="text-gray-400 mt-1">Real-time business insights</p>
         </div>
@@ -132,12 +135,26 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statsList.map((stat) => (
           <StatsCard key={stat.title} {...stat} />
         ))}
       </div>
 
+      {/* Revenue Trend + Transaction Status */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <RevenueChart transactions={transactions} />
+        <TransactionStatusChart transactions={transactions} />
+      </div>
+
+      {/* Game Sales + Daily Orders */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <GameSalesChart transactions={transactions} />
+        <DailyOrdersChart transactions={transactions} />
+      </div>
+
+      {/* Recent Transactions + Top Selling */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
         
         {/* Table */}
