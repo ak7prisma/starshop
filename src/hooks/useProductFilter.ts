@@ -5,10 +5,10 @@ export function useProductFilters(initialProducts: Product[]) {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const filteredGames = useMemo(() => {
-    return initialProducts.filter((game) => {
-      const matchesSearch = game.nameProduct.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = activeCategory === "All" || game.category === activeCategory;
+  const filteredProducts = useMemo(() => {
+    return initialProducts.filter((product) => {
+      const matchesSearch = product.nameProduct.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = activeCategory === "All" || product.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
   }, [initialProducts, searchTerm, activeCategory]);
@@ -18,6 +18,6 @@ export function useProductFilters(initialProducts: Product[]) {
     setSearchTerm,
     activeCategory,
     setActiveCategory,
-    filteredGames,
+    filteredProducts,
   };
 }

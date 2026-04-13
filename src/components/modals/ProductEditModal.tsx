@@ -6,14 +6,14 @@ import { Product } from '@/datatypes/productsType';
 import { useProductForm } from '@/hooks/useProductForm';
 
 interface ProductEditModalProps {
-    selectedGame: Product;
+    selectedProduct: Product;
     onClose: () => void;
     onSave: (updatedProduct: Product) => void;
     isLoading: boolean;
 }
 
 export const ProductEditModal = ({
-    selectedGame,
+    selectedProduct,
     onClose,
     onSave,
     isLoading,
@@ -33,16 +33,16 @@ export const ProductEditModal = ({
     const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
 
     useEffect(() => {
-        if (selectedGame) {
-            setInitialData(selectedGame);
+        if (selectedProduct) {
+            setInitialData(selectedProduct);
         }
-    }, [selectedGame, setInitialData]);
+    }, [selectedProduct, setInitialData]);
 
     const handleSave = () => {
         if (!formData.nameProduct) return alert("Product Name is required!");
         
         const finalData = getSubmitData();
-        onSave({ ...finalData, idProduct: selectedGame.idProduct }); 
+        onSave({ ...finalData, idProduct: selectedProduct.idProduct }); 
     };
 
     return (
@@ -77,7 +77,7 @@ export const ProductEditModal = ({
                             
                             <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-sm text-gray-400">
                                 <span className="bg-gray-800/80 px-2.5 py-0.5 rounded text-xs font-medium border border-gray-700 text-gray-300">
-                                    {formData.category || 'Game'}
+                                    {formData.category || 'Product'}
                                 </span>
                                 
                                 <span className="hidden sm:inline w-1 h-1 rounded-full bg-gray-600"></span>

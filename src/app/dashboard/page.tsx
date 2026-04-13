@@ -35,7 +35,7 @@ export default function DashboardPage() {
 
         const { data: topupData } = await supabase
           .from('topup')
-          .select('*')
+          .select('*, Products(nameProduct)')
           .order('created_at', { ascending: false })
           .limit(100);
 
@@ -66,7 +66,7 @@ export default function DashboardPage() {
           const gameSales: Record<string, { count: number; revenue: number }> = {};
           data.forEach((t) => {
             if (normalize(t.status) === 'success') {
-                const gameName = t.idGame || "Unknown";
+                const gameName = t.Products?.nameProduct || "Unknown";
                 if (!gameSales[gameName]) {
                     gameSales[gameName] = { count: 0, revenue: 0 };
                 }

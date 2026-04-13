@@ -3,25 +3,25 @@ import type { Product } from "@/datatypes/productsType";
 import { producticon } from "@/constant/tempurl";
 
 interface ProductCardProps {
-  game: Product;
-  onClick: (game: Product) => void;
+  product: Product;
+  onClick: (product: Product) => void;
   onDelete: () => void;
 }
 
-export const ProductCard = ({ game, onClick, onDelete }: ProductCardProps) => {
+export const ProductCard = ({ product, onClick, onDelete }: ProductCardProps) => {
   return (
     <div
       className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden group hover:border-blue-500/40 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-900/10 relative w-full text-left flex flex-col"
     >
       <button 
-        onClick={() => onClick(game)}
+        onClick={() => onClick(product)}
         className="cursor-pointer flex-1 relative"
       >
         <div className="h-40 w-full bg-gray-800 relative flex items-center justify-center overflow-hidden shrink-0">
-          {game.imgUrl ? (
+          {product.imgUrl ? (
             <img
-              src={`${producticon}${game.imgUrl}`}
-              alt={game.nameProduct}
+              src={`${producticon}${product.imgUrl}`}
+              alt={product.nameProduct}
               className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
             />
           ) : (
@@ -33,11 +33,11 @@ export const ProductCard = ({ game, onClick, onDelete }: ProductCardProps) => {
 
           <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-gray-900 via-gray-900/80 to-transparent">
             <h3 className="flex justify-start text-xl font-bold text-white group-hover:text-blue-400 transition-colors truncate drop-shadow-md">
-              {game.nameProduct}
+              {product.nameProduct}
             </h3>
             <div className="flex justify-between items-center mt-1">
               <span className="text-xs text-gray-300 bg-gray-800/80 px-2 py-0.5 rounded border border-white/10">
-                {game.category}
+                {product.category}
               </span>
             </div>
           </div>
@@ -58,7 +58,7 @@ export const ProductCard = ({ game, onClick, onDelete }: ProductCardProps) => {
         </button>
 
         <button 
-           onClick={() => onClick(game)}
+           onClick={() => onClick(product)}
            className="text-xs font-medium text-gray-500 group-hover:text-blue-400 transition-colors flex items-center gap-1 hover:underline"
         >
           Manage <ChevronRight size={12} />

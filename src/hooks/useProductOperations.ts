@@ -4,13 +4,13 @@ import { useRouter } from "next/navigation";
 import type { Product } from "@/datatypes/productsType";
 
 export function useProductOperations(
-  initialGames: Product[], 
+  initialProducts: Product[], 
   showAlert: (type: any, title: string, msg: string, onConfirm?: () => void) => void,
   closeAlert: () => void
 ) {
   const supabase = createClient();
   const router = useRouter();
-  const [games, setGames] = useState<Product[]>(initialGames);
+  const [products, setProducts] = useState<Product[]>(initialProducts);
   const [isSaving, setIsSaving] = useState(false);
 
   //Delete
@@ -20,7 +20,7 @@ export function useProductOperations(
       const { error } = await supabase.from('Products').delete().eq('idProduct', id);
       if (error) throw error;
 
-      setGames((prev) => prev.filter((g) => g.idProduct !== id));
+      setProducts((prev) => prev.filter((p) => p.idProduct !== id));
       router.refresh();
       
       closeAlert();
@@ -58,7 +58,7 @@ export function useProductOperations(
       if (error) throw error;
       if (!data || data.length === 0) throw new Error("Product not found.");
 
-      setGames((prev) => prev.map((g) => g.idProduct === updatedProduct.idProduct ? updatedProduct : g));
+      setProducts((prev) => prev.map((p) => p.idProduct === updatedProduct.idProduct ? updatedProduct : p));
       showAlert("success", "Updated!", "Product details updated.");
       return true; // Return success status
     } catch (error: any) {
@@ -83,7 +83,7 @@ export function useProductOperations(
         data.href = generatedHref;
       }
 
-      setGames((prev) => [...prev, data]);
+      setProducts((prev) => [...prev, data]);
       showAlert("success", "Created!", "New product added to catalog.");
       return true;
     } catch (error: any) {
@@ -94,5 +94,5 @@ export function useProductOperations(
     }
   };
 
-  return { games, isSaving, deleteProduct, updateProduct, createProduct };
+  return { products, isSaving, deleteProduct, updateProduct, createProduct };
 }

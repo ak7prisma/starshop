@@ -26,13 +26,13 @@ export default function ProductsClient({ initialProducts }: Readonly<ProductsCli
   const { isOpen: isNewModalOpen, open: openNewModal, close: closeNewModal } = useModal();
   const { alertConfig, showAlert, closeAlert } = useAlert();
   
-  const { games, isSaving, deleteProduct, updateProduct, createProduct } = 
+  const { products, isSaving, deleteProduct, updateProduct, createProduct } = 
     useProductOperations(initialProducts, showAlert, closeAlert);
 
-  const { searchTerm, setSearchTerm, activeCategory, setActiveCategory, filteredGames } = 
-    useProductFilters(games);
+  const { searchTerm, setSearchTerm, activeCategory, setActiveCategory, filteredProducts } = 
+    useProductFilters(products);
 
-  const [selectedGame, setSelectedGame] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const handleDeleteRequest = (id: number) => {
     showAlert(
@@ -45,7 +45,7 @@ export default function ProductsClient({ initialProducts }: Readonly<ProductsCli
 
   const handleSaveEdit = async (product: Product) => {
     const success = await updateProduct(product);
-    if (success) setSelectedGame(null);
+    if (success) setSelectedProduct(null);
   };
 
   const handleCreateRequest = async (product: Omit<Product, 'idProduct'>) => {
@@ -62,10 +62,10 @@ export default function ProductsClient({ initialProducts }: Readonly<ProductsCli
         isLoading={isSaving && alertConfig.type === 'delete'}
       />
 
-      {selectedGame && (
+      {selectedProduct && (
         <ProductEditModal
-          selectedGame={selectedGame}
-          onClose={() => setSelectedGame(null)}
+          selectedProduct={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
           onSave={handleSaveEdit}
           isLoading={isSaving}
         />
@@ -81,14 +81,14 @@ export default function ProductsClient({ initialProducts }: Readonly<ProductsCli
 
       <PageHeader
         title="Products Management"
-        subtitle="Control your game catalog, prices, and inventory."
+        subtitle="Control your product catalog, prices, and inventory."
         extra={
           <Button
             leftIcon={<Plus size={20} />}
             className="shadow-lg shadow-blue-500/20"
             onClick={openNewModal}
           >
-            Add New Game
+            Add New Product
           </Button>
         }
       />
@@ -107,17 +107,17 @@ export default function ProductsClient({ initialProducts }: Readonly<ProductsCli
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {filteredGames.map((game) => (
+        {filteredProducts.map((product) => (
           <ProductCard 
-            key={game.idProduct} 
-            game={game} 
-            onClick={setSelectedGame} 
-            onDelete={() => handleDeleteRequest(game.idProduct)} 
+            key={product.idProduct} 
+            product={product} 
+            onClick={setSelectedProduct} 
+            onDelete={() => handleDeleteRequest(product.idProduct)} 
           />
         ))}
       </div>
 
-      {filteredGames.length === 0 && (
+      {filteredProducts.length === 0 && (
         <div className="text-center py-20 opacity-50">
           <Gamepad2 size={48} className="mx-auto mb-4" />
           <p>No products found.</p>
