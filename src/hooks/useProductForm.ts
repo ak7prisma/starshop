@@ -77,17 +77,17 @@ export const useProductForm = (onSaveSuccess?: (data: Omit<Product, 'idProduct'>
     try {
       const iconExt = iconFile.name.split('.').pop();
       const iconName = `icon_${Date.now()}.${iconExt}`;
-      const { error: err1 } = await supabase.storage.from(BUCKET_NAME).upload(iconName, iconFile);
-      if (err1) throw err1;
       const iconPath = `${formData.category}/${iconName}`;
+      const { error: err1 } = await supabase.storage.from(BUCKET_NAME).upload(iconPath, iconFile);
+      if (err1) throw err1;
 
       let sidePath = "";
       if (sideFile) {
         const sideExt = sideFile.name.split('.').pop();
         const sideName = `side_${Date.now()}.${sideExt}`;
-        const { error: err2 } = await supabase.storage.from(BUCKET_NAME).upload(sideName, sideFile);
-        if (err2) throw err2;
         sidePath = `${formData.category}/${sideName}`;
+        const { error: err2 } = await supabase.storage.from(BUCKET_NAME).upload(sidePath, sideFile);
+        if (err2) throw err2;
       }
 
       const payload: Omit<Product, 'idProduct'> = {

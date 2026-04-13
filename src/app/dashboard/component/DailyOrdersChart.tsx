@@ -61,9 +61,9 @@ export const DailyOrdersChart = ({ transactions }: DailyOrdersChartProps) => {
   }, [transactions]);
 
   const todayTotal =
-    successData[successData.length - 1] +
-    pendingData[pendingData.length - 1] +
-    failedData[failedData.length - 1];
+    successData.at(-1)! +
+    pendingData.at(-1)! +
+    failedData.at(-1)!;
 
   return (
     <Card className="overflow-hidden">
