@@ -82,7 +82,7 @@ export const DailyOrdersChart = ({ transactions }: DailyOrdersChartProps) => {
     failedData.at(-1)!;
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden flex flex-col justify-between ">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2 gap-1">
         <div>
           <h3 className="font-bold text-base sm:text-lg text-white flex items-center gap-2">
@@ -102,6 +102,7 @@ export const DailyOrdersChart = ({ transactions }: DailyOrdersChartProps) => {
       <div ref={containerRef} className="w-full" style={{ height: isMobile ? 200 : 260 }}>
         {containerWidth > 0 && (
           <BarChart
+            width={containerWidth}
             xAxis={[
               {
                 data: dates,
@@ -179,8 +180,8 @@ export const DailyOrdersChart = ({ transactions }: DailyOrdersChartProps) => {
             }}
             grid={{ horizontal: true }}
             margin={isMobile
-              ? { top: 10, right: 8, bottom: 25, left: 28 }
-              : { top: 15, right: 15, bottom: 30, left: 35 }
+              ? { top: 10, right: 8, bottom: 20, left: 0 }
+              : { top: 15, right: 15, bottom: 20, left: 0 }
             }
           />
         )}

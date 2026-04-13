@@ -98,6 +98,7 @@ export const GameSalesChart = ({ transactions }: GameSalesChartProps) => {
       <div ref={containerRef} className="w-full" style={{ height: isMobile ? 240 : 300 }}>
         {containerWidth > 0 && (
           <BarChart
+            width={containerWidth}
             xAxis={[
               {
                 data: gameNames,
@@ -184,8 +185,8 @@ export const GameSalesChart = ({ transactions }: GameSalesChartProps) => {
             }}
             grid={{ horizontal: true }}
             margin={isMobile
-              ? { top: 10, right: 10, bottom: 45, left: 40 }
-              : { top: 20, right: 50, bottom: 40, left: 60 }
+              ? { top: 10, right: 10, bottom: 10, left: 0 }
+              : { top: 20, right: 50, bottom: 10, left: 20 }
             }
           />
         )}

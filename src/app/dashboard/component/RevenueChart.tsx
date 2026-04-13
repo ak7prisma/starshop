@@ -90,6 +90,7 @@ export const RevenueChart = ({ transactions }: RevenueChartProps) => {
       <div ref={containerRef} className="w-full" style={{ height: isMobile ? 220 : 280 }}>
         {containerWidth > 0 && (
           <LineChart
+            width={containerWidth}
             xAxis={[
               {
                 data: dates.map((_, i) => i),
@@ -170,8 +171,8 @@ export const RevenueChart = ({ transactions }: RevenueChartProps) => {
             }}
             grid={{ horizontal: true }}
             margin={isMobile
-              ? { top: 10, right: 10, bottom: 25, left: 40 }
-              : { top: 20, right: 20, bottom: 30, left: 60 }
+              ? { top: 10, right: 10, bottom: 25, left: 0 }
+              : { top: 20, right: 20, bottom: 30, left: 0 }
             }
           >
             <defs>
