@@ -36,9 +36,7 @@ export const TopSellingList = ({ games, totalTransactions, userRole }: TopSellin
                     games.map((game, idx) => (
                         <div key={game.name} className="flex items-center gap-4 group">
                             <div className="font-bold text-gray-600 text-lg w-4">{idx + 1}</div>
-                            <div className={`w-10 h-10 rounded-xl bg-gray-800 border border-gray-700 flex items-center justify-center text-white font-bold text-sm shadow-lg`}>
-                                {game.name.charAt(0)}
-                            </div>
+                            
                             <div className="flex-1">
                                 <div className="flex justify-between items-center mb-1">
                                     <h4 className="font-medium text-white text-sm group-hover:text-blue-400 transition-colors truncate w-24">{game.name}</h4>
