@@ -5,6 +5,8 @@ import ServiceItem from "./component/ServiceItem";
 import Link from "next/link";
 import { socialLinks } from "@/constant/socialdata";
 import { serviceData, storeData } from "@/constant";
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "@/animations/variants";
 
 export default function About() {
 
@@ -13,15 +15,20 @@ export default function About() {
     return (
         <main className="flex flex-col w-full pt-35 md:pt-45 pb-15 text-white">
 
-            <section className="max-w-5xl mx-auto px-5">
+            <motion.section 
+                variants={staggerContainer(0.1, 0.1)}
+                initial="hidden"
+                animate="show"
+                className="max-w-5xl mx-auto px-5"
+            >
                 <div className="bg-[#243867]/20 rounded-lg p-8 md:p-12">
-                    <header className="mb-6">
+                    <motion.header variants={fadeIn('up', 0.1)} className="mb-6">
                         <h1 className="text-3xl md:text-4xl font-bold">About Starshop</h1>
                         <p className="text-slate-300 mt-2">{storeData.tagline}</p>
-                    </header>
+                    </motion.header>
 
                     <div className="grid md:grid-cols-3 gap-6 items-start ">
-                        <div className="col-span-1 flex flex-col items-center text-center p-10 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]">
+                        <motion.div variants={fadeIn('right', 0.2)} className="col-span-1 flex flex-col items-center text-center p-10 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]">
                             <div className="relative w-40 h-40 overflow-hidden mb-4">
                                <Image 
                                     src="/favicon.ico"
@@ -46,17 +53,17 @@ export default function About() {
                                     </Link>
                                 ))}
                             </div>
-                        </div>
+                        </motion.div>
 
                         <div className="md:col-span-2">
-                            <section className="mb-6">
+                            <motion.section variants={fadeIn('up', 0.3)} className="mb-6">
                                 <h3 className="text-lg font-semibold mb-2">Tentang Toko</h3>
                                 <p className="text-slate-300 leading-relaxed">
                                    {storeData.description}
                                 </p>
-                            </section>
+                            </motion.section>
 
-                            <section className="mb-6">
+                            <motion.section variants={fadeIn('up', 0.4)} className="mb-6">
                                 <h3 className="text-lg font-semibold mb-2">Layanan</h3>
                                 <div className="flex flex-col gap-2 text-slate-300">
                                     {serviceData.map((data) => (
@@ -64,9 +71,9 @@ export default function About() {
                                         )
                                     )}
                                 </div>
-                            </section>
+                            </motion.section>
 
-                            <section>
+                            <motion.section variants={fadeIn('up', 0.5)}>
                                 <h3 className="text-lg font-semibold mb-2">Kontak</h3>
                                 <ul className="mt-3 text-slate-300 space-y-1">
                                     {socialLinks.map((data) => (
@@ -82,11 +89,11 @@ export default function About() {
                                 </ul>
 
                                 <p className="text-slate-400 mt-4 text-sm">Proyek ini dibuat sebagai tugas pembelajaran menggunakan Next.js, Tailwind CSS, dan Supabase.</p>
-                            </section>
+                            </motion.section>
                         </div>
                     </div>
                 </div>
-            </section>
+            </motion.section>
 
         </main>
     );

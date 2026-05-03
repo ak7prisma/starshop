@@ -5,6 +5,8 @@ import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
 import SubmitLoading from '@/components/ui/SubmitLoading';
 import { Input } from '@/components/ui/Input';
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "@/animations/variants";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -37,11 +39,17 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
-     
-      <FormHeader label1="Forgot Password" label2="Enter your email to reset password."/>
+    <motion.div 
+        variants={staggerContainer(0.1, 0.1)}
+        initial="hidden"
+        animate="show"
+        className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8"
+    >
+      <motion.div variants={fadeIn('up', 0.1)}>
+        <FormHeader label1="Forgot Password" label2="Enter your email to reset password."/>
+      </motion.div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <motion.div variants={fadeIn('up', 0.2)} className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handlePasswordReset} className="space-y-6">
 
             <Input 
@@ -69,7 +77,7 @@ export default function ForgotPassword() {
         </form>
 
         <FormFooter label1="Remember your password?" label2="Log In" linkroute="/auth/Login"/>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

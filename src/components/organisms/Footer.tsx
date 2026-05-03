@@ -3,13 +3,21 @@
 import Link from "next/link";
 import { navLinks } from "@/constant/menu";
 import { socialLinks } from "@/constant/socialdata";
+import { motion } from "framer-motion";
+import { fadeIn } from "@/animations/variants";
 
 export default function Footer() {
 
   const footerMenuClass=`hover:text-indigo-400 transition duration-300`;
 
   return (
-    <footer className="bg-[#243867]/30 text-gray-300 pt-10">
+    <motion.footer 
+      variants={fadeIn('up', 0.2)}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+      className="bg-[#243867]/30 text-gray-300 pt-10"
+    >
       <div className="mx-5 flex flex-col items-center space-y-6">
 
         <div className="flex space-x-6">
@@ -26,7 +34,7 @@ export default function Footer() {
           
         </div>
 
-        <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 font-medium px-4">
+        <div className="flex flex-wrap justify-center gap-4 md:gap-8 font-medium">
         
         {navLinks.map((link) => (
             <Link
@@ -44,6 +52,6 @@ export default function Footer() {
           © 2026 Starshop Top Up Project | ahmadkurniaprisma@gmail.com
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

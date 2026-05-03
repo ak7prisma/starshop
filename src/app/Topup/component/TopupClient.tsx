@@ -15,6 +15,8 @@ import type { PaymentMethodDetail } from '@/datatypes/paymentMethodDetailType';
 import { formatRupiah } from '@/app/utils/formatRupiah';
 import { useModal } from '@/hooks/useModals';
 import ImageUploader from '@/components/ui/ImageUploader';
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "@/animations/variants";
 
 const getErrorMessage = async (response: Response, defaultMessage: string) => {
     try {
@@ -161,13 +163,18 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
     const label = product.category === "Games" ? "ID Game" : "No HP";
 
     return (
-        <div className="max-w-7xl mx-auto text-gray-200 min-h-screen px-4 md:px-10 pt-32 md:pt-44 pb-15">
-            <div className="flex flex-col lg:flex-row gap-8">
+        <div className="max-w-7xl mx-auto text-gray-200 min-h-screen px-4 md:px-10 pt-36 md:pt-44 pb-15">
+            <motion.div 
+                variants={staggerContainer(0.1, 0.2)}
+                initial="hidden"
+                animate="show"
+                className="flex flex-col lg:flex-row gap-8"
+            >
                 <ProductDetailCard product={product} />
 
                 <div className="lg:w-2/3 space-y-8">
                     <form onSubmit={handleTopup} className="space-y-8">
-                        <div className="p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]">
+                        <motion.div variants={fadeIn('up', 0.1)} className="p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]">
                             <TopupHeaderForm no='1' label={`Masukkan ${label} Anda`} />
                             <Input
                                 label='User ID / Game ID'
@@ -178,9 +185,9 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
                                 value={gameId}
                                 onChange={(e) => setGameId(e.target.value)}
                             />
-                        </div>
+                        </motion.div>
 
-                        <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
+                        <motion.div variants={fadeIn('up', 0.2)} className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
                             <TopupHeaderForm no='2' label='Pilih Nominal Topup' />
                             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
                                 {product.amount.map((amt, i) => (
@@ -206,9 +213,9 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
                                     </label>
                                 ))}
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
+                        <motion.div variants={fadeIn('up', 0.3)} className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
                             <TopupHeaderForm no='3' label='Pilih Metode Pembayaran' />
                             {paymentMethods.length > 0 ? (
                                 <PaymentMethodChoice
@@ -220,9 +227,9 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
                             ) : (
                                 <p className="text-gray-400 text-center py-4">Memuat metode pembayaran...</p>
                             )}
-                        </div>
+                        </motion.div>
 
-                        <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
+                        <motion.div variants={fadeIn('up', 0.4)} className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
                             <TopupHeaderForm no='4' label='Upload Bukti Pembayaran' />
                             <ImageUploader 
                                 inputId="payment-proof-upload"
@@ -232,9 +239,9 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
                                 variant="rect"
                                 placeholder="Klik atau drag bukti transfer"
                             />
-                        </div>
+                        </motion.div>
 
-                        <div className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
+                        <motion.div variants={fadeIn('up', 0.5)} className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
                             <TopupHeaderForm no='5' label='Ringkasan Pembayaran' />
                             <CheckoutDetail
                                 price={price}
@@ -242,21 +249,24 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
                                 paymentMethods={paymentMethods}
                                 formatRupiah={formatRupiah}
                             />
-                        </div>
+                        </motion.div>
 
                         {error && (
-                            <p className="text-red-400 text-center p-4 bg-red-900/30 border border-red-700 rounded-xl font-medium shadow-md">
+                            <motion.p variants={fadeIn('up', 0.6)} className="text-red-400 text-center p-4 bg-red-900/30 border border-red-700 rounded-xl font-medium shadow-md">
                                 {error}
-                            </p>
+                            </motion.p>
                         )}
 
-                        <SubmitLoading
-                            label='Submit Topup'
-                            loading={loading}
-                            disabled={loading || price === null || !selectedPaymentMethod || !paymentProof} />
+                        <motion.div variants={fadeIn('up', 0.6)} className="w-full">
+                            <SubmitLoading
+                                label='Submit Topup'
+                                loading={loading}
+                                disabled={loading || price === null || !selectedPaymentMethod || !paymentProof} 
+                            />
+                        </motion.div>
                     </form>
                 </div>
-            </div>
+            </motion.div>
 
             <TopupSuccessModal
                 isOpen={isModalOpen}

@@ -7,6 +7,8 @@ import Link from "next/link";
 import { TbMenuDeep, TbX } from "react-icons/tb";
 import { useRouter } from 'next/navigation';
 import { navLinks } from "@/constant/menu";
+import { motion } from "framer-motion";
+import { fadeIn } from "@/animations/variants";
 
 export default function Navbar() {
 
@@ -54,7 +56,12 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed z-50 left-5 right-5 rounded-lg bg-[#243867]/30 text-white px-1 py-3 md:py-5 mt-10">
+    <motion.nav 
+      variants={fadeIn('down', 0)}
+      initial="hidden"
+      animate="show"
+      className="fixed z-50 left-5 right-5 rounded-lg bg-[#243867]/30 text-white px-1 md:px-5 py-3 md:py-5 mt-10"
+    >
       <div className="max-w-8xl mx-5 space-x-5 flex items-center justify-between">
 
         <Image 
@@ -99,7 +106,7 @@ export default function Navbar() {
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex justify-center items-center md:hidden p-2 rounded-lg hover:bg-[#1e293b] duration-300">
+          className="md:hidden flex items-center justify-center p-2 rounded-lg hover:bg-[#1e293b] duration-300">
           {isOpen ? <TbX size={24} /> : <TbMenuDeep size={22} />}
         </button>
       </div>
@@ -139,6 +146,6 @@ export default function Navbar() {
             </div>
           )}
       </div>
-    </nav>
+    </motion.nav>
   );
 }

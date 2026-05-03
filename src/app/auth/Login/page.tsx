@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { FaGoogle } from 'react-icons/fa';
 import { createClient } from '@/app/utils/client';
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "@/animations/variants";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -56,11 +58,18 @@ export default function Login() {
   }
 
   return (
-      <div className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8">
+      <motion.div 
+        variants={staggerContainer(0.1, 0.1)}
+        initial="hidden"
+        animate="show"
+        className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8"
+      >
 
-        <FormHeader label1="Welcome back!" label2="Welcome back! Please enter your account information."/>
+        <motion.div variants={fadeIn('up', 0.1)}>
+          <FormHeader label1="Welcome back!" label2="Welcome back! Please enter your account information."/>
+        </motion.div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <motion.div variants={fadeIn('up', 0.2)} className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleLogin} className="space-y-6">
             <Input
               required
@@ -118,7 +127,7 @@ export default function Login() {
               Continue with Google
             </Button>
           </FormFooter>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
   )
 }

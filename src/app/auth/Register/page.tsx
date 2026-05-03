@@ -6,6 +6,8 @@ import FormFooter from '@/app/auth/component/AuthFooter';
 import SubmitLoading from '@/components/ui/SubmitLoading';
 import { Input } from '@/components/ui/Input';
 import { registerAction } from '../action';
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "@/animations/variants";
 
 export default function Register() {
 
@@ -47,10 +49,17 @@ export default function Register() {
   };
 
   return (
-      <div className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8">
-        <FormHeader label1="Create your account" label2="Register to Starshop."/>
+      <motion.div 
+        variants={staggerContainer(0.1, 0.1)}
+        initial="hidden"
+        animate="show"
+        className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8"
+      >
+        <motion.div variants={fadeIn('up', 0.1)}>
+            <FormHeader label1="Create your account" label2="Register to Starshop."/>
+        </motion.div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <motion.div variants={fadeIn('up', 0.2)} className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form onSubmit={handleRegist} className="space-y-6">
             
             <Input
@@ -109,7 +118,7 @@ export default function Register() {
           </form>
 
           <FormFooter label1="Have an account?" label2="Log In" linkroute="/auth/Login"/>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
   )
 }

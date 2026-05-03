@@ -65,6 +65,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
 
           <input
+            suppressHydrationWarning
             ref={ref}
             id={id}
             type={currentType}

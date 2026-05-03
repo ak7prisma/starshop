@@ -1,4 +1,6 @@
 import type { Product } from '@/datatypes/productsType'; 
+import { motion } from "framer-motion";
+import { fadeIn } from "@/animations/variants";
 
 export default function ProductDetailCard({product} : Readonly<{product: Product}>) {
 
@@ -11,7 +13,7 @@ export default function ProductDetailCard({product} : Readonly<{product: Product
     }
     
     return (
-        <div className="lg:w-1/3 p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142] h-fit">
+        <motion.div variants={fadeIn('right', 0)} className="lg:w-1/3 p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142] h-fit">
             <h2 className="text-2xl font-bold mb-4 text-white border-b border-[#2D3142] pb-3">{product.nameProduct}</h2>
 
             <div className="bg-[#2D3142] h-40 rounded-xl overflow-hidden mb-5 border border-slate-500/50">
@@ -24,6 +26,6 @@ export default function ProductDetailCard({product} : Readonly<{product: Product
             <p className="text-sm text-indigo-400 italic font-medium">
                 Penting: Pastikan {input} yang dimasukkan sudah benar untuk menghindari kesalahan pengisian.
             </p>
-        </div>
+        </motion.div>
     );
 }
