@@ -32,6 +32,8 @@ body {
   background-size: 400% 400%;
   animation: gradient-flow 10s ease infinite;
   min-height: 100vh;
+
+  background-attachment: fixed;
 }
 
 @keyframes scaleIn {
