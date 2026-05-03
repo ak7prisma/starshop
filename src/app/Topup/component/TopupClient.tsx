@@ -16,7 +16,7 @@ import { formatRupiah } from '@/app/utils/formatRupiah';
 import { useModal } from '@/hooks/useModals';
 import ImageUploader from '@/components/ui/ImageUploader';
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer } from "@/animations/variants";
+import { fadeIn, staggerContainer } from "@/components/animations/variants";
 
 const getErrorMessage = async (response: Response, defaultMessage: string) => {
     try {
@@ -73,9 +73,9 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
     };
 
     const handleRemoveImage = () => {
-    setPaymentProof(null);
-    setPaymentProofPreview(null);
-}
+        setPaymentProof(null);
+        setPaymentProofPreview(null);
+    }
 
     const uploadProofToApi = async (file: File): Promise<string> => {
         const formData = new FormData();
@@ -134,7 +134,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
             const proofUrl = await uploadProofToApi(paymentProof);
 
             const selectedMethod = paymentMethods.find(pm => pm.idPaymentMethod === selectedPaymentMethod);
-            
+
             const payload = {
                 userId: user?.id,
                 idProduct: product.idProduct,
@@ -164,7 +164,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
 
     return (
         <div className="max-w-7xl mx-auto text-gray-200 min-h-screen px-4 md:px-10 pt-36 md:pt-44 pb-15">
-            <motion.div 
+            <motion.div
                 variants={staggerContainer(0.1, 0.2)}
                 initial="hidden"
                 animate="show"
@@ -231,7 +231,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
 
                         <motion.div variants={fadeIn('up', 0.4)} className='p-6 bg-[#181B2B] rounded-2xl shadow-xl border border-[#2D3142]'>
                             <TopupHeaderForm no='4' label='Upload Bukti Pembayaran' />
-                            <ImageUploader 
+                            <ImageUploader
                                 inputId="payment-proof-upload"
                                 previewUrl={paymentProofPreview}
                                 onFileSelect={handleImageSelect}
@@ -261,7 +261,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
                             <SubmitLoading
                                 label='Submit Topup'
                                 loading={loading}
-                                disabled={loading || price === null || !selectedPaymentMethod || !paymentProof} 
+                                disabled={loading || price === null || !selectedPaymentMethod || !paymentProof}
                             />
                         </motion.div>
                     </form>

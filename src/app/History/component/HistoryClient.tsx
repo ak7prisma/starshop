@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/app/utils/client';
-import type { TopupData } from '@/datatypes/TopupData'; 
+import type { TopupData } from '@/datatypes/TopupData';
 import HistoryCard from './HistoryCard';
 import ButtonLinkPrimary from '@/components/ui/ButtonLinkPrimary';
 import { FaHistory } from 'react-icons/fa';
 import { motion, AnimatePresence } from "framer-motion";
-import { fadeIn, staggerContainer } from "@/animations/variants";
+import { fadeIn, staggerContainer } from "@/components/animations/variants";
 
 export default function HistoryClient() {
     const [historyData, setHistoryData] = useState<TopupData[]>([]);
@@ -22,14 +22,14 @@ export default function HistoryClient() {
                 setLoading(true);
 
                 const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-                
+
                 if (sessionError || !session) {
                     console.log("Session tidak ditemukan, redirecting ke login...");
                     router.replace('/auth/Login');
-                    return; 
+                    return;
                 }
 
-                console.log("User terdeteksi:", session.user.id); 
+                console.log("User terdeteksi:", session.user.id);
 
                 const { data, error } = await supabase
                     .from('topup')
@@ -40,7 +40,7 @@ export default function HistoryClient() {
                     console.error("Error fetching data:", error.message);
                     throw error;
                 }
-                
+
                 if (data) setHistoryData(data as TopupData[]);
 
             } catch (error) {
@@ -51,7 +51,7 @@ export default function HistoryClient() {
         };
 
         fetchHistory();
-        
+
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
             if (event === 'SIGNED_OUT') {
                 router.replace('/auth/Login');
@@ -87,14 +87,14 @@ export default function HistoryClient() {
                 </div>
                 <h3 className="text-xl font-medium text-white mb-2">Belum ada riwayat</h3>
                 <p className="text-gray-400 mb-6">Anda belum melakukan transaksi apapun.</p>
-                <ButtonLinkPrimary href="/Home" label="Top Up Now" rounded='lg' extraclass='px-5 py-3'/>
+                <ButtonLinkPrimary href="/Home" label="Top Up Now" rounded='lg' extraclass='px-5 py-3' />
             </div>
         );
     };
 
     return (
         <div className="max-w-full mx-auto text-gray-200 min-h-screen px-4">
-            <motion.div 
+            <motion.div
                 variants={staggerContainer(0.1, 0.1)}
                 initial="hidden"
                 animate="show"

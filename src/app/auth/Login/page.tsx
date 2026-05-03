@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/Button';
 import { FaGoogle } from 'react-icons/fa';
 import { createClient } from '@/app/utils/client';
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer } from "@/animations/variants";
+import { fadeIn, staggerContainer } from "@/components/animations/variants";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -28,7 +28,7 @@ export default function Login() {
     setError(null)
 
     const formData = new FormData(e.currentTarget)
-    
+
     const result = await loginAction(formData)
 
     if (result?.error) {
@@ -36,7 +36,7 @@ export default function Login() {
       setLoading(false)
     } else if (result?.success) {
       router.refresh()
-      router.push(result.redirectUrl || '/') 
+      router.push(result.redirectUrl || '/')
     }
   }
 
@@ -44,11 +44,11 @@ export default function Login() {
     const supabase = createClient()
 
     const origin = globalThis.location.origin
-    
+
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${origin}/auth/callback`, 
+        redirectTo: `${origin}/auth/callback`,
         queryParams: {
           access_type: 'offline',
           prompt: 'consent',
@@ -58,76 +58,76 @@ export default function Login() {
   }
 
   return (
-      <motion.div 
-        variants={staggerContainer(0.1, 0.1)}
-        initial="hidden"
-        animate="show"
-        className="flex min-h-full flex-col justify-center px-6 py-15 lg:px-8"
-      >
+    <motion.div
+      variants={staggerContainer(0.1, 0.1)}
+      initial="hidden"
+      animate="show"
+      className="flex flex-col justify-center items-center w-full"
+    >
 
-        <motion.div variants={fadeIn('up', 0.1)}>
-          <FormHeader label1="Welcome back!" label2="Welcome back! Please enter your account information."/>
-        </motion.div>
-
-        <motion.div variants={fadeIn('up', 0.2)} className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleLogin} className="space-y-6">
-            <Input
-              required
-              label='Email Address'
-              id='email'
-              type='email'
-              name='email'
-              placeholder='youremail@example.com'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <Input
-              required
-              label="Password"
-              id="password"
-              type="password"
-              name='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              extraLabel={
-              <div className="text-sm">
-                  <Link href="/auth/ForgotPassword" className="font-semibold text-indigo-400 hover:text-indigo-300">
-                      Forgot password?
-                  </Link>
-              </div>
-              }
-            />
-
-            {error && (
-              <p className="text-sm text-center text-red-600 bg-red-500/10 p-2 rounded border border-red-500/20">
-                {error}
-              </p>
-            )}
-
-            <SubmitLoading 
-                label='Login' 
-                loading={loading}
-                disabled={loading}/>
-          </form>
-
-          <FormFooter 
-            label1="Don't have an account?" 
-            label2="Sign Up"
-            linkroute="/auth/Register"
-          >
-            or
-            <Button 
-                onClick={handleGoogleLogin} 
-                className="w-full" 
-                variant='secondary' 
-                type="button" 
-                leftIcon={<FaGoogle size={18}/>}
-            >
-              Continue with Google
-            </Button>
-          </FormFooter>
-        </motion.div>
+      <motion.div variants={fadeIn('up', 0.1)}>
+        <FormHeader label1="Welcome back!" label2="Welcome back! Please enter your account information." />
       </motion.div>
+
+      <motion.div variants={fadeIn('up', 0.2)} className="mt-10 w-full">
+        <form onSubmit={handleLogin} className="space-y-6">
+          <Input
+            required
+            label='Email Address'
+            id='email'
+            type='email'
+            name='email'
+            placeholder='youremail@example.com'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <Input
+            required
+            label="Password"
+            id="password"
+            type="password"
+            name='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            extraLabel={
+              <div className="text-sm">
+                <Link href="/auth/ForgotPassword" className="font-semibold text-indigo-400 hover:text-indigo-300">
+                  Forgot password?
+                </Link>
+              </div>
+            }
+          />
+
+          {error && (
+            <p className="text-sm text-center text-red-600 bg-red-500/10 p-2 rounded border border-red-500/20">
+              {error}
+            </p>
+          )}
+
+          <SubmitLoading
+            label='Login'
+            loading={loading}
+            disabled={loading} />
+        </form>
+
+        <FormFooter
+          label1="Don't have an account?"
+          label2="Sign Up"
+          linkroute="/auth/Register"
+        >
+          or
+          <Button
+            onClick={handleGoogleLogin}
+            className="w-full"
+            variant='secondary'
+            type="button"
+            leftIcon={<FaGoogle size={18} />}
+          >
+            Continue with Google
+          </Button>
+        </FormFooter>
+      </motion.div>
+    </motion.div>
   )
 }

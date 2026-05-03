@@ -3,21 +3,21 @@
 import { Product } from "@/datatypes/productsType"
 import ProductCard from "@/components/ui/ProductCard";
 import { motion } from "framer-motion";
-import { fadeIn, staggerContainer } from "@/animations/variants";
+import { fadeIn, staggerContainer } from "@/components/animations/variants";
 
 interface PromoCardProps {
     promoProduct: Product[];
 }
 
-export default function PromoClient({ promoProduct }: Readonly<PromoCardProps>){
-    return(
+export default function PromoClient({ promoProduct }: Readonly<PromoCardProps>) {
+    return (
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            
+
             <h2 className="text-3xl font-bold tracking-widest text-white mb-10 text-center">
                 Best Seller
             </h2>
-    
-            <motion.div 
+
+            <motion.div
                 variants={staggerContainer(0.1, 0)}
                 initial="hidden"
                 whileInView="show"
@@ -26,13 +26,13 @@ export default function PromoClient({ promoProduct }: Readonly<PromoCardProps>){
             >
                 {promoProduct.map((product) => (
                     <motion.div key={product.idProduct} variants={fadeIn('up', 0)}>
-                        <ProductCard 
-                            product={product} 
-                        /> 
+                        <ProductCard
+                            product={product}
+                        />
                     </motion.div>
                 ))}
             </motion.div>
-                
+
         </div>
     );
 }

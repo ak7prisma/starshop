@@ -6,24 +6,24 @@ import ProductCard from '@/components/ui/ProductCard';
 import { useProductFilters } from '@/hooks/useProductFilter';
 import { getCategories } from '@/app/utils/getcategory';
 import { motion, AnimatePresence } from 'framer-motion';
-import { fadeIn, staggerContainer } from '@/animations/variants';
+import { fadeIn, staggerContainer } from '@/components/animations/variants';
 
 interface ProductClientProps {
     productCategory: Product[];
 }
 
 export default function ProductClient({ productCategory }: Readonly<ProductClientProps>) {
-    const { 
-        activeCategory, 
-        setActiveCategory, 
-        filteredProducts 
+    const {
+        activeCategory,
+        setActiveCategory,
+        filteredProducts
     } = useProductFilters(productCategory);
 
     const categories = useMemo(() => getCategories(productCategory), [productCategory]);
 
     return (
-        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"> 
-            <motion.h2 
+        <div className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+            <motion.h2
                 variants={fadeIn('up', 0.1)}
                 initial="hidden"
                 whileInView="show"
@@ -33,7 +33,7 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
                 Products
             </motion.h2>
 
-            <motion.div 
+            <motion.div
                 variants={fadeIn('up', 0.2)}
                 initial="hidden"
                 whileInView="show"
@@ -46,8 +46,8 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
                         onClick={() => setActiveCategory(category)}
                         className={`
                             px-6 py-2 rounded-full font-medium transition 
-                            ${activeCategory === category 
-                                ? 'bg-indigo-600 text-white shadow-md' 
+                            ${activeCategory === category
+                                ? 'bg-indigo-600 text-white shadow-md'
                                 : 'bg-slate-700 text-slate-200 hover:bg-indigo-500 hover:text-white'
                             }
                         `}
@@ -57,7 +57,7 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
                 ))}
             </motion.div>
 
-            <motion.div 
+            <motion.div
                 variants={staggerContainer(0.1, 0)}
                 initial="hidden"
                 whileInView="show"
@@ -66,8 +66,8 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
             >
                 <AnimatePresence>
                     {filteredProducts.map((product: Product) => (
-                        <motion.div 
-                            key={product.idProduct} 
+                        <motion.div
+                            key={product.idProduct}
                             variants={fadeIn('up', 0)}
                             layout
                             initial="hidden"
@@ -79,7 +79,7 @@ export default function ProductClient({ productCategory }: Readonly<ProductClien
                     ))}
                 </AnimatePresence>
             </motion.div>
-            
+
             {filteredProducts.length === 0 && (
                 <p className="text-center text-slate-400 mt-10">
                     Tidak ada produk ditemukan di kategori {activeCategory}.
