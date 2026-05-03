@@ -161,7 +161,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
     const label = product.category === "Games" ? "ID Game" : "No HP";
 
     return (
-        <div className="max-w-full mx-auto text-gray-200 min-h-screen px-10 pt-40 pb-15 ">
+        <div className="max-w-7xl mx-auto text-gray-200 min-h-screen px-4 md:px-10 pt-32 md:pt-44 pb-15">
             <div className="flex flex-col lg:flex-row gap-8">
                 <ProductDetailCard product={product} />
 

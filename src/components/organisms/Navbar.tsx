@@ -54,7 +54,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed z-50 left-5 right-5 rounded-lg bg-[#243867]/30 text-white px-3 py-3 md:py-5 mt-5 md:mt-10">
+    <nav className="fixed z-50 left-5 right-5 rounded-lg bg-[#243867]/30 text-white px-1 py-3 md:py-5 mt-10">
       <div className="max-w-8xl mx-5 space-x-5 flex items-center justify-between">
 
         <Image 
@@ -99,8 +99,8 @@ export default function Navbar() {
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 rounded-lg hover:bg-[#1e293b] duration-300">
-          {isOpen ? <TbX size={22} /> : <TbMenuDeep size={22} />}
+          className="flex justify-center items-center md:hidden p-2 rounded-lg hover:bg-[#1e293b] duration-300">
+          {isOpen ? <TbX size={24} /> : <TbMenuDeep size={22} />}
         </button>
       </div>
 

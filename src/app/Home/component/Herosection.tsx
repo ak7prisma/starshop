@@ -25,13 +25,13 @@ export default function Herosection({ newsCarouselSlot }: HerosectionProps) {
     const hoverButton = `bg-indigo-600 hover:bg-indigo-700 cursor-pointer px-10 py-2 rounded-md font-medium transition shadow-lg`;
 
     return (
-        <section className="w-full flex justify-center pt-20 md:pt-30 pb-15  min-h-screen text-white">
+        <section className="w-full flex justify-center pt-20 md:pt-32 pb-15 px-4 md:px-0 min-h-screen text-white">
             
             <div className="max-w-7xl w-full flex flex-col-reverse md:flex-row items-center justify-between">
                 
-                <div className="flex-1 max-w-lg space-y-7 text-center md:text-left">
+                <div className="flex-1 max-w-lg space-y-5 md:space-y-7 text-center md:text-left">
                     
-                    <h1 className={`${anta.className} ${anta.variable} md:w-5xl flex flex-col text-4xl md:text-5xl lg:text-6xl leading-tight`}>
+                    <h1 className={`${anta.className} ${anta.variable} flex flex-col text-3xl md:text-5xl lg:text-6xl leading-tight`}>
                         <span>TOP UP</span>
                         <span className=" text-indigo-700">MURAH x TERPERCAYA</span>
                         <span>STARSHOP SOLUSINYA</span>
@@ -41,7 +41,7 @@ export default function Herosection({ newsCarouselSlot }: HerosectionProps) {
                         Starshop menyediakan layanan topup game dan product digital lainnya dengan harga terjangkau dan pelayanan cepat!!
                     </p>
                     
-                    <div className="flex justify-center md:justify-start space-x-15">
+                    <div className="flex flex-wrap justify-center md:justify-start gap-4">
                         <Link href={topupId} className={hoverButton}>
                             Top Up Now
                         </Link>

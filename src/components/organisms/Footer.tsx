@@ -26,7 +26,7 @@ export default function Footer() {
           
         </div>
 
-        <div className="flex space-x-8 font-medium">
+        <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 font-medium px-4">
         
         {navLinks.map((link) => (
             <Link
