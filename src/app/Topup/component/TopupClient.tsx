@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/app/lib/supabase';
+import { createClient } from '@/app/utils/client';
 import type { Product } from '@/datatypes/productsType';
 import { Input } from '@/components/ui/Input';
 import SubmitLoading from '@/components/ui/SubmitLoading';
@@ -43,6 +43,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
 
     useEffect(() => {
         const fetchPaymentMethods = async () => {
+            const supabase = createClient();
             const { data, error } = await supabase
                 .from('PaymentMethodDetail')
                 .select('*')
@@ -129,6 +130,7 @@ export default function TopupClient({ product }: Readonly<{ product: Product }>)
         setError(null);
 
         try {
+            const supabase = createClient();
             const { data: { user } } = await supabase.auth.getUser();
 
             const proofUrl = await uploadProofToApi(paymentProof);

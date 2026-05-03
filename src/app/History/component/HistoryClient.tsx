@@ -34,6 +34,7 @@ export default function HistoryClient() {
                 const { data, error } = await supabase
                     .from('topup')
                     .select('*, Products (nameProduct, itemName)')
+                    .eq('uid', session.user.id)
                     .order('created_at', { ascending: false });
 
                 if (error) {

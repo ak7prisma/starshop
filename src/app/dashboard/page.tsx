@@ -160,7 +160,6 @@ export default function DashboardPage() {
         <TopSellingList 
             games={topGames} 
             totalTransactions={transactions.length} 
-            userRole={userRole} 
         />
 
       </div>
