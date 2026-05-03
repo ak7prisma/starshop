@@ -8,7 +8,7 @@ interface FormHeaderProps{
 export default function FormHeader({label1,label2}: Readonly<FormHeaderProps>){
 
     return(
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="w-full">
             <Image
                 src="/favicon.ico"
                 alt="starshop"

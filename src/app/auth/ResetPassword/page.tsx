@@ -5,6 +5,8 @@ import { supabase } from '@/app/lib/supabase';
 import FormHeader from '@/app/auth/component/AuthHeader';
 import SubmitLoading from '@/components/ui/SubmitLoading';
 import { Input } from '@/components/ui/Input';
+import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "@/components/animations/variants";
 
 export default function UpdatePassword() {
   const [newPassword, setNewPassword] = useState('');
@@ -56,12 +58,18 @@ export default function UpdatePassword() {
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <motion.div
+      variants={staggerContainer(0.1, 0.1)}
+      initial="hidden"
+      animate="show"
+      className="flex flex-col justify-center items-center w-full"
+    >
+      <motion.div variants={fadeIn('up', 0.1)}>
+        <FormHeader label1="Reset Password" label2="Please enter your new strong password" />
+      </motion.div>
 
-        <FormHeader label1="Reset Password" label2="Please enter your new strong password"/>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form onSubmit={handleResetPassword} className="space-y-6">
+      <motion.div variants={fadeIn('up', 0.2)} className="mt-10 w-full">
+        <form onSubmit={handleResetPassword} className="space-y-6">
 
             <Input
               required
@@ -78,13 +86,13 @@ export default function UpdatePassword() {
                 </div>
             )}
 
-            <SubmitLoading 
-              label='Login' 
+            <SubmitLoading
+              label='Reset Password'
               loading={loading}
-              disabled={loading}/>
-            
-            </form>
-        </div>
-    </div>
+              disabled={loading} />
+
+          </form>
+        </motion.div>
+      </motion.div>
   );
 }
