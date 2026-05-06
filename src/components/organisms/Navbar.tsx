@@ -172,10 +172,12 @@ export default function Navbar() {
         
         {/* Mobile Auth Buttons */}
         {isLogin ? (
-          <div className="flex flex-col space-y-3 px-2">
-            <span className="font-medium text-slate-200 text-center">
-              Hi, {username ? username : 'Loading...'}
-            </span>
+          <div className="flex flex-col space-y-3">
+            <div className="bg-slate-800 rounded-lg p-4 text-center">
+              <span className="font-medium text-slate-200">
+                Hi, {username ? username : 'Loading...'}
+              </span>
+            </div>
             <button
               onClick={handleLogout}
               disabled={Loading}
