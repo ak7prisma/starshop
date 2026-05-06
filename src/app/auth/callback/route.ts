@@ -33,12 +33,13 @@ export async function GET(request: Request) {
     
     if (error) {
         console.error('Supabase Auth Error di Callback:', error.message)
-    } else {
-      
-      const redirectUrl = new URL(next, request.url)
-      return NextResponse.redirect(redirectUrl)
-    }
+        return NextResponse.redirect(`${origin}/auth/Login?error=exchange-failed&message=${encodeURIComponent(error.message)}`)
+    } 
+
+    const redirectUrl = new URL(next, request.url)
+    return NextResponse.redirect(redirectUrl)
   }
 
-  return NextResponse.redirect(`${origin}/auth/Login?error=auth-code-error`)
+  // Jika tidak ada kode, arahkan ke Login dengan pesan error spesifik
+  return NextResponse.redirect(`${origin}/auth/Login?error=no-code`)
 }

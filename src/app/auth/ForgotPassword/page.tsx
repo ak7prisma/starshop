@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { supabase } from '@/app/lib/supabase';
+import { createClient } from '@/app/utils/client';
 import FormHeader from '@/app/auth/component/AuthHeader';
 import FormFooter from '@/app/auth/component/AuthFooter';
 import SubmitLoading from '@/components/ui/SubmitLoading';
@@ -13,6 +13,7 @@ export default function ForgotPassword() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const supabase = createClient();
 
   const handlePasswordReset = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();

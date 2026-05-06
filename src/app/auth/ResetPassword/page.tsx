@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/app/lib/supabase';
+import { createClient } from '@/app/utils/client';
 import FormHeader from '@/app/auth/component/AuthHeader';
 import SubmitLoading from '@/components/ui/SubmitLoading';
 import { Input } from '@/components/ui/Input';
@@ -14,6 +14,7 @@ export default function UpdatePassword() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
 
