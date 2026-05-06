@@ -35,16 +35,8 @@ export async function GET(request: Request) {
         console.error('Supabase Auth Error di Callback:', error.message)
     } else {
       
-      const forwardedHost = request.headers.get('x-forwarded-host')
-      const isLocal = process.env.NODE_ENV === 'development'
-
-      if (isLocal) {
-        return NextResponse.redirect(`${origin}${next}`)
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`)
-      } else {
-        return NextResponse.redirect(`${origin}${next}`)
-      }
+      const redirectUrl = new URL(next, request.url)
+      return NextResponse.redirect(redirectUrl)
     }
   }
 

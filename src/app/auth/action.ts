@@ -28,7 +28,13 @@ export async function loginAction(formData: FormData) {
   console.log('PROFILE:', profile)
   console.log('PROFILE ERROR:', profilError)
 
-  const role = profile?.role
+  if (profilError) {
+    console.error('Login Error - Profile Fetch:', profilError.message)
+
+    return { success: true, redirectUrl: '/' }
+  }
+
+  const role = profile?.role?.toLowerCase()
   
   if (role === 'admin' || role === 'boss') {
     return { success: true, redirectUrl: '/dashboard' }

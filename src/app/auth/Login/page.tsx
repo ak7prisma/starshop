@@ -35,8 +35,7 @@ export default function Login() {
       setError(result.error)
       setLoading(false)
     } else if (result?.success) {
-      router.refresh()
-      router.push(result.redirectUrl || '/')
+      window.location.href = result.redirectUrl || '/'
     }
   }
 

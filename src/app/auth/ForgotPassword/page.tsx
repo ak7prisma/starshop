@@ -14,13 +14,14 @@ export default function ForgotPassword() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const redirectUrl = '/auth/ResetPassword';
-
   const handlePasswordReset = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
     setError(null);
+
+    const origin = window.location.origin;
+    const redirectUrl = `${origin}/auth/callback?next=/auth/ResetPassword`;
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: redirectUrl,
