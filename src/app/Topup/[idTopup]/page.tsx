@@ -1,6 +1,8 @@
 import { supabase } from '@/app/lib/supabase';
 import TopupClient from '../component/TopupClient';
 
+export const dynamic = 'force-dynamic';
+
 type Props = {
   params: Promise<{ idTopup: string }>
 }

@@ -3,6 +3,8 @@ import News from "./component/News";
 import Products from "./component/Products";
 import Promosection from "./component/Promosection";
 
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   
   return (
